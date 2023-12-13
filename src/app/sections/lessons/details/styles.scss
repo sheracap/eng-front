@@ -1,0 +1,79 @@
+@import "src/styles/variables.scss";
+
+.lesson-details {
+  display: flex;
+  max-width: 1900px;
+  width: 100%;
+  margin: 0 auto;
+
+  .content-block {
+    padding: 20px;
+
+    & + .content-block {
+      margin-top: 20px;
+    }
+  }
+
+  &__left {
+    width: 30%;
+    flex-shrink: 0;
+    padding: 0 10px;
+  }
+
+  &__right {
+    flex-grow: 1;
+    padding: 0 10px;
+  }
+
+  &__course-name {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  &__chapter-head {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  &__chapters {
+    &-item {
+      padding: 15px;
+      border: 1px solid $gray;
+      border-radius: 20px;
+      transition: background-color .3s ease-in-out;
+      background-color: #fff;
+
+      &:hover {
+        background-color: $gray;
+      }
+    }
+
+    .ant-collapse-content-box {
+      padding-top: 0 !important;
+    }
+
+    .ant-collapse-item-active {
+      .lesson-details__chapters-item {
+        background-color: $gray;
+      }
+    }
+  }
+
+  &__sections {
+    &__title {
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    &__list {
+      &__item {
+        cursor: pointer;
+        font-size: 15px;
+
+        &.active {
+          color: $primaryColor;
+        }
+      }
+    }
+  }
+}

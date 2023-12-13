@@ -1,0 +1,35 @@
+{
+  "include": ["./src/", "./custom.d.ts"],
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "module": "es6",
+    "target": "es5",
+    "sourceMap": true,
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "#src/*": ["src/*"],
+      "#businessLogic/*": ["src/businessLogic/*"],
+      "#types/*": ["src/types/*"],
+      "#core/*": ["src/core/*"],
+      "#constructors/*": ["src/constructors/*"],
+      "#styles/*": ["src/styles/*"],
+
+      "#stores/*": ["src/app/stores/*"],
+      "#pickers/*": ["src/app/pickers/*"],
+      "#ui/*": ["src/app/ui/*"],
+      "#components/*": ["src/app/components/*"],
+      "#utils/*": ["src/app/utils/*"],
+      "#hooks/*": ["src/app/hooks/*"],
+      "#constants/*": ["src/app/constants/*"],
+
+      "#images/*": ["src/assets/images/*"],
+      "#svgIcons/*": ["src/assets/svg/*"]
+    }
+  }
+}

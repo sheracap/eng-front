@@ -1,0 +1,37 @@
+@import "src/styles/variables.scss";
+
+.variants {
+  margin-bottom: 15px;
+}
+
+.variantItem {
+  cursor: pointer;
+  color: $text;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background-color: $gray;
+  margin-bottom: 5px;
+
+  &:hover {
+    background-color: $grayHover;
+    color: $text;
+  }
+
+  &:global(.active) {
+    background-color: $success;
+    color: #fff;
+  }
+}
+
+.addVariants {
+  color: $text;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.addVariantsInputWrap {
+  flex-grow: 1;
+}

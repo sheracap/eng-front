@@ -1,0 +1,22 @@
+
+
+.custom-collapse {
+  &.ant-collapse {
+    border: none;
+    background-color: transparent;
+
+    & > .ant-collapse-item {
+
+      .ant-collapse-header {
+        padding: 0;
+
+        .ant-collapse-expand-icon {
+          position: absolute;
+          top: 50%;
+          right: 20px;
+          margin-top: -11px;
+        }
+      }
+    }
+  }
+}

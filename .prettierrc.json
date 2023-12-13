@@ -1,0 +1,34 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "singleQuote": false,
+  "jsxBracketSameLine": false,
+  "semi": true,
+  "importOrder": [
+    "^(react)$",
+    "<THIRD_PARTY_MODULES>",
+
+    "^businessLogic/(.*)$",
+    "^types/(.*)$",
+    "^core/(.*)$",
+    "^constructors/(.*)$",
+    "^styles/(.*)$",
+    "^stores/(.*)$",
+    "^pickers/(.*)$",
+    "^ui/(.*)$",
+    "^components/(.*)$",
+    "^utils/(.*)$",
+    "^hooks/(.*)$",
+    "^constants/(.*)$",
+    "^images/(.*)$",
+    "^svgIcons/(.*)$",
+
+    "^../(.*)",
+    "^./(.*)",
+    "(.scss)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "endOfLine": "auto"
+}

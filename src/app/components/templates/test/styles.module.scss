@@ -1,0 +1,34 @@
+@import "src/styles/variables.scss";
+
+.testQuestion {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.testTemplateActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: $gray;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.result {
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.result[datatype="CORRECT"] {
+  background-color: #009f3c;
+};
+
+.result[datatype="WRONG"] {
+  background-color: $danger;
+};
+
+.testVariants {
+  margin-bottom: 10px;
+}
