@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { requiredRules } from "#constants/index";
+import { requiredRules, templateTypes } from "#constants/index";
 import { $addExercise } from "#stores/exercise";
 import { FormUI } from "#ui/form";
 import { Form, message } from "antd";
@@ -59,7 +59,7 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
 
     const data = {
       sectionId,
-      template: "TEST",
+      template: templateTypes.TEST,
       value: formData.question,
       answer,
       wrongAnswers: variants,

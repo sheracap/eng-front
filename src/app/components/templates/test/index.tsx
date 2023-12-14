@@ -1,14 +1,21 @@
-import React, { useState } from "react";
-
-import styles from "./styles.module.scss";
-import { ButtonUI } from "#ui/button";
+import React, { FC, useState } from "react";
 import { Radio, Space } from "antd";
 
-export const TemplateTest = (props) => {
+import { ExerciseItemModel } from "#businessLogic/models/section";
+
+import { ButtonUI } from "#ui/button";
+
+import styles from "./styles.module.scss";
+
+type PropsTypes = {
+  data: ExerciseItemModel
+}
+
+export const TemplateTest: FC<PropsTypes> = (props) => {
   const { data } = props;
 
-  const [userAnswer, setUserAnswer] = useState(undefined);
-  const [result, setResult] = useState<any>(undefined);
+  const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
+  const [result, setResult] = useState<{ text: string; type: string } | null>(null);
 
   const onAnswerChange = (e) => {
     const val = e.target.value;

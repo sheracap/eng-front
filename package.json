@@ -62,7 +62,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.4.1",
     "husky": "^4.3.8",
     "less": "^3.12.2",
@@ -88,9 +87,8 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@ant-design/charts": "^1.0.21",
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/plots": "^1.0.8",
+    "@emotion/css": "^11.9.0",
     "antd": "^4.23.1",
     "axios": "^0.21.4",
     "classnames": "^2.3.2",
@@ -98,18 +96,19 @@
     "effector": "^22.5.0",
     "effector-react": "^22.4.0",
     "eslint": "^7.32.0",
+    "is-hotkey": "^0.2.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
-    "numeral": "^2.0.6",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
-    "react-countdown": "^2.3.2",
     "react-dom": "^18.2.0",
     "react-input-mask": "^2.0.4",
     "react-jss": "^10.9.2",
     "react-moment": "^1.0.0",
     "react-router-dom": "^5.3.4",
-    "react-to-print": "^2.14.7"
+    "slate": "^0.78.0",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.79.0"
   }
 }

@@ -1,7 +1,5 @@
 import React from "react";
 
-//
-
 export const CalendarIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
@@ -9,8 +7,6 @@ export const CalendarIcon = () => {
     </svg>
   );
 };
-
-//
 
 export const BurgerMenuSvgIcon = () => {
   return (
@@ -153,54 +149,6 @@ export const ContextMenuDotsSvgIcon = () => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M2 4C3.1 4 4 3.1 4 2C4 0.9 3.1 0 2 0C0.9 0 0 0.9 0 2C0 3.1 0.9 4 2 4ZM2 6C0.9 6 0 6.9 0 8C0 9.1 0.9 10 2 10C3.1 10 4 9.1 4 8C4 6.9 3.1 6 2 6ZM0 14C0 12.9 0.9 12 2 12C3.1 12 4 12.9 4 14C4 15.1 3.1 16 2 16C0.9 16 0 15.1 0 14Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const SyncSvgIcon = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-      <path
-        d="M19.91,15.51H15.38a1,1,0,0,0,0,2h2.4A8,8,0,0,1,4,12a1,1,0,0,0-2,0,10,10,0,0,0,16.88,7.23V21a1,1,0,0,0,2,0V16.5A1,1,0,0,0,19.91,15.51ZM12,2A10,10,0,0,0,5.12,4.77V3a1,1,0,0,0-2,0V7.5a1,1,0,0,0,1,1h4.5a1,1,0,0,0,0-2H6.22A8,8,0,0,1,20,12a1,1,0,0,0,2,0A10,10,0,0,0,12,2Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const SettingsSvgIcon = () => {
-  return (
-    <svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M2 4C3.1 4 4 3.1 4 2C4 0.9 3.1 0 2 0C0.9 0 0 0.9 0 2C0 3.1 0.9 4 2 4ZM2 6C0.9 6 0 6.9 0 8C0 9.1 0.9 10 2 10C3.1 10 4 9.1 4 8C4 6.9 3.1 6 2 6ZM0 14C0 12.9 0.9 12 2 12C3.1 12 4 12.9 4 14C4 15.1 3.1 16 2 16C0.9 16 0 15.1 0 14Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const DoneSvgIcon = () => {
-  return (
-    <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M3.86337 7.58334L1.55004 5.27001C1.42548 5.14517 1.25638 5.07502 1.08004 5.07502C0.903694 5.07502 0.734593 5.14517 0.610039 5.27001C0.350039 5.53001 0.350039 5.95001 0.610039 6.21001L3.39671 8.99667C3.65671 9.25667 4.07671 9.25667 4.33671 8.99667L11.39 1.94334C11.65 1.68334 11.65 1.26334 11.39 1.00334C11.2655 0.878505 11.0964 0.80835 10.92 0.80835C10.7437 0.80835 10.5746 0.878505 10.45 1.00334L3.86337 7.58334Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const GeneralInfoSvg = () => {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM3 6C2.45 6 2 6.45 2 7V20C2 21.1 2.9 22 4 22H17C17.55 22 18 21.55 18 21C18 20.45 17.55 20 17 20H5C4.45 20 4 19.55 4 19V7C4 6.45 3.55 6 3 6ZM10 11H18C18.55 11 19 10.55 19 10C19 9.45 18.55 9 18 9H10C9.45 9 9 9.45 9 10C9 10.55 9.45 11 10 11ZM14 15H10C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13H14C14.55 13 15 13.45 15 14C15 14.55 14.55 15 14 15ZM10 7H18C18.55 7 19 6.55 19 6C19 5.45 18.55 5 18 5H10C9.45 5 9 5.45 9 6C9 6.55 9.45 7 10 7Z"
         fill="currentColor"
       />
     </svg>

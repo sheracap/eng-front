@@ -1,4 +1,4 @@
-import authBg from "#images/authBg.png";
+
 import { $colors } from "#styles/variables";
 import { createUseStyles } from "react-jss";
 

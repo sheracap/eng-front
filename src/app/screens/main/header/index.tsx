@@ -2,7 +2,6 @@ import React, { FC } from "react";
 
 import * as accountEffector from "#stores/account";
 import { BurgerMenuSvgIcon } from "#svgIcons/index";
-import { LogoSupplyAdminSvg } from "#svgIcons/logo";
 import { ButtonUI } from "#ui/button";
 import { Header } from "antd/lib/layout/layout";
 import { useStore } from "effector-react";

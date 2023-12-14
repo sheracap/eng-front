@@ -9,6 +9,7 @@ import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
 import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
+import { InputUI } from "#ui/input";
 
 
 type PropTypes = {
@@ -16,7 +17,7 @@ type PropTypes = {
   closeModal: () => void;
 };
 
-export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
+export const BlankTemplateForm: FC<PropTypes> = (props) => {
   const { sectionId, closeModal } = props;
 
   const [form] = Form.useForm();
@@ -38,7 +39,7 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
   const onFinish = (formData) => {
     const data = {
       sectionId,
-      template: templateTypes.TEXT_BLOCK,
+      template: templateTypes.BLANK,
       value: JSON.stringify(formData.text),
       answer: null,
       wrongAnswers: null,
@@ -50,12 +51,12 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
   return (
     <>
       <ModalUI.Header>
-        <ModalUI.Title>Шаблон текст</ModalUI.Title>
+        <ModalUI.Title>Шаблон бланк</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <FormUI.Item label="Текст" name="text" rules={requiredRules}>
-            <RichTextEditorWrapper />
+            <InputUI.TextArea placeholder="Введите текст" />
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>

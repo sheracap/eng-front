@@ -6,14 +6,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { modifyVars } = require("./src/styles/antModifyVars");
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = (env = {}, options) => {
   const { mode = "development" } = options;
 
   const isProd = mode === "production";
   const isDev = mode === "development";
-  //const target = mode === "development" ? "web" : "browserslist"
 
   console.log("NODE JS VERSION", process.version);
 
@@ -31,7 +30,6 @@ module.exports = (env = {}, options) => {
       ]),
       new HtmlWebpackPlugin({
         template: "public/index.html",
-        //favicon: "src/assets/images/favicon.png",
         buildTime: new Date().toString().slice(0, 24),
         metrika: isProd
       }),
@@ -68,7 +66,7 @@ module.exports = (env = {}, options) => {
 
     output: {
       path: path.resolve(__dirname, "./dist"),
-      filename: isProd ? "main-[hash:8].js" : undefined, // название файла. undefined - название по умолчанию
+      filename: isProd ? "main.[hash:8].js" : undefined, // название файла. undefined - название по умолчанию
       publicPath: "/",
     },
 
@@ -81,25 +79,17 @@ module.exports = (env = {}, options) => {
         },
         {
           test: /\.(ts|tsx)$/,
-          use: 'ts-loader',
+          use: "ts-loader",
           exclude: /node_modules/,
         },
         // loading images
         {
           test: /\.(jpg|png|gif|ico|jpeg|svg)$/,
-          use: [
-            {
-              loader: "file-loader",
-              options: {
-                outputPath: "images",
-                name: "[name]-[sha1:hash:7].[ext]",
-              },
-            },
-          ],
+          type: "asset"
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
-          type: 'asset/resource',
+          type: "asset/resource",
         },
 
         // loading css
@@ -108,15 +98,7 @@ module.exports = (env = {}, options) => {
           exclude: /node_modules/,
           use: [
             ...getStyleLoaders(),
-            {
-              loader: "postcss-loader",
-              options: {
-                postcssOptions: {
-                  config: path.resolve(__dirname, 'postcss.config.js'),
-                },
-                sourceMap: true,
-              },
-            },
+            "postcss-loader"
           ],
         },
 
@@ -194,8 +176,8 @@ module.exports = (env = {}, options) => {
 
     plugins: getPlugins(),
 
-    devtool: isProd ? false: "eval-cheap-module-source-map",
-    //target: target,
+    devtool: isProd ? false : "eval-cheap-module-source-map",
+
     devServer: {
       open: true,
       port: 8058,

@@ -8,29 +8,29 @@ export const notificationInfo = (title, text) => {
   });
 };
 
-export const notificationSuccess = (title, text, duration) => {
+export const notificationSuccess = (title, text) => {
   notification.success({
     message: title,
     description: text,
     placement: "topRight",
-    duration: duration || 2,
+    duration: 2,
   });
 };
 
-export const notificationWarning = (title, text, duration) => {
+export const notificationWarning = (title, text) => {
   notification.warning({
     message: title,
     description: text,
     placement: "topRight",
-    duration: duration || 3,
+    duration: 3,
   });
 };
 
-export const notificationError = (title, text, duration) => {
+export const notificationError = (title, text) => {
   notification.error({
     message: title,
     description: text,
     placement: "topRight",
-    duration: duration || 3,
+    duration: 3,
   });
 };

@@ -12,6 +12,7 @@ import {
   AddExercisesFormModal,
   AddExercisesFormModalPropTypes
 } from "./formModal";
+import { templateTypes } from "#constants/index";
 
 export type AddExercisesModalPropTypes = {
   sectionId: number;
@@ -29,6 +30,14 @@ export const AddExercisesModal: FC<TProps> = (props) => {
   const addExercisesFormModalControl = useModalControl<AddExercisesFormModalPropTypes>();
 
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+
+  const templateList = useMemo(() => {
+    return [
+      { id: 1, name: "Тест", code: templateTypes.TEST },
+      { id: 2, name: "Текстовый блок", code: templateTypes.TEXT_BLOCK },
+      { id: 3, name: "Бланк", code: templateTypes.BLANK },
+    ]
+  }, []);
 
   const onSelectTemplate = (val: string) => {
     setSelectedTemplate(val);
@@ -50,12 +59,15 @@ export const AddExercisesModal: FC<TProps> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <div className={styles.templatesList}>
-          <div className={`${styles.templateItem} ${selectedTemplate === "TEST" ? "active" : ""}`} onClick={() => onSelectTemplate("TEST")}>
-            Тест
-          </div>
-          <div className={`${styles.templateItem} ${selectedTemplate === "TEXT_BLOCK" ? "active" : ""}`} onClick={() => onSelectTemplate("TEXT_BLOCK")}>
-            Текстовый блок
-          </div>
+          {templateList.map((item) => (
+            <div
+              className={`${styles.templateItem} ${selectedTemplate === item.code ? "active" : ""}`}
+              onClick={() => onSelectTemplate(item.code)}
+              key={item.id}
+            >
+              {item.name}
+            </div>
+          ))}
         </div>
       </ModalUI.Middle>
       <ModalUI.Footer>

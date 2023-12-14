@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
 
 import { ROUTES } from "#constants/index";
-import { HomeSvgIcon, MonitoringSvgIcon, SettingSvgIcon } from "#svgIcons/menuIcons";
+import { HomeSvgIcon, MonitoringSvgIcon } from "#svgIcons/menuIcons";
 import { Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -18,55 +18,6 @@ const getMenuData = () => [
     name: "Мониторинг",
     key: ROUTES.MONITORING,
     icon: <MonitoringSvgIcon />,
-    sub: [
-      {
-        name: "Компании",
-        path: ROUTES.COMPANIES,
-      },
-      {
-        name: "Филиалы",
-        path: ROUTES.BRANCHES,
-      },
-      {
-        name: "Сотрудники",
-        path: ROUTES.EMPLOYEES,
-      },
-      {
-        name: "Склад",
-        path: ROUTES.WAREHOUSE,
-      },
-      {
-        name: "Поставщики",
-        path: ROUTES.SUPPLIERS,
-      },
-      {
-        name: "Клиенты",
-        path: ROUTES.CLIENTS,
-      },
-      {
-        name: "Счет-фактуры",
-        path: ROUTES.INVOICE,
-      },
-      {
-        name: "Бонусы сотрудникам",
-        path: ROUTES.EMPLOYEE_BONUSES,
-      },
-    ],
-  },
-  {
-    name: "Управление",
-    key: ROUTES.SETTINGS,
-    icon: <SettingSvgIcon />,
-    sub: [
-      {
-        name: "Админ",
-        path: ROUTES.ADMIN,
-      },
-      {
-        name: "Кабинет",
-        path: ROUTES.CABINET,
-      },
-    ],
   },
 ];
 

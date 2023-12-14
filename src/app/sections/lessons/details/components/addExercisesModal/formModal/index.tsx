@@ -1,12 +1,11 @@
 import React, { FC } from "react";
 
 import { ModalControlType } from "#hooks/useModalControl";
-import {
-  TestTemplateForm
-} from "./testTemplateForm";
-import {
-  TextBlockTemplateForm
-} from "./textBlockForm";
+import { TestTemplateForm } from "./testTemplateForm";
+import { TextBlockTemplateForm } from "./textBlockForm";
+import { BlankTemplateForm } from "./blankTemplateForm";
+
+import { templateTypes } from "#constants/index";
 
 export type AddExercisesFormModalPropTypes = {
   sectionId: number;
@@ -25,11 +24,14 @@ export const AddExercisesFormModal: FC<TProps> = (props) => {
 
   return (
     <>
-      {template === "TEST" && (
+      {template === templateTypes.TEST && (
         <TestTemplateForm sectionId={sectionId} closeModal={closeModal} />
       )}
-      {template === "TEXT_BLOCK" && (
+      {template === templateTypes.TEXT_BLOCK && (
         <TextBlockTemplateForm sectionId={sectionId} closeModal={closeModal} />
+      )}
+      {template === templateTypes.BLANK && (
+        <BlankTemplateForm sectionId={sectionId} closeModal={closeModal} />
       )}
     </>
   );

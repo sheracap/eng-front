@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 
 import { ROUTES } from "#constants/index";
-import { LogoSupplyAdminSvg } from "#svgIcons/logo";
 import { Link } from "react-router-dom";
 
 import { useStyles } from "./styles";

@@ -58,3 +58,12 @@ export const isFileCorrespondType = (file: any, type: string) => {
 export const isFileCorrespondSize = (file: any, size = 0.5) => {
   return file.size / 1024 / 1024 <= size;
 };
+
+export const isJsonString = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};

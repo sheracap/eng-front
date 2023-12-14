@@ -14,6 +14,8 @@ import {
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
 import { DrawerModalUI } from "#ui/drawerModal";
 import { TemplateTest } from "#components/templates/test";
+import { templateTypes } from "#constants/index";
+import { TemplateTextBlock } from "#components/templates/textBlock";
 
 type PropsType = {
   isMine: boolean;
@@ -74,8 +76,11 @@ export const LessonSection: FC<PropsType> = (props) => {
 
       {sectionData?.exercises.map((item) => (
         <div className="exercise-item" key={item.id}>
-          {item.template === "TEST" && (
+          {item.template === templateTypes.TEST && (
             <TemplateTest data={item} />
+          )}
+          {item.template === templateTypes.TEXT_BLOCK && (
+            <TemplateTextBlock data={item} />
           )}
         </div>
       ))}
