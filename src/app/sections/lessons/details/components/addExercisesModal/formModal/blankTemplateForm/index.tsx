@@ -8,7 +8,6 @@ import { useStore } from "effector-react";
 import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
-import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
 import { InputUI } from "#ui/input";
 
 
@@ -37,15 +36,33 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
   }, [addExerciseState.data]);
 
   const onFinish = (formData) => {
+
+    const answer: Array<string> = [];
+
+    const inputString = formData.text;
+
+    console.log("formData.text", formData.text);
+
+    const regex = /(\[[^\]]+\])/g;
+    const resultArray = inputString.split(regex);
+
+    console.log("resultArray", resultArray);
+
+    resultArray.forEach((item) => {
+      if (item[0] === "[") {
+        answer.push(item);
+      }
+    })
+
     const data = {
       sectionId,
       template: templateTypes.BLANK,
-      value: JSON.stringify(formData.text),
-      answer: null,
+      value: JSON.stringify(resultArray),
+      answer: JSON.stringify(answer),
       wrongAnswers: null,
     }
 
-    $addExercise.effect(data);
+    //$addExercise.effect(data);
   };
 
   return (

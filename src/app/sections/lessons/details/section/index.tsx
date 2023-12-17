@@ -16,6 +16,7 @@ import { DrawerModalUI } from "#ui/drawerModal";
 import { TemplateTest } from "#components/templates/test";
 import { templateTypes } from "#constants/index";
 import { TemplateTextBlock } from "#components/templates/textBlock";
+import { TemplateBlank } from "#components/templates/blank";
 
 type PropsType = {
   isMine: boolean;
@@ -81,6 +82,9 @@ export const LessonSection: FC<PropsType> = (props) => {
           )}
           {item.template === templateTypes.TEXT_BLOCK && (
             <TemplateTextBlock data={item} />
+          )}
+          {item.template === templateTypes.BLANK && (
+            <TemplateBlank data={item} />
           )}
         </div>
       ))}

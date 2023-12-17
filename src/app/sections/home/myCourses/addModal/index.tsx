@@ -63,7 +63,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (updateCourseState.data) {
-      notificationSuccess("Данные обновлены");
+      notificationSuccess("Данные обновлены", "");
       modalControl.closeModal();
       callback && callback();
     }

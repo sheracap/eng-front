@@ -2,9 +2,6 @@ import React, { FC, useMemo } from "react";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
-import { serialize } from "#src/components/richTextEditor/pasteHtml";
-
-import { isJsonString } from "#utils/index";
 
 import styles from "./styles.module.scss";
 
@@ -15,25 +12,18 @@ type PropsTypes = {
 export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { data } = props;
 
-  const text = useMemo(() => {
-    if (!data.value) {
-      return "";
-    }
-
-    if (isJsonString(data.value)) {
-      const nodes = JSON.parse(data.value);
-
-      return Array.isArray(nodes) ? nodes.map((n) => serialize(n)).join('\n') : "";
-    }
-
-    return data.value;
-  }, [data.value]);
+  const text = JSON.parse(data.value);
 
   return (
     <div className={styles.textBlockTemplate}>
-      {text && <div>
-        <div dangerouslySetInnerHTML={{ __html: text }} />
-      </div>}
+      {text.map((item, index) => (
+        <React.Fragment key={index}>
+          {item[0] === "["
+            ? item.substring(1, item.length - 1)
+            : <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
+          }
+        </React.Fragment>
+      ))}
     </div>
   )
 };

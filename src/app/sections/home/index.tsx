@@ -7,6 +7,7 @@ import { Interesting } from "./interesting";
 import { MyCourses } from "./myCourses";
 
 import "./styles.scss";
+import { TestDrag } from "#src/app/sections/home/testDrag";
 
 type PropTypes = {
   matchUrl: string;
@@ -39,6 +40,8 @@ export const Home: FC<PropTypes> = (props) => {
           <MainUserBar />
         </div>
         <div className="main-content__right">
+
+          <TestDrag />
           <Switch>
             {folders.map((item) => (
               <Route key={item.path} path={item.path} component={item.component} />
