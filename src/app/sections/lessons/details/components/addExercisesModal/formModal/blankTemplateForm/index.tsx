@@ -9,6 +9,7 @@ import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
 import { InputUI } from "#ui/input";
+import { notificationWarning } from "#ui/notifications";
 
 
 type PropTypes = {
@@ -41,18 +42,19 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
 
     const inputString = formData.text;
 
-    console.log("formData.text", formData.text);
-
     const regex = /(\[[^\]]+\])/g;
     const resultArray = inputString.split(regex);
-
-    console.log("resultArray", resultArray);
 
     resultArray.forEach((item) => {
       if (item[0] === "[") {
         answer.push(item);
       }
-    })
+    });
+
+    if (!answer.length) {
+      notificationWarning("Необходимо выделить слова к заполнению", "");
+      return;
+    }
 
     const data = {
       sectionId,
@@ -62,7 +64,7 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
       wrongAnswers: null,
     }
 
-    //$addExercise.effect(data);
+    $addExercise.effect(data);
   };
 
   return (

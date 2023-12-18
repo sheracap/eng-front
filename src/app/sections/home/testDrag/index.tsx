@@ -49,22 +49,6 @@ export const TestDrag = () => {
     } else {
       return;
     }
-
-    // if (source.droppableId === destination.droppableId && source.index === destination.index) {
-    //   return;
-    // }
-    //
-    // const reorderedchapters = [...chapters];
-    //
-    // const chaptersourceIndex = source.index;
-    // const storeDestinatonIndex = destination.index;
-    //
-    // const [removedStore] = reorderedchapters.splice(chaptersourceIndex, 1);
-    // reorderedchapters.splice(storeDestinatonIndex, 0, removedStore);
-    //
-    // setIsOrderChanged(true);
-    //
-    // return setChapters(reorderedchapters);
   };
 
   return (
