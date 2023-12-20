@@ -10,6 +10,20 @@ type PropsTypes = {
   data: ExerciseItemModel
 }
 
+const testAnswer = [
+  "asddasdasdasdasd",
+  "fdsfdf",
+  "sdfsdf",
+  "hfghfg",
+  "fhfgh",
+  "sdfsdfhghjghj",
+  "fghfgh",
+  "Hfghgfhfghffhfghhf",
+  "jghjghjgjj",
+  "hjkjhkjhkhjk",
+  "hjkjhkjhk"
+];
+
 export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { data } = props;
 
@@ -48,65 +62,113 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
     // }
   };
 
+
   return (
-    <div className={styles.textBlockTemplate}>
+    <div className={styles.blankTemplate}>
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <div>
-          <Droppable droppableId="ROOT" type="vertical" >
+          {/*<div className={styles.blankAnswers}>*/}
+          {/*  {answer.map((item, index) => (*/}
+          {/*    <div key={index}>*/}
+          {/*      <Droppable droppableId={item} direction="horizontal">*/}
+          {/*        {(provided, snapshot) => (*/}
+          {/*          <div {...provided.droppableProps} ref={provided.innerRef}>*/}
+          {/*            <Draggable*/}
+          {/*              draggableId={item}*/}
+          {/*              index={index}*/}
+          {/*              key={item}*/}
+          {/*            >*/}
+          {/*              {(provided) => (*/}
+          {/*                <div*/}
+          {/*                  {...provided.dragHandleProps}*/}
+          {/*                  {...provided.draggableProps}*/}
+          {/*                  ref={provided.innerRef}*/}
+          {/*                  className={styles.blankAnswerItem}*/}
+          {/*                >*/}
+          {/*                  <div>*/}
+          {/*                    {item.substring(1, item.length - 1)}*/}
+          {/*                  </div>*/}
+          {/*                </div>*/}
+          {/*              )}*/}
+          {/*            </Draggable>*/}
+          {/*          </div>*/}
+          {/*        )}*/}
+          {/*      </Droppable>*/}
+          {/*    </div>*/}
+          {/*  ))}*/}
+          {/*</div>*/}
+
+          <Droppable droppableId="ROOT" direction="horizontal">
             {(provided, snapshot) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} style={{ backgroundColor: snapshot.isDraggingOver ? "skyblue" : "white" }}>
-                {answer.map((item, index) => (
+              <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
+                {testAnswer.map((item, index) => (
                   <Draggable
                     draggableId={item}
                     index={index}
-                    key={item}
+                    key={item + index}
+
                   >
-                    {(provided) => (
-                      <div
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        <div>
-                          {item}
+                    {(provided, snapshot) => (
+                      <div className={styles.blankAnswerItemWr}>
+
+                        <div className={styles.blankAnswerItem} style={{ opacity: 0 }}>
+                          {item.substring(1, item.length - 1)}
+                        </div>
+
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          className={`${styles.blankAnswerItem} ${styles.blankAnswerItemDrag} ${snapshot.isDragging ? "active" : "" }`}
+                        >
+                          {item.substring(1, item.length - 1)}
                         </div>
                       </div>
                     )}
                   </Draggable>
                 ))}
-                {provided.placeholder}
+
               </div>
             )}
           </Droppable>
         </div>
-      </DragDropContext>
 
-      {text.map((item, index) => (
-        <React.Fragment key={index}>
-          {item[0] === "[" && (
-            <Droppable droppableId={item} type="vertical" >
-              {(provided, snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} style={{ width: "90px", height: "70px", backgroundColor: snapshot.isDraggingOver ? "green" : "white" }}>
-                  {filledItems[item] && (
-                    <div>
-                      {filledItems[item]}
+        <div className={styles.blankTemplateText}>
+          {text.map((item, index) => (
+            <React.Fragment key={index}>
+              {item[0] === "[" && (
+                <Droppable droppableId={item} type="vertical" >
+                  {(provided, snapshot) => (
+                    <div
+                      className={`${styles.blankTemplateTextInput} ${snapshot.isDraggingOver ? "drag-over" : ""}`}
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {filledItems[item] && (
+                        <div>
+                          {filledItems[item]}
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
+                </Droppable>
               )}
-            </Droppable>
-          )}
 
-          {item[0] !== "[" && (
-            <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
-          )}
+              {item[0] !== "[" && (
+                <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
+              )}
 
-          {/*{item[0] === "["*/}
-          {/*  ? item.substring(1, item.length - 1)*/}
-          {/*  : <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>*/}
-          {/*}*/}
-        </React.Fragment>
-      ))}
+              {/*{item[0] === "["*/}
+              {/*  ? item.substring(1, item.length - 1)*/}
+              {/*  : <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>*/}
+              {/*}*/}
+            </React.Fragment>
+          ))}
+        </div>
+
+
+
+      </DragDropContext>
     </div>
   )
 };

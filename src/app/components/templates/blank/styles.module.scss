@@ -1,5 +1,49 @@
 @import "src/styles/variables.scss";
 
-.textBlockTemplate {
+.blankAnswers {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 
+  & > div {
+    margin: 0 10px 10px 0;
+  }
+}
+
+.blankAnswerItemWr {
+  position: relative;
+}
+
+.blankAnswerItem {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 5px 15px;
+  background-color: #fff;
+
+  &:not(:global(.active)) {
+    transform: none !important;
+  }
+
+  &:global(.active) {
+    background-color: green;
+  }
+}
+
+.blankAnswerItemDrag {
+  position: absolute;
+  top: 0;
+}
+
+.blankTemplateText {
+  font-size: 18px;
+}
+
+.blankTemplateTextInput {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100px;
+  height: 35px;
+  margin-bottom: 7px;
 }
