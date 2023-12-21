@@ -5,6 +5,7 @@ import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
 import styles from "./styles.module.scss";
+import { shuffledArray } from "#utils/index";
 
 type PropsTypes = {
   data: ExerciseItemModel
@@ -30,36 +31,33 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const [filledItems, setFilledItems] = useState({});
 
   const text = JSON.parse(data.value);
-  const answer = JSON.parse(data.answer); // перемешать порядок ответов
+
+  const answer = useMemo(() => {
+    return shuffledArray(JSON.parse(data.answer));
+  }, []);
 
   const handleDragAndDrop = (results) => {
     const { draggableId, source, destination } = results;
 
 
-    // if (destination) {
-    //   if (destination.droppableId === "ROOT") {
-    //
-    //   } else {
-    //     const word = itemsInit.find((wordItem) => String(wordItem.id) === draggableId);
-    //
-    //     if (word) {
-    //       const newItems = items.filter((item) => item.id !== word.id);
-    //
-    //       if (filledItems[destination.droppableId]) {
-    //         newItems.unshift(filledItems[destination.droppableId]);
-    //       }
-    //
-    //       setItems(newItems);
-    //     }
-    //
-    //     setFilledItems({
-    //       ...filledItems,
-    //       [destination.droppableId]: word
-    //     });
-    //   }
-    // } else {
-    //   return;
-    // }
+    if (destination) {
+      if (destination.droppableId === "ROOT") {
+
+      } else {
+        const word = answer.find((wordItem) => wordItem === draggableId);
+
+        if (word) {
+          const newFilledItems = {
+            ...filledItems,
+            [destination.droppableId]: word
+          };
+
+          setFilledItems(newFilledItems);
+        }
+      }
+    } else {
+      return;
+    }
   };
 
 
@@ -101,7 +99,7 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
           <Droppable droppableId="ROOT" direction="horizontal">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
-                {testAnswer.map((item, index) => (
+                {answer.map((item, index) => (
                   <Draggable
                     draggableId={item}
                     index={index}
@@ -157,11 +155,6 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
               {item[0] !== "[" && (
                 <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
               )}
-
-              {/*{item[0] === "["*/}
-              {/*  ? item.substring(1, item.length - 1)*/}
-              {/*  : <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>*/}
-              {/*}*/}
             </React.Fragment>
           ))}
         </div>

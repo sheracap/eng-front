@@ -46,4 +46,8 @@
   width: 100px;
   height: 35px;
   margin-bottom: 7px;
+
+  &:global(.drag-over) {
+    background-color: #97a6ba;
+  }
 }

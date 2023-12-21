@@ -67,3 +67,8 @@ export const isJsonString = (str) => {
   }
   return true;
 };
+
+export const shuffledArray = (array) => {
+  const newArr = [...array];
+  return newArr.sort((a, b) => 0.5 - Math.random());
+};
