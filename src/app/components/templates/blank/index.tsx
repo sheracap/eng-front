@@ -1,167 +1,233 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useMemo, useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Progress } from "antd";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
 import styles from "./styles.module.scss";
 import { shuffledArray } from "#utils/index";
+import { ClearSvgIcon } from "#src/assets/svg";
+import { ButtonUI } from "#ui/button";
+import { notificationWarning } from "#ui/notifications";
+
+type FilledItemsType = {
+  [key: string]: {
+    word: string;
+    isCorrect: boolean;
+    draggableId: string;
+  }
+}
+
+type UsedAnswersType = {
+  [key: string]: boolean;
+}
 
 type PropsTypes = {
   data: ExerciseItemModel
 }
 
-const testAnswer = [
-  "asddasdasdasdasd",
-  "fdsfdf",
-  "sdfsdf",
-  "hfghfg",
-  "fhfgh",
-  "sdfsdfhghjghj",
-  "fghfgh",
-  "Hfghgfhfghffhfghhf",
-  "jghjghjgjj",
-  "hjkjhkjhkhjk",
-  "hjkjhkjhk"
-];
-
 export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { data } = props;
 
-  const [filledItems, setFilledItems] = useState({});
-
-  const text = JSON.parse(data.value);
+  const [filledItems, setFilledItems] = useState<FilledItemsType>({});
+  const [usedAnswers, setUsedAnswers] = useState<UsedAnswersType>({});
+  const [showResults, setShowResults] = useState(false);
+  const correctAnswersCount = useRef(0);
 
   const answer = useMemo(() => {
     return shuffledArray(JSON.parse(data.answer));
   }, []);
 
+  const text = useMemo(() => {
+    return JSON.parse(data.value);
+  }, []);
+
   const handleDragAndDrop = (results) => {
     const { draggableId, source, destination } = results;
 
-
     if (destination) {
-      if (destination.droppableId === "ROOT") {
+      if (destination.droppableId !== "ROOT") {
+        const draggableWord = draggableId.substring(1, draggableId.length - String(source.index).length - 1);
+        const destinationWord = destination.droppableId.substring(1, destination.droppableId.length - String(destination.index).length - 1);
+        const isCorrect = destinationWord === draggableWord;
 
-      } else {
-        const word = answer.find((wordItem) => wordItem === draggableId);
+        const newFilledItems = { ...filledItems };
+        const newUsedAnswers = { ...usedAnswers };
 
-        if (word) {
-          const newFilledItems = {
-            ...filledItems,
-            [destination.droppableId]: word
-          };
+        if (newFilledItems[destination.droppableId]) {
+          const currentUsedDraggableId = newFilledItems[destination.droppableId].draggableId;
 
-          setFilledItems(newFilledItems);
+          if (!isCorrect) {
+            correctAnswersCount.current = correctAnswersCount.current - 1;
+          }
+
+          delete newUsedAnswers[currentUsedDraggableId];
+
+        } else {
+          if (isCorrect) {
+            correctAnswersCount.current = correctAnswersCount.current + 1;
+          }
         }
+
+        newUsedAnswers[draggableId] = true;
+
+        newFilledItems[destination.droppableId] = {
+          word: draggableWord,
+          isCorrect,
+          draggableId
+        }
+
+        setUsedAnswers(newUsedAnswers);
+        setFilledItems(newFilledItems);
       }
     } else {
       return;
     }
   };
 
+  const onClearField = (fieldName: string) => {
+    const newUsedAnswers = { ...usedAnswers };
+    const newFilledItems = { ...filledItems };
+
+    if (newFilledItems[fieldName].isCorrect) {
+      correctAnswersCount.current = correctAnswersCount.current - 1;
+    }
+
+    delete newUsedAnswers[newFilledItems[fieldName].draggableId];
+    delete newFilledItems[fieldName];
+
+    setUsedAnswers(newUsedAnswers);
+    setFilledItems(newFilledItems);
+  };
+
+
+  const onCheckResult = () => {
+    if (answer.length === Object.keys(filledItems).length) {
+      setShowResults(true);
+    } else {
+      notificationWarning("Заполните все поля", "");
+    }
+  }
+
 
   return (
-    <div className={styles.blankTemplate}>
-      <DragDropContext onDragEnd={handleDragAndDrop}>
-        <div>
-          {/*<div className={styles.blankAnswers}>*/}
-          {/*  {answer.map((item, index) => (*/}
-          {/*    <div key={index}>*/}
-          {/*      <Droppable droppableId={item} direction="horizontal">*/}
-          {/*        {(provided, snapshot) => (*/}
-          {/*          <div {...provided.droppableProps} ref={provided.innerRef}>*/}
-          {/*            <Draggable*/}
-          {/*              draggableId={item}*/}
-          {/*              index={index}*/}
-          {/*              key={item}*/}
-          {/*            >*/}
-          {/*              {(provided) => (*/}
-          {/*                <div*/}
-          {/*                  {...provided.dragHandleProps}*/}
-          {/*                  {...provided.draggableProps}*/}
-          {/*                  ref={provided.innerRef}*/}
-          {/*                  className={styles.blankAnswerItem}*/}
-          {/*                >*/}
-          {/*                  <div>*/}
-          {/*                    {item.substring(1, item.length - 1)}*/}
-          {/*                  </div>*/}
-          {/*                </div>*/}
-          {/*              )}*/}
-          {/*            </Draggable>*/}
-          {/*          </div>*/}
-          {/*        )}*/}
-          {/*      </Droppable>*/}
-          {/*    </div>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
+    <>
+      <div className={styles.blankTemplate}>
 
-          <Droppable droppableId="ROOT" direction="horizontal">
-            {(provided, snapshot) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
-                {answer.map((item, index) => (
-                  <Draggable
-                    draggableId={item}
-                    index={index}
-                    key={item + index}
-
-                  >
-                    {(provided, snapshot) => (
-                      <div className={styles.blankAnswerItemWr}>
-
-                        <div className={styles.blankAnswerItem} style={{ opacity: 0 }}>
-                          {item.substring(1, item.length - 1)}
-                        </div>
-
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          className={`${styles.blankAnswerItem} ${styles.blankAnswerItemDrag} ${snapshot.isDragging ? "active" : "" }`}
-                        >
-                          {item.substring(1, item.length - 1)}
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-
-              </div>
-            )}
-          </Droppable>
-        </div>
-
-        <div className={styles.blankTemplateText}>
-          {text.map((item, index) => (
-            <React.Fragment key={index}>
-              {item[0] === "[" && (
-                <Droppable droppableId={item} type="vertical" >
-                  {(provided, snapshot) => (
-                    <div
-                      className={`${styles.blankTemplateTextInput} ${snapshot.isDraggingOver ? "drag-over" : ""}`}
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
+        <DragDropContext onDragEnd={handleDragAndDrop}>
+          <div>
+            <Droppable droppableId="ROOT" direction="horizontal">
+              {(provided, snapshot) => (
+                <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
+                  {answer.map((item, index) => (
+                    <Draggable
+                      draggableId={item + index}
+                      index={index}
+                      key={item + index}
+                      isDragDisabled={!!usedAnswers[item + index]}
                     >
-                      {filledItems[item] && (
-                        <div>
-                          {filledItems[item]}
+                      {(provided, snapshot) => (
+                        <div className={`${styles.blankAnswerItemWr} ${!!usedAnswers[item + index] ? styles.hiddenItem : ""}`}>
+
+                          <div className={`${styles.blankAnswerItem} ${styles.hiddenItem}`}>
+                            {item.substring(1, item.length - 1)}
+                          </div>
+
+                          <div
+                            {...provided.dragHandleProps}
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            className={`${styles.blankAnswerItem} ${styles.blankAnswerItemDrag} ${snapshot.isDragging ? "active" : "" }`}
+                          >
+                            {item.substring(1, item.length - 1)}
+                          </div>
                         </div>
                       )}
-                    </div>
-                  )}
-                </Droppable>
-              )}
+                    </Draggable>
+                  ))}
 
-              {item[0] !== "[" && (
-                <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
+                </div>
               )}
-            </React.Fragment>
-          ))}
+            </Droppable>
+          </div>
+
+
+          <div className={styles.blankTemplateText}>
+            {text.map((item, index) => (
+              <React.Fragment key={index}>
+                {item[0] === "[" && (
+                  <Droppable droppableId={`${item}${index}`}>
+                    {(provided, snapshot) => (
+                      <div
+                        className={`
+                          ${styles.blankTemplateTextInput} ${snapshot.isDraggingOver ? "drag-over" : ""}
+                          show-answer_${showResults}
+                          is-correct-blank-answer_${!!filledItems[item + String(index)]?.isCorrect}
+                        `}
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {filledItems[`${item}${index}`] && (
+                          <div>
+                            {filledItems[`${item}${index}`].word}
+                            {!showResults && (
+                              <div
+                                className={styles.blankTemplateTextInputClearBtn}
+                                onClick={() => onClearField(`${item}${index}`)}
+                              >
+                                <ClearSvgIcon />
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </Droppable>
+                )}
+
+                {item[0] !== "[" && (
+                  <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </DragDropContext>
+      </div>
+      {showResults ? (
+        <div className={styles.result}>
+          <BlankProgress result={correctAnswersCount.current} total={answer.length} />
         </div>
+      ) : (
+        <div className={styles.testTemplateActions}>
+          <ButtonUI onClick={onCheckResult}>
+            Проверить
+          </ButtonUI>
+        </div>
+      )}
+    </>
+  )
+};
 
+const BlankProgress: FC<{ result: number; total: number; }> = (props) => {
+  const { result, total } = props;
 
+  const percent = Number((result * 100 / total).toFixed(0));
 
-      </DragDropContext>
+  return (
+    <div>
+      <Progress
+        type="circle"
+        width={80}
+        strokeColor={"#009f3c"}
+        percent={percent}
+        format={(percent) => (
+          <div className={styles.blankResultProgress}>
+            <div>{percent}%</div>
+            <span>{result} из {total}</span>
+          </div>
+        )}
+      />
     </div>
   )
 };

@@ -15,10 +15,11 @@ import { ModalUI } from "#ui/modal";
 type PropTypes = {
   sectionId: number;
   closeModal: () => void;
+  closeMainModal: () => void;
 };
 
 export const TestTemplateForm: FC<PropTypes> = (props) => {
-  const { sectionId, closeModal } = props;
+  const { sectionId, closeModal, closeMainModal } = props;
 
   const [form] = Form.useForm();
 
@@ -37,6 +38,7 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (addExerciseState.data) {
       closeModal();
+      closeMainModal();
     }
   }, [addExerciseState.data]);
 
@@ -58,6 +60,7 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
     }
 
     const data = {
+      title: formData.title,
       sectionId,
       template: templateTypes.TEST,
       value: formData.question,
@@ -75,6 +78,9 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
+          <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
+            <InputUI placeholder="Введите заголовок" />
+          </FormUI.Item>
           <FormUI.Item label="Вопрос" name="question" rules={requiredRules}>
             <InputUI placeholder="Введите вопрос" />
           </FormUI.Item>

@@ -73,6 +73,7 @@ export const RichTextEditor = (props) => {
           {/*<BlockButton format="justify" icon="format_align_justify" />*/}
         </Toolbar>
         <Editable
+          className={"richTextTextarea"}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           placeholder={"Введите текст"}

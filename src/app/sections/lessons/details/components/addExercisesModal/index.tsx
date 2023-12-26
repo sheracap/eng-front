@@ -36,21 +36,23 @@ export const AddExercisesModal: FC<TProps> = (props) => {
       { id: 1, name: "Тест", code: templateTypes.TEST },
       { id: 2, name: "Текстовый блок", code: templateTypes.TEXT_BLOCK },
       { id: 3, name: "Бланк", code: templateTypes.BLANK },
+      { id: 4, name: "Заполнить поля", code: templateTypes.FILL_TEXT },
     ]
   }, []);
 
   const onSelectTemplate = (val: string) => {
-    setSelectedTemplate(val);
+    //setSelectedTemplate(val);
+    addExercisesFormModalControl.openModal({ sectionId, template: val });
   };
 
-  const onSubmitClick = () => {
-    if (!selectedTemplate) {
-      message.warning("Выберите шаблон");
-      return;
-    } else {
-      addExercisesFormModalControl.openModal({ sectionId, template: selectedTemplate });
-    }
-  };
+  // const onSubmitClick = () => {
+  //   if (!selectedTemplate) {
+  //     message.warning("Выберите шаблон");
+  //     return;
+  //   } else {
+  //     addExercisesFormModalControl.openModal({ sectionId, template: selectedTemplate });
+  //   }
+  // };
 
   return (
     <>
@@ -77,11 +79,11 @@ export const AddExercisesModal: FC<TProps> = (props) => {
               Отмена
             </ButtonUI>
           </ModalUI.Buttons.Col>
-          <ModalUI.Buttons.Col>
-            <ButtonUI type="primary" onClick={onSubmitClick} fullWidth>
-              Продолжить
-            </ButtonUI>
-          </ModalUI.Buttons.Col>
+          {/*<ModalUI.Buttons.Col>*/}
+          {/*  <ButtonUI type="primary" onClick={onSubmitClick} fullWidth>*/}
+          {/*    Продолжить*/}
+          {/*  </ButtonUI>*/}
+          {/*</ModalUI.Buttons.Col>*/}
         </ModalUI.Buttons>
       </ModalUI.Footer>
 

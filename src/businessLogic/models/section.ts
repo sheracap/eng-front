@@ -1,4 +1,5 @@
 export interface ExerciseItemModel {
+  title: string;
   answer: string;
   id: number;
   template: string;

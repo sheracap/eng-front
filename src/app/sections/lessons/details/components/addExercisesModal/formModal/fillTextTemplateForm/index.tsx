@@ -17,7 +17,7 @@ type PropTypes = {
   closeModal: () => void;
 };
 
-export const BlankTemplateForm: FC<PropTypes> = (props) => {
+export const FillTextTemplateForm: FC<PropTypes> = (props) => {
   const { sectionId, closeModal } = props;
 
   const [form] = Form.useForm();
@@ -59,7 +59,7 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
     const data = {
       title: formData.title,
       sectionId,
-      template: templateTypes.BLANK,
+      template: templateTypes.FILL_TEXT,
       value: JSON.stringify(resultArray),
       answer: JSON.stringify(answer),
       wrongAnswers: null,
@@ -71,7 +71,7 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
   return (
     <>
       <ModalUI.Header>
-        <ModalUI.Title>Шаблон бланк</ModalUI.Title>
+        <ModalUI.Title>Шаблон заполнить поля</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>

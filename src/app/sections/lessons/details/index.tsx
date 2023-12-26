@@ -107,7 +107,6 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
       </div>
       <div className="lesson-details__right">
         <div className="content-block">
-          <h1>{lessonData.name}</h1>
           <LessonSection
             isMine={isMine}
             lessonData={lessonData}

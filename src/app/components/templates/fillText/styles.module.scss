@@ -1,0 +1,28 @@
+@import "src/styles/variables.scss";
+
+.fillTextTemplate {
+  font-size: 18px;
+}
+
+.fillTextInput {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 80px;
+  height: 34px;
+  line-height: 32px;
+  margin-bottom: 7px;
+  padding: 0 7px;
+  text-align: center;
+  background-color: #fff;
+  transition: all .3s;
+  outline: none;
+
+  &:focus {
+    border-color: $primaryColor;
+    box-shadow: 0 0 0 2px rgba($primaryColor, 0.2);
+  }
+}

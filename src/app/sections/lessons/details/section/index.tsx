@@ -17,6 +17,7 @@ import { TemplateTest } from "#components/templates/test";
 import { templateTypes } from "#constants/index";
 import { TemplateTextBlock } from "#components/templates/textBlock";
 import { TemplateBlank } from "#components/templates/blank";
+import { TemplateFillText } from "#components/templates/fillText";
 
 type PropsType = {
   isMine: boolean;
@@ -73,10 +74,11 @@ export const LessonSection: FC<PropsType> = (props) => {
           </ModalUI>
         </>
       )}
-      {sectionData?.name}
 
-      {sectionData?.exercises.map((item) => (
+
+      {sectionData?.exercises.map((item, index) => (
         <div className="exercise-item" key={item.id}>
+          <div className="exercise-item__title">{index + 1}. {item.title}</div>
           {item.template === templateTypes.TEST && (
             <TemplateTest data={item} />
           )}
@@ -85,6 +87,9 @@ export const LessonSection: FC<PropsType> = (props) => {
           )}
           {item.template === templateTypes.BLANK && (
             <TemplateBlank data={item} />
+          )}
+          {item.template === templateTypes.FILL_TEXT && (
+            <TemplateFillText data={item} />
           )}
         </div>
       ))}

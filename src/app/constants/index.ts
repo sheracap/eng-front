@@ -39,5 +39,6 @@ export const RANGE_DATE_TIME_FORMAT = "YYYY-MM-DDTHH:mm";
 export const templateTypes = {
   TEST: "TEST",
   TEXT_BLOCK: "TEXT_BLOCK",
-  BLANK: "BLANK"
+  BLANK: "BLANK",
+  FILL_TEXT: "FILL_TEXT"
 };

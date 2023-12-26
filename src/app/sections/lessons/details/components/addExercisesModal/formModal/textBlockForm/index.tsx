@@ -9,6 +9,7 @@ import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
 import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
+import { InputUI } from "#ui/input";
 
 
 type PropTypes = {
@@ -37,6 +38,7 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = {
+      title: formData.title,
       sectionId,
       template: templateTypes.TEXT_BLOCK,
       value: JSON.stringify(formData.text),
@@ -54,6 +56,9 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
+          <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
+            <InputUI placeholder="Введите заголовок" />
+          </FormUI.Item>
           <FormUI.Item label="Текст" name="text" rules={requiredRules}>
             <RichTextEditorWrapper />
           </FormUI.Item>

@@ -169,6 +169,12 @@ input:-webkit-autofill:focus {
 
 .exercise-item {
   margin-bottom: 20px;
+
+  &__title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+  }
 }
 
 /* COURSE */

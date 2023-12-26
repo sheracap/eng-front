@@ -1,6 +1,7 @@
 
 
 .richTextEditorWrapper {
+  overflow: hidden;
   position: relative;
   background: rgb(255, 255, 255);
   padding: 20px;
@@ -20,4 +21,10 @@
   margin: 0 -20px;
   border-bottom: 2px solid #eee;
   margin-bottom: 20px;
+}
+
+.richTextTextarea {
+  margin: 0 -20px;
+  padding: 0 20px;
+  min-height: 200px !important;
 }
