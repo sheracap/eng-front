@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise } from "#stores/exercise";
+import { $addExercise, $updateExercise } from "#stores/exercise";
 import { FormUI } from "#ui/form";
 import { Form, message } from "antd";
 import { useStore } from "effector-react";
@@ -10,26 +10,39 @@ import { ButtonUI } from "#ui/button";
 
 import styles from "./styles.module.scss";
 import { ModalUI } from "#ui/modal";
+import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
 type PropTypes = {
+  editableData?: ExerciseItemModel;
   sectionId: number;
   closeModal: () => void;
-  closeMainModal: () => void;
+  closeMainModal?: () => void;
 };
 
 export const TestTemplateForm: FC<PropTypes> = (props) => {
-  const { sectionId, closeModal, closeMainModal } = props;
+  const { editableData, sectionId, closeModal, closeMainModal } = props;
 
   const [form] = Form.useForm();
 
   const addExerciseState = useStore($addExercise.store);
+  const updateExerciseState = useStore($updateExercise.store);
 
   const [variants, setVariants] = useState<Array<string>>([]);
   const [variantValue, setVariantValue] = useState("");
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
+    if (editableData) {
+      setAnswer(editableData.answer);
+      setVariants(editableData.wrongAnswers);
+
+      form.setFieldsValue({
+        title: editableData.title,
+        question: editableData.value,
+      });
+    }
+
     return () => {
       $addExercise.reset();
     };
@@ -38,9 +51,15 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (addExerciseState.data) {
       closeModal();
-      closeMainModal();
+      closeMainModal && closeMainModal();
     }
   }, [addExerciseState.data]);
+
+  useEffect(() => {
+    if (updateExerciseState.data) {
+      closeModal();
+    }
+  }, [updateExerciseState.data]);
 
   const onAddVariant = () => {
     if (!variantValue) {
@@ -68,7 +87,11 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
       wrongAnswers: variants,
     }
 
-    $addExercise.effect(data);
+    if (editableData) {
+      $updateExercise.effect({ id: editableData.id, ...data });
+    } else {
+      $addExercise.effect(data);
+    }
   };
 
   return (

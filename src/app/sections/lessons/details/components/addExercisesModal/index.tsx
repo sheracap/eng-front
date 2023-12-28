@@ -9,8 +9,8 @@ import { ModalUI } from "#ui/modal";
 import styles from "./styles.module.scss";
 import { DrawerModalUI } from "#ui/drawerModal";
 import {
-  AddExercisesFormModal,
-  AddExercisesFormModalPropTypes
+  AddEditExercisesFormModal,
+  AddEditExercisesFormModalPropTypes
 } from "./formModal";
 import { templateTypes } from "#constants/index";
 
@@ -27,7 +27,7 @@ export const AddExercisesModal: FC<TProps> = (props) => {
   const { closeModal, modalProps } = modalControl;
   const { sectionId } = modalProps;
 
-  const addExercisesFormModalControl = useModalControl<AddExercisesFormModalPropTypes>();
+  const addExercisesFormModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
 
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
@@ -92,7 +92,7 @@ export const AddExercisesModal: FC<TProps> = (props) => {
         open={addExercisesFormModalControl.modalProps.open}
         onClose={addExercisesFormModalControl.closeModal}
       >
-        <AddExercisesFormModal modalControl={addExercisesFormModalControl} closeModal={closeModal} />
+        <AddEditExercisesFormModal modalControl={addExercisesFormModalControl} closeModal={closeModal} />
       </DrawerModalUI>
 
 

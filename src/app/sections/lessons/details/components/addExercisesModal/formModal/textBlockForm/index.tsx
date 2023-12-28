@@ -10,9 +10,11 @@ import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
 import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
 import { InputUI } from "#ui/input";
+import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
 type PropTypes = {
+  editableData?: ExerciseItemModel;
   sectionId: number;
   closeModal: () => void;
 };

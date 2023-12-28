@@ -26,9 +26,16 @@ export const MyCourses = () => {
 
   return (
     <div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "15px"
+        }}
+      >
         <h2>Мои курсы</h2>
-        <ButtonUI onClick={() => addCourseModalControl.openModal()}>Добавить курс</ButtonUI>
+        <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}>Добавить курс</ButtonUI>
       </div>
       <div className="courses">
         {myCoursesListState.data.rows.map((item) => (

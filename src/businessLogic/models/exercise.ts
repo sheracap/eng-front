@@ -5,3 +5,7 @@ export type ExerciseCreateModel = {
   answer: string | null;
   wrongAnswers: Array<string> | null;
 }
+
+export type ExerciseUpdateModel = ExerciseCreateModel & {
+  id: number;
+}

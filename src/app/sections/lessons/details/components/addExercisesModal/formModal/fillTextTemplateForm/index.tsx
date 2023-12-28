@@ -10,9 +10,11 @@ import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
 import { InputUI } from "#ui/input";
 import { notificationWarning } from "#ui/notifications";
+import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
 type PropTypes = {
+  editableData?: ExerciseItemModel;
   sectionId: number;
   closeModal: () => void;
 };

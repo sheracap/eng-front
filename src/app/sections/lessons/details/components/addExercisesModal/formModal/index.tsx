@@ -7,35 +7,37 @@ import { BlankTemplateForm } from "./blankTemplateForm";
 import { FillTextTemplateForm } from "./fillTextTemplateForm";
 
 import { templateTypes } from "#constants/index";
+import { ExerciseItemModel } from "#businessLogic/models/section";
 
-export type AddExercisesFormModalPropTypes = {
+export type AddEditExercisesFormModalPropTypes = {
+  editableData?: ExerciseItemModel;
   sectionId: number;
   template: string;
 };
 
 type TProps = {
-  modalControl: ModalControlType<AddExercisesFormModalPropTypes>;
-  closeModal: () => void;
+  modalControl: ModalControlType<AddEditExercisesFormModalPropTypes>;
+  closeModal?: () => void;
 };
 
-export const AddExercisesFormModal: FC<TProps> = (props) => {
+export const AddEditExercisesFormModal: FC<TProps> = (props) => {
   const { modalControl, closeModal } = props;
   const { modalProps } = modalControl;
-  const { sectionId, template } = modalProps;
+  const { editableData, sectionId, template } = modalProps;
 
   return (
     <>
       {template === templateTypes.TEST && (
-        <TestTemplateForm sectionId={sectionId} closeModal={modalControl.closeModal} closeMainModal={closeModal} />
+        <TestTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} closeMainModal={closeModal} />
       )}
       {template === templateTypes.TEXT_BLOCK && (
-        <TextBlockTemplateForm sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <TextBlockTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.BLANK && (
-        <BlankTemplateForm sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <BlankTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.FILL_TEXT && (
-        <FillTextTemplateForm sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <FillTextTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
       )}
     </>
   );

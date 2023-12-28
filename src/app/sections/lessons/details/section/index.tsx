@@ -12,12 +12,18 @@ import {
   AddExercisesModal,
   AddExercisesModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
+
 import { DrawerModalUI } from "#ui/drawerModal";
 import { TemplateTest } from "#components/templates/test";
 import { templateTypes } from "#constants/index";
 import { TemplateTextBlock } from "#components/templates/textBlock";
 import { TemplateBlank } from "#components/templates/blank";
 import { TemplateFillText } from "#components/templates/fillText";
+import { ButtonUI } from "#ui/button";
+import {
+  AddEditExercisesFormModal,
+  AddEditExercisesFormModalPropTypes
+} from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
 
 type PropsType = {
   isMine: boolean;
@@ -33,6 +39,7 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();
+  const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
 
   useEffect(() => {
     return () => {
@@ -79,6 +86,17 @@ export const LessonSection: FC<PropsType> = (props) => {
       {sectionData?.exercises.map((item, index) => (
         <div className="exercise-item" key={item.id}>
           <div className="exercise-item__title">{index + 1}. {item.title}</div>
+          <div>
+            <ButtonUI
+              onClick={() => {
+                editExerciseModalControl.openModal({
+                  editableData: item, sectionId: sectionData.id, template: item.template
+                });
+              }}
+            >
+              Редактировать
+            </ButtonUI>
+          </div>
           {item.template === templateTypes.TEST && (
             <TemplateTest data={item} />
           )}
@@ -108,6 +126,13 @@ export const LessonSection: FC<PropsType> = (props) => {
           </DrawerModalUI>
         </>
       )}
+
+      <ModalUI
+        open={editExerciseModalControl.modalProps.open}
+        onCancel={editExerciseModalControl.closeModal}
+      >
+        <AddEditExercisesFormModal modalControl={editExerciseModalControl} />
+      </ModalUI>
     </div>
   )
 };
