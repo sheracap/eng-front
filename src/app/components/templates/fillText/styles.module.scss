@@ -2,6 +2,7 @@
 
 .fillTextTemplate {
   font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .fillTextInput {
@@ -21,8 +22,46 @@
   transition: all .3s;
   outline: none;
 
-  &:focus {
-    border-color: $primaryColor;
-    box-shadow: 0 0 0 2px rgba($primaryColor, 0.2);
+  &:global(.show-answer_false) {
+    &:focus {
+      border-color: $primaryColor;
+      box-shadow: 0 0 0 2px rgba($primaryColor, 0.2);
+    }
+  }
+
+  &:global(.show-answer_true) {
+    &:global(.is-correct-blank-answer_true) {
+      border-color: $success;
+      background-color: rgba($success, 0.2);
+    }
+
+    &:global(.is-correct-blank-answer_false) {
+      border-color: $danger;
+      background-color: rgba($danger, 0.2);
+    }
+  }
+}
+
+.testTemplateActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: $gray;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.result {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.blankResultProgress {
+  color: $text;
+
+  span {
+    display: block;
+    padding-top: 5px;
+    font-size: 12px;
   }
 }

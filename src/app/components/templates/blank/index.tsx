@@ -209,7 +209,7 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   )
 };
 
-const BlankProgress: FC<{ result: number; total: number; }> = (props) => {
+export const BlankProgress: FC<{ result: number; total: number; }> = (props) => {
   const { result, total } = props;
 
   const percent = Number((result * 100 / total).toFixed(0));
