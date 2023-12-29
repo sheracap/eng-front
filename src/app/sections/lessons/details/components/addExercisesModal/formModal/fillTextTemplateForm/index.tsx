@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise } from "#stores/exercise";
+import { $addExercise, $updateExercise } from "#stores/exercise";
 import { FormUI } from "#ui/form";
 import { Form } from "antd";
 import { useStore } from "effector-react";
@@ -20,13 +20,25 @@ type PropTypes = {
 };
 
 export const FillTextTemplateForm: FC<PropTypes> = (props) => {
-  const { sectionId, closeModal } = props;
+  const { editableData, sectionId, closeModal } = props;
 
   const [form] = Form.useForm();
 
   const addExerciseState = useStore($addExercise.store);
+  const updateExerciseState = useStore($updateExercise.store);
 
   useEffect(() => {
+    if (editableData) {
+      const text = JSON.parse(editableData.value).reduce((acc, currentVal) => {
+        return acc + " " + currentVal;
+      }, "");
+
+      form.setFieldsValue({
+        title: editableData.title,
+        text
+      });
+    }
+
     return () => {
       $addExercise.reset();
     };
@@ -37,6 +49,12 @@ export const FillTextTemplateForm: FC<PropTypes> = (props) => {
       closeModal();
     }
   }, [addExerciseState.data]);
+
+  useEffect(() => {
+    if (updateExerciseState.data) {
+      closeModal();
+    }
+  }, [updateExerciseState.data]);
 
   const onFinish = (formData) => {
 
