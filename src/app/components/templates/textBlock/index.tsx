@@ -16,18 +16,18 @@ export const TemplateTextBlock: FC<PropsTypes> = (props) => {
   const { data } = props;
 
   const text = useMemo(() => {
-    if (!data.value) {
+    if (!data.metaData.text) {
       return "";
     }
 
-    if (isJsonString(data.value)) {
-      const nodes = JSON.parse(data.value);
+    if (isJsonString(data.metaData.text)) {
+      const nodes = JSON.parse(data.metaData.text);
 
       return Array.isArray(nodes) ? nodes.map((n) => serialize(n)).join('\n') : "";
     }
 
-    return data.value;
-  }, [data.value]);
+    return data.metaData.text;
+  }, [data.metaData.text]);
 
   return (
     <div className={styles.textBlockTemplate}>

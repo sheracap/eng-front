@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 import styles from "./styles.module.scss";
@@ -26,14 +26,6 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
   const filledAnswers = useRef({});
   const correctAnswersCount = useRef(0);
 
-  const answer = useMemo(() => {
-    return JSON.parse(data.answer);
-  }, []);
-
-  const text = useMemo(() => {
-    return JSON.parse(data.value);
-  }, []);
-
   const onChange = (e) => {
     withDebounce(() => {
       const { index, item } = JSON.parse(e.currentTarget.getAttribute("data-val"));
@@ -49,7 +41,7 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
   };
 
   const onCheckResult = () => {
-    if (answer.length === Object.keys(filledAnswers).length) {
+    if (data.metaData.answer.length === Object.keys(filledAnswers).length) {
 
       let count = 0;
 
@@ -70,7 +62,7 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
   return (
     <>
       <div className={styles.fillTextTemplate}>
-        {text.map((item, index) => (
+        {data.metaData.resultArray.map((item, index) => (
           <React.Fragment key={index}>
             {item[0] === "[" && (
               <span
@@ -93,7 +85,7 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
       </div>
       {showResults ? (
         <div className={styles.result}>
-          <BlankProgress result={correctAnswersCount.current} total={answer.length} />
+          <BlankProgress result={correctAnswersCount.current} total={data.metaData.answer.length} />
         </div>
       ) : (
         <div className={styles.testTemplateActions}>

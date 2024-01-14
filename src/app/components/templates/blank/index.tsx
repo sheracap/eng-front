@@ -36,11 +36,11 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const correctAnswersCount = useRef(0);
 
   const answer = useMemo(() => {
-    return shuffledArray(JSON.parse(data.answer));
+    return shuffledArray(data.metaData.answer);
   }, []);
 
   const text = useMemo(() => {
-    return JSON.parse(data.value);
+    return data.metaData.text;
   }, []);
 
   const handleDragAndDrop = (results) => {

@@ -18,6 +18,30 @@ export const $coursesList = createXHRStore<
   StoreTypeWithData<PaginationListModel<CoursesListItemModel>>
 >(api.courses.coursesList, new XHRDataState(new PaginationList()));
 
+export const $tomatoes = createXHRStore<
+  any,
+  any,
+  any
+>(api.courses.getTomatoes, new XHRDataState([]));
+
+export const $createTomato = createXHRStore<
+  any,
+  any,
+  any
+>(api.courses.createTomato, new XHRDataState(null));
+
+export const $updateTomato = createXHRStore<
+  any,
+  any,
+  any
+>(api.courses.updateTomato, new XHRDataState(null));
+
+export const $deleteTomato = createXHRStore<
+  any,
+  any,
+  any
+>(api.courses.delteTomato, new XHRDataState(null));
+
 export const $myCoursesList = createXHRStore<
   void,
   PaginationListModel<CoursesListItemModel>,

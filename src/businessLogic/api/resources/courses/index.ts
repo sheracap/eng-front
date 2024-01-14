@@ -6,13 +6,37 @@ import {
   CourseChapterItemModel
 } from "#businessLogic/models/courses";
 import { HandlerType } from "#core/effector/types/handler";
-import { httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
+import { httpDelete, httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
 import { PaginationListModel } from "#types/apiResponseModels";
 
 export const coursesList: HandlerType<void, PaginationListModel<CoursesListItemModel>> = (
   params,
 ) => {
   return httpGet({ url: "/api/course", params });
+};
+
+export const getTomatoes: HandlerType<any, any> = (
+  params,
+) => {
+  return httpGet({ url: "/api/tomato", params });
+};
+
+export const createTomato: HandlerType<any, any> = (
+  data,
+) => {
+  return httpPost({ url: "/api/tomato", data });
+};
+
+export const updateTomato: HandlerType<any, any> = (
+  data,
+) => {
+  return httpPut({ url: `/api/tomato/${data.id}`, data });
+};
+
+export const delteTomato: HandlerType<any, any> = (
+  data,
+) => {
+  return httpDelete({ url: `/api/tomato/${data.id}`, });
 };
 
 export const myCoursesList: HandlerType<void, PaginationListModel<CoursesListItemModel>> = (

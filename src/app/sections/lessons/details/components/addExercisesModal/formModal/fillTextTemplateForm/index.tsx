@@ -29,7 +29,7 @@ export const FillTextTemplateForm: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (editableData) {
-      const text = JSON.parse(editableData.value).reduce((acc, currentVal) => {
+      const text = editableData.metaData.resultArray.reduce((acc, currentVal) => {
         return acc + " " + currentVal;
       }, "");
 
@@ -80,9 +80,10 @@ export const FillTextTemplateForm: FC<PropTypes> = (props) => {
       title: formData.title,
       sectionId,
       template: templateTypes.FILL_TEXT,
-      value: JSON.stringify(resultArray),
-      answer: JSON.stringify(answer),
-      wrongAnswers: null,
+      metaData: {
+        resultArray,
+        answer
+      },
     }
 
     $addExercise.effect(data);

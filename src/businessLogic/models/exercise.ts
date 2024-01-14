@@ -1,9 +1,8 @@
 export type ExerciseCreateModel = {
+  title: string;
   sectionId: number;
   template: string;
-  value: string;
-  answer: string | null;
-  wrongAnswers: Array<string> | null;
+  metaData: any;
 }
 
 export type ExerciseUpdateModel = ExerciseCreateModel & {

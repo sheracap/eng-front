@@ -130,6 +130,7 @@ export const LessonSection: FC<PropsType> = (props) => {
       <ModalUI
         open={editExerciseModalControl.modalProps.open}
         onCancel={editExerciseModalControl.closeModal}
+        width={600}
       >
         <AddEditExercisesFormModal modalControl={editExerciseModalControl} />
       </ModalUI>

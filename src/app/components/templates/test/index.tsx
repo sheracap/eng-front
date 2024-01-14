@@ -8,7 +8,7 @@ import { ButtonUI } from "#ui/button";
 import styles from "./styles.module.scss";
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
 }
 
 export const TemplateTest: FC<PropsTypes> = (props) => {
@@ -26,7 +26,7 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
   const onCheck = () => {
     let res;
 
-    if (String(userAnswer) === String(data.answer)) {
+    if (String(userAnswer) === String(data.metaData.answer)) {
       res = { text: "Правильно", type: "CORRECT" };
     } else {
       res = { text: "Неправильно", type: "WRONG" };
@@ -37,15 +37,15 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
 
   return (
     <div className={styles.testTemplate}>
-      <div className={styles.testQuestion}>{data.value}</div>
+      <div className={styles.testQuestion}>{data.metaData.question}</div>
       {/*<div>*/}
       {/*  Правильный ответ: {data.answer}*/}
       {/*</div>*/}
       <div className={styles.testVariants}>
-        {data.wrongAnswers && (
+        {data.metaData.wrongAnswers && (
           <Radio.Group value={userAnswer} onChange={onAnswerChange}>
             <Space direction="vertical">
-              {data.wrongAnswers.map((item, index) => (
+              {data.metaData.wrongAnswers.map((item, index) => (
                 <Radio value={item} key={index}>{item}</Radio>
               ))}
             </Space>

@@ -28,10 +28,13 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
   const updateExerciseState = useStore($updateExercise.store);
 
   useEffect(() => {
+
+
     if (editableData) {
       form.setFieldsValue({
         title: editableData.title,
-        text: editableData.value,
+        text: JSON.parse(editableData.metaData.text),
+        initText: JSON.parse(editableData.metaData.text),
       });
     }
 
@@ -53,13 +56,14 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
   }, [updateExerciseState.data]);
 
   const onFinish = (formData) => {
+
     const data = {
       title: formData.title,
       sectionId,
       template: templateTypes.TEXT_BLOCK,
-      value: JSON.stringify(formData.text),
-      answer: null,
-      wrongAnswers: null,
+      metaData: {
+        text: JSON.stringify(formData.text)
+      },
     }
 
     if (editableData) {
@@ -78,12 +82,24 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
         <ModalUI.Title>Шаблон текст</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <FormUI phantomSubmit form={form} onFinish={onFinish}>
+        <FormUI
+          phantomSubmit
+          form={form}
+          onFinish={onFinish}
+        >
           <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
             <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
-          <FormUI.Item label="Текст" name="text" rules={requiredRules}>
-            <RichTextEditorWrapper />
+          <FormUI.Item shouldUpdate={(prevValues, curValues) => prevValues.initDescription !== curValues.initDescription}>
+            {() => {
+              const initText = form.getFieldValue("initText");
+
+              return (
+                <FormUI.Item label="Текст" name="text" rules={requiredRules}>
+                  <RichTextEditorWrapper initialValue={initText} />
+                </FormUI.Item>
+              )
+            }}
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>

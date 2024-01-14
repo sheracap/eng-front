@@ -1,10 +1,9 @@
 export interface ExerciseItemModel {
-  title: string;
-  answer: string;
   id: number;
+  title: string;
+  sectionId: number;
   template: string;
-  value: string;
-  wrongAnswers: Array<string>;
+  metaData: any;
 }
 
 export interface SectionDetailsModel {

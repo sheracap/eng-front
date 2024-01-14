@@ -34,12 +34,12 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (editableData) {
-      setAnswer(editableData.answer);
-      setVariants(editableData.wrongAnswers);
+      setAnswer(editableData.metaData.answer);
+      setVariants(editableData.metaData.wrongAnswers);
 
       form.setFieldsValue({
         title: editableData.title,
-        question: editableData.value,
+        question: editableData.metaData.question,
       });
     }
 
@@ -82,9 +82,11 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
       title: formData.title,
       sectionId,
       template: templateTypes.TEST,
-      value: formData.question,
-      answer,
-      wrongAnswers: variants,
+      metaData: {
+        question: formData.question,
+        answer,
+        wrongAnswers: variants
+      },
     }
 
     if (editableData) {
