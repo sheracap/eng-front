@@ -5,6 +5,8 @@ import { TestTemplateForm } from "./testTemplateForm";
 import { TextBlockTemplateForm } from "./textBlockForm";
 import { BlankTemplateForm } from "./blankTemplateForm";
 import { FillTextTemplateForm } from "./fillTextTemplateForm";
+import { VideoTemplateForm } from "./videoTemplateForm";
+import { ImagesTemplateForm } from "./imagesTemplateForm";
 
 import { templateTypes } from "#constants/index";
 import { ExerciseItemModel } from "#businessLogic/models/section";
@@ -38,6 +40,12 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
       )}
       {template === templateTypes.FILL_TEXT && (
         <FillTextTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+      )}
+      {template === templateTypes.VIDEO && (
+        <VideoTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+      )}
+      {template === templateTypes.IMAGES && (
+        <ImagesTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
       )}
     </>
   );

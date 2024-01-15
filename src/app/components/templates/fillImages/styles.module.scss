@@ -1,0 +1,153 @@
+@import "src/styles/variables.scss";
+
+.fillPicturesTemplateWrap {
+  margin-bottom: 10px;
+}
+
+.blankAnswers {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.blankAnswerItemWr {
+  position: relative;
+}
+
+.blankAnswerItem {
+  padding: 5px 20px;
+
+  &:not(:global(.active)) {
+    transform: none !important;
+  }
+}
+
+.hiddenItem {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.blankAnswerItemDrag {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5px;
+    right: 5px;
+    bottom: 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    z-index: -1;
+  }
+
+  &:global(.active) {
+    color: #fff;
+
+    &:after {
+      background-color: $primaryColor;
+      border-color: $primaryColor;
+    }
+  }
+}
+
+.fillPicturesTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.fillPicturesTemplateItem {
+  width: 200px;
+  margin: 0 10px;
+}
+
+.fillPicturesTemplateItemPic {
+  margin: 0 0 10px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.blankTemplateTextInput {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 80px;
+  height: 34px;
+  line-height: 32px;
+  margin-bottom: 7px;
+  padding: 0 25px 0 7px;
+  text-align: center;
+  background-color: #fff;
+  transition: background-color, border .3s ease-in-out;
+
+  &:global(.drag-over) {
+    background-color: $grayHover;
+  }
+
+  &:global(.show-answer_true) {
+    &:global(.is-correct-blank-answer_true) {
+      border-color: $success;
+      background-color: rgba($success, 0.2);
+    }
+
+    &:global(.is-correct-blank-answer_false) {
+      border-color: $danger;
+      background-color: rgba($danger, 0.2);
+    }
+  }
+}
+
+.blankTemplateTextInputClearBtn {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  margin-top: -6px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+  line-height: 1;
+  color: rgba(0,0,0,.25);
+  transition: color .3s ease,opacity .15s ease;
+
+  &:hover {
+    color: rgba(0,0,0,.45);
+  }
+}
+
+.testTemplateActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: $gray;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.result {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.blankResultProgress {
+  color: $text;
+
+  span {
+    display: block;
+    padding-top: 5px;
+    font-size: 12px;
+  }
+}

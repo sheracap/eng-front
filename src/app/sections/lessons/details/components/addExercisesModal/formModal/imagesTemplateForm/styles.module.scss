@@ -1,0 +1,99 @@
+@import "src/styles/variables.scss";
+
+$colHeaderHeight: 83px;
+$photoCardSize: 120px;
+
+.dangerMessage {
+  color: $danger;
+}
+
+.photosError {
+  padding-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.formPhotos {
+  margin-bottom: 24px;
+}
+
+.formPhotosTitle {
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.formPhotosList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.formPhotosUploadItem {
+  :global(.ant-upload.ant-upload-select-picture-card) {
+    border-radius: 16px;
+    margin: 0;
+    width: $photoCardSize;
+    height: $photoCardSize;
+  }
+
+  &:global(.has-error) {
+    :global(.ant-upload.ant-upload-select-picture-card) {
+      border-color: $danger;
+    }
+  }
+}
+
+.formPhotosUploadItemPlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  span {
+    display: block;
+    padding: 4px;
+    line-height: 0;
+  }
+
+  div {
+    max-width: 88px;
+    line-height: 20px;
+  }
+}
+
+.formPhotosItem {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  width: $photoCardSize;
+  height: $photoCardSize;
+  border: 1px solid #ebebeb;
+  background-color: #fafafa;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.formPhotoItemDelete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.5);
+  opacity: 0;
+  transition: opacity .3s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  :global(.custom-button) {
+    background: #fff;
+  }
+}

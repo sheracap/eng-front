@@ -40,6 +40,7 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
 
     return () => {
       $addExercise.reset();
+      $updateExercise.reset();
     };
   }, []);
 

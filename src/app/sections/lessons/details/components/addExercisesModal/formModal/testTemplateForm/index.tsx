@@ -45,6 +45,7 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
 
     return () => {
       $addExercise.reset();
+      $updateExercise.reset();
     };
   }, []);
 

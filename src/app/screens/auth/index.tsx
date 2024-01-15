@@ -20,7 +20,7 @@ export const UserAuth: FC = () => {
           <Route path={ROUTES.USER_REGISTRATION} component={Registration} />
         </Switch>
       </div>
-      <span className={classes.compInfo}>© 2023-2023 Platform</span>
+      <span className={classes.compInfo}>© 2023-2024 Platform</span>
     </div>
   );
 };

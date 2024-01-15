@@ -72,3 +72,16 @@ export const shuffledArray = (array) => {
   const newArr = [...array];
   return newArr.sort((a, b) => 0.5 - Math.random());
 };
+
+export const getBase64Photo = (file): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    // @ts-ignore
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = (error) => reject(error);
+  });
+};

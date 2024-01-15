@@ -40,5 +40,8 @@ export const templateTypes = {
   TEST: "TEST",
   TEXT_BLOCK: "TEXT_BLOCK",
   BLANK: "BLANK",
-  FILL_TEXT: "FILL_TEXT"
+  FILL_TEXT: "FILL_TEXT",
+  VIDEO: "VIDEO",
+  IMAGES: "IMAGES",
+  FILL_IMAGES: "FILL_IMAGES",
 };

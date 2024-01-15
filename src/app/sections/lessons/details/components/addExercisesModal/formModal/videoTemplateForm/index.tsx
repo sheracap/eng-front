@@ -9,7 +9,6 @@ import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
 import { InputUI } from "#ui/input";
-import { notificationWarning } from "#ui/notifications";
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
@@ -19,7 +18,7 @@ type PropTypes = {
   closeModal: () => void;
 };
 
-export const BlankTemplateForm: FC<PropTypes> = (props) => {
+export const VideoTemplateForm: FC<PropTypes> = (props) => {
   const { editableData, sectionId, closeModal } = props;
 
   const [form] = Form.useForm();
@@ -29,13 +28,9 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (editableData) {
-      const text = editableData.metaData.resultArray.reduce((acc, currentVal) => {
-        return acc + " " + currentVal;
-      }, "");
-
       form.setFieldsValue({
         title: editableData.title,
-        text
+        value: editableData.metaData.url,
       });
     }
 
@@ -58,39 +53,19 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
   }, [updateExerciseState.data]);
 
   const onFinish = (formData) => {
-
-    const answer: Array<string> = [];
-
-    const inputString = formData.text;
-
-    const regex = /(\[[^\]]+\])/g;
-    const resultArray = inputString.split(regex);
-
-    resultArray.forEach((item) => {
-      if (item[0] === "[") {
-        answer.push(item);
-      }
-    });
-
-    if (!answer.length) {
-      notificationWarning("Необходимо выделить слова к заполнению", "");
-      return;
-    }
-
     const data = {
       title: formData.title,
       sectionId,
-      template: templateTypes.BLANK,
+      template: templateTypes.VIDEO,
       metaData: {
-        resultArray,
-        answer
-      },
+        url: formData.value
+      }
     }
 
     if (editableData) {
       $updateExercise.effect({
         id: editableData.id,
-        ...data
+        ...data,
       });
     } else {
       $addExercise.effect(data);
@@ -100,15 +75,15 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
   return (
     <>
       <ModalUI.Header>
-        <ModalUI.Title>Шаблон бланк</ModalUI.Title>
+        <ModalUI.Title>Шаблон видео</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
             <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
-          <FormUI.Item label="Текст" name="text" rules={requiredRules}>
-            <InputUI.TextArea placeholder="Введите текст" rows={10} />
+          <FormUI.Item label="Ссылка на видео" name="value" rules={requiredRules}>
+            <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>

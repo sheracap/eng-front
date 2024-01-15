@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 
 import { requiredRules, ROUTES } from "#constants/index";
-import * as accountEffector from "#stores/account";
+import { $logIn } from "#stores/account";
 import { ErrorResponse } from "#types/apiResponseModels";
 import { ButtonUI } from "#ui/button";
 import { InputUI } from "#ui/input";
@@ -17,7 +17,7 @@ import { useStyles } from "./styles";
 type InitialValuesSignInType = typeof initialValuesSignIn;
 
 export const SignIn: FC = () => {
-  const { $logIn } = accountEffector;
+
   const classes = useStyles();
   const history = useHistory();
   const [form] = Form.useForm<InitialValuesSignInType>();
@@ -36,7 +36,7 @@ export const SignIn: FC = () => {
   useEffect(() => {
     if (logInState.success) {
       $logIn.reset();
-      history.push("/");
+      history.push("/home");
     }
   }, [logInState]);
 

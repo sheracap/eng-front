@@ -1,29 +1,41 @@
 import React, { FC, useEffect } from "react";
-import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 import { useStore } from "effector-react";
+
 import { $sectionDetails } from "#stores/section";
 import { useModalControl } from "#hooks/useModalControl";
 import { AddSectionModal, AddSectionModalPropTypes } from "../components/addSectionModal";
-import { ModalUI } from "#ui/modal";
+
 import { LessonDetailsModel } from "#businessLogic/models/lessons";
-import { Spinner } from "#ui/spinner";
+
 import { $lessonSections } from "#src/app/sections/lessons/details/effector";
 import {
   AddExercisesModal,
   AddExercisesModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
 
-import { DrawerModalUI } from "#ui/drawerModal";
-import { TemplateTest } from "#components/templates/test";
+
 import { templateTypes } from "#constants/index";
+
+import { TemplateTest } from "#components/templates/test";
 import { TemplateTextBlock } from "#components/templates/textBlock";
 import { TemplateBlank } from "#components/templates/blank";
 import { TemplateFillText } from "#components/templates/fillText";
+import { TemplateVideo } from "#components/templates/video";
+import { TemplateImages } from "#components/templates/images";
+import { TemplateFillImages } from "#components/templates/fillImages";
+
+import { ModalUI } from "#ui/modal";
+import { DrawerModalUI } from "#ui/drawerModal";
 import { ButtonUI } from "#ui/button";
+import { Spinner } from "#ui/spinner";
+
 import {
   AddEditExercisesFormModal,
   AddEditExercisesFormModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
+
+import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
+import { EditSvgIcon } from "#src/assets/svg";
 
 type PropsType = {
   isMine: boolean;
@@ -85,17 +97,23 @@ export const LessonSection: FC<PropsType> = (props) => {
 
       {sectionData?.exercises.map((item, index) => (
         <div className="exercise-item" key={item.id}>
-          <div className="exercise-item__title">{index + 1}. {item.title}</div>
-          <div>
-            <ButtonUI
-              onClick={() => {
-                editExerciseModalControl.openModal({
-                  editableData: item, sectionId: sectionData.id, template: item.template
-                });
-              }}
-            >
-              Редактировать
-            </ButtonUI>
+          <div className="exercise-item__title">
+            <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
+            {isMine && (
+              <div className="exercise-item__title__actions">
+                <ButtonUI
+                  type="primary"
+                  withIcon
+                  onClick={() => {
+                    editExerciseModalControl.openModal({
+                      editableData: item, sectionId: sectionData.id, template: item.template
+                    });
+                  }}
+                >
+                  <EditSvgIcon />
+                </ButtonUI>
+              </div>
+            )}
           </div>
           {item.template === templateTypes.TEST && (
             <TemplateTest data={item} />
@@ -108,6 +126,15 @@ export const LessonSection: FC<PropsType> = (props) => {
           )}
           {item.template === templateTypes.FILL_TEXT && (
             <TemplateFillText data={item} />
+          )}
+          {item.template === templateTypes.VIDEO && (
+            <TemplateVideo data={item} />
+          )}
+          {item.template === templateTypes.IMAGES && (
+            <TemplateImages data={item} />
+          )}
+          {item.template === templateTypes.FILL_IMAGES && (
+            <TemplateFillImages data={item} />
           )}
         </div>
       ))}
@@ -124,16 +151,16 @@ export const LessonSection: FC<PropsType> = (props) => {
           >
             <AddExercisesModal modalControl={addExercisesModalControl} />
           </DrawerModalUI>
+
+          <ModalUI
+            open={editExerciseModalControl.modalProps.open}
+            onCancel={editExerciseModalControl.closeModal}
+            width={600}
+          >
+            <AddEditExercisesFormModal modalControl={editExerciseModalControl} />
+          </ModalUI>
         </>
       )}
-
-      <ModalUI
-        open={editExerciseModalControl.modalProps.open}
-        onCancel={editExerciseModalControl.closeModal}
-        width={600}
-      >
-        <AddEditExercisesFormModal modalControl={editExerciseModalControl} />
-      </ModalUI>
     </div>
   )
 };

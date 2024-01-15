@@ -171,9 +171,31 @@ input:-webkit-autofill:focus {
   margin-bottom: 20px;
 
   &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 25px;
+
+    &__in {
+      font-weight: bold;
+      font-size: 25px;
+      margin-right: 10px;
+    }
+
+    &__actions {
+      opacity: 0;
+      visibility: hidden;
+      transition: all .3s ease-in-out;
+    }
+  }
+
+  &:hover {
+    &__title {
+      &__actions {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 }
 

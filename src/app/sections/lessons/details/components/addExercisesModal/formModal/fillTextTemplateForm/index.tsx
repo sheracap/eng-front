@@ -1,15 +1,16 @@
 import React, { FC, useEffect } from "react";
+import { useStore } from "effector-react";
+import { Form } from "antd";
 
 import { requiredRules, templateTypes } from "#constants/index";
 import { $addExercise, $updateExercise } from "#stores/exercise";
-import { FormUI } from "#ui/form";
-import { Form } from "antd";
-import { useStore } from "effector-react";
-import { ButtonUI } from "#ui/button";
 
+import { FormUI } from "#ui/form";
+import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
 import { InputUI } from "#ui/input";
 import { notificationWarning } from "#ui/notifications";
+
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
@@ -41,6 +42,7 @@ export const FillTextTemplateForm: FC<PropTypes> = (props) => {
 
     return () => {
       $addExercise.reset();
+      $updateExercise.reset();
     };
   }, []);
 
