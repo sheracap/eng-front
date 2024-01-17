@@ -112,7 +112,7 @@ module.exports = (env = {}, options) => {
               loader: "postcss-loader",
               options: {
                 postcssOptions: {
-                  config: path.resolve(__dirname, 'postcss.config.js'),
+                  config: path.resolve(__dirname, "postcss.config.js"),
                 },
                 sourceMap: true,
               },
@@ -130,7 +130,7 @@ module.exports = (env = {}, options) => {
               loader: "postcss-loader",
               options: {
                 postcssOptions: {
-                  config: path.resolve(__dirname, 'postcss.config.js'),
+                  config: path.resolve(__dirname, "postcss.config.js"),
                 },
                 sourceMap: true,
               },
