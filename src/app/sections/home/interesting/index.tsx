@@ -24,13 +24,14 @@ export const Interesting = () => {
 
   const onCreateTomato = () => {
     $createTomato.effect({
-      name: "Second tom"
+      email: "test@gmail.com"
     });
   }
 
   const onUpdateTomato = () => {
-    $deleteTomato.effect({
+    $updateTomato.effect({
       id: 2,
+      parentId: 1
     });
   };
 

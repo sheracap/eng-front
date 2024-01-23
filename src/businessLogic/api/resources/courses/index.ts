@@ -24,7 +24,7 @@ export const getTomatoes: HandlerType<any, any> = (
 export const createTomato: HandlerType<any, any> = (
   data,
 ) => {
-  return httpPost({ url: "/api/tomato", data });
+  return httpPost({ url: "/api/invitation", data });
 };
 
 export const updateTomato: HandlerType<any, any> = (
