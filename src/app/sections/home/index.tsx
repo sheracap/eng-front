@@ -5,6 +5,7 @@ import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-rou
 import { MainUserBar } from "#src/app/sections/home/userBar";
 import { Interesting } from "./interesting";
 import { MyCourses } from "./myCourses";
+import { MyStudents } from "./myStudents";
 
 import "./styles.scss";
 
@@ -29,6 +30,7 @@ export const Home: FC<PropTypes> = (props) => {
     return [
       { name: "Интересное", path: `${match.url}/interesting`, component: Interesting },
       { name: "Мои курсы", path: `${match.url}/my-courses`, component: MyCourses },
+      { name: "Мои ученики", path: `${match.url}/students`, component: MyStudents },
     ];
   }, []);
 

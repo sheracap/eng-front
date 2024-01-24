@@ -22,7 +22,7 @@ export const MainUserBar = () => {
           <span>Расписание</span>
           <CalendarIcon />
         </div>
-        <div>
+        <div onClick={() => history.push("/home/students")}>
           <span>Мои ученики</span>
           <strong>(20)</strong>
         </div>

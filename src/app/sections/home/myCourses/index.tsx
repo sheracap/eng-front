@@ -26,14 +26,7 @@ export const MyCourses = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "15px"
-        }}
-      >
+      <div className="folder-head">
         <h2>Мои курсы</h2>
         <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}>Добавить курс</ButtonUI>
       </div>

@@ -1,4 +1,11 @@
 
+.folder-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
 .courses {
   display: flex;
   flex-wrap: wrap;
@@ -29,6 +36,17 @@
 
     &__name {
       font-size: 16px;
+    }
+  }
+}
+
+.myStudents {
+  &__item {
+    display: flex;
+    margin: 0 0 15px;
+
+    &__name {
+      margin-right: 10px;
     }
   }
 }

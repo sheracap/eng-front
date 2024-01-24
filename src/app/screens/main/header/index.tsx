@@ -8,8 +8,9 @@ import { useStore } from "effector-react";
 import { Link } from "react-router-dom";
 
 import { CurrentUserDropdown } from "../currentUserDropdown";
+import { Notifications } from "../notifications";
 
-import { useStyles } from "./styles";
+import "./styles.scss";
 
 interface HeaderUIPropsType {
   siderOpened: boolean;
@@ -18,25 +19,25 @@ interface HeaderUIPropsType {
 
 export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
   const { siderOpened, setSiderOpened } = props;
-  const classes = useStyles();
 
   const { $currentUser } = accountEffector;
 
   const currentUserState = useStore($currentUser.store);
 
   return (
-    <Header className={classes.header}>
-      <div className={classes.headerLeftSide}>
-        <ButtonUI className={classes.burgerButton} withIcon onClick={() => setSiderOpened(!siderOpened)}>
+    <Header className="header">
+      <div className="headerLeftSide">
+        <ButtonUI className="burgerButton" withIcon onClick={() => setSiderOpened(!siderOpened)}>
           <BurgerMenuSvgIcon />
         </ButtonUI>
-        <div className={classes.logo}>
+        <div className="logo">
           <Link to="/">
             Logo
           </Link>
         </div>
       </div>
-      <div className={classes.headerRightSide}>
+      <div className="headerRightSide">
+        <Notifications />
         <CurrentUserDropdown currentUserState={currentUserState} />
       </div>
     </Header>
