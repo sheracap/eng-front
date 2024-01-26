@@ -6,6 +6,7 @@ import * as lessons from "./resources/lessons";
 import * as section from "./resources/section";
 import * as exercise from "./resources/exercise";
 import * as students from "./resources/students";
+import * as notifications from "./resources/notifications";
 
 export const api = {
   common,
@@ -16,4 +17,5 @@ export const api = {
   section,
   exercise,
   students,
+  notifications,
 };

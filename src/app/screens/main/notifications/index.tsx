@@ -1,10 +1,23 @@
-import React, { FC } from "react";
-import { Popover } from "antd";
+import React, { FC, useEffect } from "react";
+import { useStore } from "effector-react";
+import { Popover, Badge } from "antd";
+
 import { NotificationsIcon } from "#src/assets/svg";
+
+import { $newNotificationsCount, $notifications } from "#stores/notifications";
 
 import "./styles.scss";
 
+
 const NotificationsList = () => {
+
+  const notifications = useStore($notifications.store);
+
+  useEffect(() => {
+    $notifications.effect();
+  }, []);
+
+  console.log("notifications", notifications.data);
 
   return (
     <div className="notifications-list">
@@ -30,6 +43,11 @@ const NotificationsList = () => {
 
 export const Notifications: FC = (props) => {
 
+  const { data: newCount } = useStore($newNotificationsCount.store);
+
+  useEffect(() => {
+    $newNotificationsCount.effect();
+  }, []);
 
   return (
     <div>
@@ -38,9 +56,11 @@ export const Notifications: FC = (props) => {
         content={<NotificationsList />}
         trigger="click"
       >
-        <div>
-          <NotificationsIcon />
-        </div>
+        <Badge count={newCount}>
+          <div>
+            <NotificationsIcon />
+          </div>
+        </Badge>
       </Popover>
     </div>
   );
