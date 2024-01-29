@@ -8,14 +8,14 @@ import { ModalUI } from "#ui/modal";
 import { Form } from "antd";
 import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
+import { notificationSuccess } from "#ui/notifications";
 
 type PropTypes = {
   modalControl: ModalControlType;
-  callback?: () => void;
 };
 
 export const InviteStudentModal: FC<PropTypes> = (props) => {
-  const { modalControl, callback } = props;
+  const { modalControl } = props;
 
   const [form] = Form.useForm();
 
@@ -30,8 +30,8 @@ export const InviteStudentModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (inviteStudentState.success) {
+      notificationSuccess("Ученик приглашен", "");
       modalControl.closeModal();
-      callback && callback();
     }
   }, [inviteStudentState.success]);
 

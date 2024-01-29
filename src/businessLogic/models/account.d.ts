@@ -1,9 +1,8 @@
-import { CommonShortEntityType } from "#businessLogic/models/common";
 
 export interface CurrentUserModel {
   id: number;
   name: string;
-  role: CommonShortEntityType;
+  role: { code: "TEACHER" | "STUDENT"; name: string; };
 }
 
 export interface LoginPayloadType {

@@ -45,7 +45,7 @@ export const MyStudents = () => {
         open={inviteStudentModalControl.modalProps.open}
         onCancel={inviteStudentModalControl.closeModal}
       >
-        <InviteStudentModal modalControl={inviteStudentModalControl} callback={getList} />
+        <InviteStudentModal modalControl={inviteStudentModalControl} />
       </ModalUI>
     </div>
   )

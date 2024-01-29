@@ -1,9 +1,17 @@
 export interface NotificationItemModel {
   id: number;
-  authorId: number;
+  author: { id: number; name: string; };
   message: string;
   type: NotificationTypes.NEWS | NotificationTypes.INVITATION;
   target: NotificationTargets.COMMON | NotificationTargets.TEACHER | NotificationTargets.STUDENT | null;
+  statuses: Array<any>;
+  invitationAnswer: null | boolean;
+  createdAt: string;
+}
+
+export type InvitationAnswerModel = {
+  notificationId: number;
+  answer: boolean;
 }
 
 enum NotificationTypes {
