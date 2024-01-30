@@ -17,6 +17,10 @@ import { ButtonUI } from "#ui/button";
 import { NotificationItemModel } from "#businessLogic/models/notifications";
 
 import "./styles.scss";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN_KEY_FOR_COOKIE } from "#constants/index";
+import { httpPost } from "#core/httpClient";
 
 const NotificationsList = () => {
 
@@ -81,6 +85,9 @@ export const Notifications: FC = (props) => {
 
   useEffect(() => {
     $newNotificationsCount.effect();
+
+
+    subscribe();
   }, []);
 
   useEffect(() => {
@@ -95,8 +102,34 @@ export const Notifications: FC = (props) => {
     }
   }, [notificationMarkAsReadState.success]);
 
+  const subscribe = async () => {
+    const token = Cookies.get(ACCESS_TOKEN_KEY_FOR_COOKIE);
+    const eventSource = new EventSource(`http://localhost:5000/api/connect?token=${token}`);
+
+    eventSource.onmessage = function (event) {
+      const message = JSON.parse(event.data);
+
+      console.log("jjj", message);
+    }
+
+  }
+
+  const onSendMessage = async () => {
+    await httpPost({
+      url: "/api/connect/new-message",
+      data: {
+        message: "Sms",
+        id: 1,
+        // ids: {
+        //   ["1"]: true,
+        // }
+      }
+    });
+  }
+
   return (
     <div className="header-notifications">
+      <div onClick={() => onSendMessage()}>123</div>
       <Popover
         placement="bottomRight"
         content={<NotificationsList />}
