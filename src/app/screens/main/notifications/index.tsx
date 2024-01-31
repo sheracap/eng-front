@@ -127,6 +127,7 @@ export const Notifications: FC = (props) => {
     });
   }
 
+
   return (
     <div className="header-notifications">
       <div onClick={() => onSendMessage()}>123</div>
