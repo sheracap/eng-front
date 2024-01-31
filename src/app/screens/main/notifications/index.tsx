@@ -147,4 +147,3 @@ export const Notifications: FC = (props) => {
     </div>
   );
 };
-
