@@ -110,27 +110,14 @@ export const Notifications: FC = (props) => {
       const message = JSON.parse(event.data);
 
       console.log("jjj", message);
+      setNewCount((prevCount) => prevCount + 1);
     }
 
-  }
-
-  const onSendMessage = async () => {
-    await httpPost({
-      url: "/api/connect/new-message",
-      data: {
-        message: "Sms",
-        id: 1,
-        // ids: {
-        //   ["1"]: true,
-        // }
-      }
-    });
   }
 
 
   return (
     <div className="header-notifications">
-      <div onClick={() => onSendMessage()}>123</div>
       <Popover
         placement="bottomRight"
         content={<NotificationsList />}
