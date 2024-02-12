@@ -16,16 +16,13 @@ interface HeaderUIPropsType {
 }
 
 export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
-  const { siderOpened, setSiderOpened } = props;
+
 
 
 
   return (
-    <Header className="header">
+    <Header className="header content-block">
       <div className="headerLeftSide">
-        <ButtonUI className="burgerButton" withIcon onClick={() => setSiderOpened(!siderOpened)}>
-          <BurgerMenuSvgIcon />
-        </ButtonUI>
         <div className="logo">
           <Link to="/">
             Logo

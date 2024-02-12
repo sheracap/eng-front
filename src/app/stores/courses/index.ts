@@ -65,7 +65,7 @@ export const $courseDetails = createXHRStore<
 >(api.courses.getCourseDetails, new XHRDataState(null));
 
 export const $courseChapters = createXHRStore<
-  number,
+  string,
   Array<CourseChapterItemModel>,
   StoreTypeWithData<Array<CourseChapterItemModel>>
 >(api.courses.getCourseChapters, new XHRDataState([]));

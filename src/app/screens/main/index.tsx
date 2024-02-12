@@ -12,13 +12,13 @@ import { Home } from "../../sections/home";
 
 import { HeaderUI } from "./header";
 import { SideNavigation } from "./sideNavigation";
-import { useStyles } from "./styles";
 import { Courses } from "#src/app/sections/courses";
 
-const { Content, Sider } = Layout;
+import "./styles.scss";
+
+const { Content } = Layout;
 
 export const Main: FC = () => {
-  const classes = useStyles();
 
   const location = useLocation();
 
@@ -44,19 +44,20 @@ export const Main: FC = () => {
 
   if (!currentUser) {
     return (
-      <div className={classes.spinner}>
+      <div className="site-wrapper__spinner">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className={classes.wrapper}>
-      <Layout className={classes.wrapperIn}>
-        <HeaderUI siderOpened={siderOpened} setSiderOpened={setSiderOpened} />
-        <Layout className={classes.layout}>
+    <div className="site-wrapper">
+      <Layout className="site-wrapper__in">
+        <SideNavigation collapsed={siderOpened} />
+        <Layout className="site-wrapper__layout">
+          <HeaderUI siderOpened={siderOpened} setSiderOpened={setSiderOpened} />
           <Content>
-            <div className={classes.contentMain}>
+            <div className="site-wrapper__content-main">
               <Switch>
                 <Route path={ROUTES.HOME} component={Home} />
                 <Route path={ROUTES.COURSES} component={Courses} />

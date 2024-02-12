@@ -13,6 +13,7 @@ import { InputUI } from "#ui/input";
 import { CheckboxUI } from "#ui/checkbox";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { notificationSuccess } from "#ui/notifications";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 export type AddCourseModalType = {
   id?: number;
@@ -40,7 +41,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
 
   useEffect(() => {
-    if (courseId) {
+    if (courseId && courseDetails) {
       form.setFieldsValue({
         name: courseDetails.name,
         description: courseDetails.description,
@@ -143,14 +144,15 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
                 showUploadList={false}
                 beforeUpload={beforeUploadPhoto}
                 onChange={onPhotoChange}
+                accept="image/png, image/jpg, image/jpeg"
               >
                 {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (
                   <div className="uploadPhotoEmpty">
                     <div>
-                      +
+                      <AddPlusSvgIcon />
                     </div>
                     <div>
-                      <span>Выбрать фото</span>
+                      <span>Фото</span>
                     </div>
                   </div>
                 )}

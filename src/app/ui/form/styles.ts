@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 
 export const useStyles = createUseStyles({
   form: {
-    color: "#f00",
+
 
     "& .ant-form-item-label": {
       "& >label.ant-form-item-required": {

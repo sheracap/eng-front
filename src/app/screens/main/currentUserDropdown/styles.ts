@@ -5,9 +5,9 @@ export const useStyles = createUseStyles({
   userBlockWr: {
     display: "flex",
     alignItems: "center",
-    minWidth: "240px",
+    minWidth: "200px",
     height: "100%",
-    margin: "0 0 0 24px",
+    margin: "0 0 0 10px",
   },
   userRow: {
     flexGrow: 1,
@@ -48,11 +48,6 @@ export const useStyles = createUseStyles({
   },
   userDetails: {
     flexGrow: 1,
-  },
-  userRight: {
-    margin: "0 0 0 8px",
-    flexShrink: 0,
-    color: $colors.mediumBlue,
   },
 
   userPhotoImg: {

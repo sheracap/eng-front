@@ -10,6 +10,7 @@ import { Form, message, Upload } from "antd";
 import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 
 export type AddLessonModalPropTypes = {
@@ -121,7 +122,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
                 {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (
                   <div className="uploadPhotoEmpty">
                     <div>
-                      +
+                      <AddPlusSvgIcon />
                     </div>
                     <div>
                       <span>Выбрать фото</span>

@@ -37,9 +37,6 @@ export const Home: FC<PropTypes> = (props) => {
   return (
     <ContentUI>
       <div className="main-content">
-        <div className="main-content__left">
-          <MainUserBar />
-        </div>
         <div className="main-content__right">
           <Switch>
             {folders.map((item) => (

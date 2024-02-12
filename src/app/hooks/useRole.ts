@@ -7,7 +7,7 @@ export const useRole = () => {
   const { data: currentUserData } = useStore($currentUser.store);
 
   return {
-    isTeacher: currentUserData.role.code === "TEACHER",
-    isStudent: currentUserData.role.code === "STUDENT",
+    isTeacher: currentUserData?.role.code === "TEACHER",
+    isStudent: currentUserData?.role.code === "STUDENT",
   };
 };

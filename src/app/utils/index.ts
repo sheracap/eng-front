@@ -42,7 +42,7 @@ export const UPLOAD_FILE_TYPES = {
 };
 
 const isPic = (file: any) : boolean => {
-  return file.type === "image/jpeg" || file.type === "image/png";
+  return file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png";
 };
 
 export const isFileCorrespondType = (file: any, type: string) => {

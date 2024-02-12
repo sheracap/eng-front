@@ -1,0 +1,31 @@
+.site-wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+
+  & .ant-layout-content {
+    height: 100%;
+  }
+
+  &__in {
+    padding: 10px;
+    height: 100%;
+  }
+
+  &__layout {
+    display: flex;
+  }
+
+  &__content-main {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+  }
+
+  &__spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

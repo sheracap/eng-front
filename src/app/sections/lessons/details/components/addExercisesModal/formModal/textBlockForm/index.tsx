@@ -113,7 +113,7 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()} fullWidth>
-              Добавить
+              {editableData ? "Сохранить" : "Добавить"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

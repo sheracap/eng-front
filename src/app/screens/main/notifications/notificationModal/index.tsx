@@ -77,9 +77,9 @@ export const NotificationModal: FC<PropTypes> = (props) => {
           ) : message}
         </div>
         <div>{formatDate(createdAt)}</div>
-        {invitationAnswer !== null && (
-          <div>{invitationAnswer ? "Приглашение принято" : "Приглашение отклонено"}</div>
-        )}
+        {/*{invitationAnswer !== null && (*/}
+        {/*  <div>{invitationAnswer ? "Приглашение принято" : "Приглашение отклонено"}</div>*/}
+        {/*)}*/}
       </ModalUI.Middle>
       {(type === "INVITATION" && invitationAnswer === null) && (
         <ModalUI.Footer>

@@ -125,7 +125,7 @@ export const Notifications: FC = (props) => {
       >
         <div>
           <Badge count={newCount}>
-            <ButtonUI withIcon>
+            <ButtonUI type="secondary" withIcon>
               <NotificationsIcon />
             </ButtonUI>
           </Badge>

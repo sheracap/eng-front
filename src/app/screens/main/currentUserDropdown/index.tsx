@@ -63,9 +63,6 @@ export const CurrentUserDropdown: FC = memo((props) => {
             </div>
           </div>
           <div className={classes.userDetails}>{renderUserDetails()}</div>
-          <div className={classes.userRight}>
-            <UserDropdownArrowSvgIcon />
-          </div>
         </div>
       </Popover>
     </div>

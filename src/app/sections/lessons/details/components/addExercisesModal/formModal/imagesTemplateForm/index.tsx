@@ -150,12 +150,10 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
           </FormUI.Item>
           <div className={styles.formPhotos}>
             <div className={styles.formPhotosTitle}>
-              <span className={styles.dangerMessage}>*</span> Фото
+              Фото
             </div>
             <div className={styles.formPhotosList}>
-              <div
-                className={`${styles.formPhotosUploadItem} ${photosError ? "has-error" : ""}`}
-              >
+              <div className={`${styles.formPhotosUploadItem} ${photosError ? "has-error" : ""}`}>
                 <Upload
                   name="avatar"
                   listType="picture-card"
@@ -168,7 +166,7 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
                     <span>
                       <AddPlusSvgIcon />
                     </span>
-                    <div>Добавить изображение</div>
+                    <div>Фото</div>
                   </div>
                 </Upload>
               </div>

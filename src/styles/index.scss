@@ -161,14 +161,7 @@ input:-webkit-autofill:focus {
 /* MAIN-CONTENT */
 
 .main-content {
-  display: flex;
-  gap: 20px;
-  width: 1200px;
-  margin: 0 auto;
 
-  &__right {
-    flex-grow: 1;
-  }
 }
 
 .exercise-item {
@@ -194,11 +187,9 @@ input:-webkit-autofill:focus {
   }
 
   &:hover {
-    &__title {
-      &__actions {
-        opacity: 1;
-        visibility: visible;
-      }
+    .exercise-item__title__actions {
+      opacity: 1;
+      visibility: visible;
     }
   }
 }

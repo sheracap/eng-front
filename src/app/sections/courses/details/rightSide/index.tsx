@@ -25,7 +25,7 @@ export const CourseDetailsRightSide: FC<PropsTypes> = (props) => {
   const { data: currentUserData } = useStore($currentUser.store);
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
 
-  const isMine = currentUserData.id === data.userId;
+  const isMine = currentUserData?.id === data.userId;
 
   //const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();

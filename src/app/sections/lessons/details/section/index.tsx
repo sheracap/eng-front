@@ -67,6 +67,8 @@ export const LessonSection: FC<PropsType> = (props) => {
     }
   }, [sectionIndex, lessonSectionsState]);
 
+  console.log("isMine", isMine);
+
   return (
     <div>
       {sectionLoading && (

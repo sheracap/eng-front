@@ -26,8 +26,8 @@ export const MyCourses = () => {
 
   return (
     <div>
-      <div className="folder-head">
-        <h2>Мои курсы</h2>
+      <div className="folder-head content-block">
+        <h1>Мои курсы</h1>
         <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}>Добавить курс</ButtonUI>
       </div>
       <div className="courses">

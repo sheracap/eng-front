@@ -57,7 +57,7 @@ export const getCourseDetails: HandlerType<string, CourseDetailsModel> = (id) =>
   return httpGet({ url: `/api/course/${id}` });
 };
 
-export const getCourseChapters: HandlerType<number, Array<CourseChapterItemModel>> = (courseId) => {
+export const getCourseChapters: HandlerType<string, Array<CourseChapterItemModel>> = (courseId) => {
   return httpGet({ url: `/api/chapter/by-course/${courseId}` });
 };
 

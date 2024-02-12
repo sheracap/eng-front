@@ -54,7 +54,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
     return <ContentUI loading={true} />
   }
 
-  const isMine = currentUserData.id === lessonData.userId;
+  const isMine = currentUserData?.id === lessonData.userId;
 
   return (
     <div className="lesson-details">
@@ -66,7 +66,6 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
                 Курс: <strong>{lessonData.chapter.course.name}</strong>
               </div>
               <div>
-                <div className="lesson-details__chapter-head">Главы:</div>
                 <div className="lesson-details__chapters">
                   <CollapseUI defaultActiveKey={[lessonData.chapter.id]}>
                     {chapters.map((item) => (

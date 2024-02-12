@@ -36,7 +36,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
   const addChapterModalControl = useModalControl<AddChapterModalPropTypes>();
 
   const getChapters = () => {
-    $courseChapters.effect(courseId);
+    $courseChapters.effect(String(courseId));
   };
 
   useEffect(() => {
