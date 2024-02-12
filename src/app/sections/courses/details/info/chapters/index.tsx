@@ -3,7 +3,7 @@ import { useStore } from "effector-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { $currentUser } from "#stores/account";
-import { $courseChapters, $courseDetails, $updateChaptersOrder } from "#stores/courses";
+import { $courseChapters, $updateChaptersOrder } from "#stores/courses";
 import { CourseChapterItemModel } from "#businessLogic/models/courses";
 import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
@@ -15,10 +15,15 @@ import { BurgerMenuSvgIcon } from "#src/assets/svg";
 import { CollapseUI } from "#ui/collapse";
 import { ChapterLessons } from "./lessons";
 
-export const CourseDetailsChapters: FC = () => {
+type PropsTypes = {
+  courseId: number;
+  courseAuthorId: number;
+}
 
-  const {data: currentUserData} = useStore($currentUser.store);
-  const {data: courseDetailsData} = useStore($courseDetails.store);
+export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
+  const { courseAuthorId, courseId } = props;
+
+  const { data: currentUserData } = useStore($currentUser.store);
   const courseChaptersState = useStore($courseChapters.store);
   const updateChaptersOrderState = useStore($updateChaptersOrder.store);
 
@@ -26,12 +31,12 @@ export const CourseDetailsChapters: FC = () => {
   const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [chapterOrderChangeMode, setChapterOrderChangeMode] = useState(false);
 
-  const isMine = currentUserData.id === courseDetailsData.userId;
+  const isMine = currentUserData?.id === courseAuthorId;
 
   const addChapterModalControl = useModalControl<AddChapterModalPropTypes>();
 
   const getChapters = () => {
-    $courseChapters.effect(String(courseDetailsData.id));
+    $courseChapters.effect(courseId);
   };
 
   useEffect(() => {
@@ -91,7 +96,7 @@ export const CourseDetailsChapters: FC = () => {
 
     if (Object.keys(data).length) {
       $updateChaptersOrder.effect({
-        courseId: courseDetailsData.id,
+        courseId,
         data
       });
     } else {
@@ -121,7 +126,7 @@ export const CourseDetailsChapters: FC = () => {
                 <ButtonUI
                   type="primary"
                   size="small"
-                  onClick={() => addChapterModalControl.openModal({courseId: courseDetailsData.id})}
+                  onClick={() => addChapterModalControl.openModal({ courseId })}
                 >
                   Добавить главу
                 </ButtonUI>
@@ -196,7 +201,7 @@ export const CourseDetailsChapters: FC = () => {
                     </div>
                   )}
                 >
-                  <ChapterLessons courseId={courseDetailsData.id} chapterId={item.id} lessonsCount={item.lessonsCount} />
+                  <ChapterLessons courseId={courseId} chapterId={item.id} lessonsCount={item.lessonsCount} />
                 </CollapseUI.Item>
               ))}
             </CollapseUI>
@@ -205,7 +210,7 @@ export const CourseDetailsChapters: FC = () => {
         {isMine && (
           <div
             className="add-entity-block"
-            onClick={() => addChapterModalControl.openModal({courseId: courseDetailsData.id})}
+            onClick={() => addChapterModalControl.openModal({ courseId })}
           >
             <div className="add-entity-block__icon">+</div>
             <div className="add-entity-block__text">Добавить главу</div>

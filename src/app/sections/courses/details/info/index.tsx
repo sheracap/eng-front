@@ -38,7 +38,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
           </div>
         </div>
 
-        <CourseDetailsChapters />
+        <CourseDetailsChapters courseId={data.id} courseAuthorId={data.userId} />
 
       </div>
 

@@ -1,10 +1,8 @@
 import React, { FC } from "react";
 
-import * as accountEffector from "#stores/account";
 import { BurgerMenuSvgIcon } from "#svgIcons/index";
 import { ButtonUI } from "#ui/button";
 import { Header } from "antd/lib/layout/layout";
-import { useStore } from "effector-react";
 import { Link } from "react-router-dom";
 
 import { CurrentUserDropdown } from "../currentUserDropdown";
@@ -20,9 +18,7 @@ interface HeaderUIPropsType {
 export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
   const { siderOpened, setSiderOpened } = props;
 
-  const { $currentUser } = accountEffector;
 
-  const currentUserState = useStore($currentUser.store);
 
   return (
     <Header className="header">
@@ -38,7 +34,7 @@ export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
       </div>
       <div className="headerRightSide">
         <Notifications />
-        <CurrentUserDropdown currentUserState={currentUserState} />
+        <CurrentUserDropdown />
       </div>
     </Header>
   );

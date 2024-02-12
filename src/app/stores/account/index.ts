@@ -13,7 +13,7 @@ import { api } from "src/businessLogic/api";
 
 import { ACCESS_TOKEN_KEY_FOR_COOKIE } from "../../constants";
 
-export const $currentUser = createXHRStore<null, CurrentUserModel, StoreTypeWithData<CurrentUserModel>>(
+export const $currentUser = createXHRStore<null, CurrentUserModel, StoreTypeWithData<CurrentUserModel | null>>(
   api.account.getCurrentUser,
   new XHRDataState(null),
 );

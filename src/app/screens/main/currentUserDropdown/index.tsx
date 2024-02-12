@@ -1,17 +1,13 @@
 import React, { FC, memo } from "react";
 
-import { CurrentUserModel } from "#businessLogic/models/account";
-import { StoreTypeWithData } from "#core/effector/types/store";
 import { useLogOut } from "#hooks/useLogOut";
 import { UserAvatarSvgIcon, UserDropdownArrowSvgIcon } from "#svgIcons/index";
 import { ModalConfirmUI } from "#ui/modalConfirm";
 import { Popover, Spin } from "antd";
 
 import { useStyles } from "./styles";
-
-type PropsType = {
-  currentUserState: StoreTypeWithData<CurrentUserModel>;
-};
+import { useStore } from "effector-react";
+import { $currentUser } from "#stores/account";
 
 const DropdownMenu = memo(() => {
   const classes = useStyles();
@@ -26,8 +22,10 @@ const DropdownMenu = memo(() => {
   );
 });
 
-export const CurrentUserDropdown: FC<PropsType> = memo((props) => {
-  const { currentUserState } = props;
+export const CurrentUserDropdown: FC = memo((props) => {
+
+  const currentUserState = useStore($currentUser.store);
+
   const { loading: currentUserLoading, data: currentUserData } = currentUserState;
 
   const classes = useStyles();
