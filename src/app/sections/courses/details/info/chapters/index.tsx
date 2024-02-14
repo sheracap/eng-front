@@ -11,7 +11,7 @@ import { ModalUI } from "#ui/modal";
 import { AddChapterModal, AddChapterModalPropTypes } from "./addChapterModal";
 import { ButtonUI } from "#ui/button";
 import { notificationSuccess } from "#ui/notifications";
-import { BurgerMenuSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, BurgerMenuSvgIcon, SwapIcon } from "#src/assets/svg";
 import { CollapseUI } from "#ui/collapse";
 import { ChapterLessons } from "./lessons";
 
@@ -120,7 +120,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                     size="small"
                     onClick={() => setChapterOrderChangeMode(!chapterOrderChangeMode)}
                   >
-                    Поменять порядок
+                    <SwapIcon /> Поменять порядок
                   </ButtonUI>
                 )}
                 <ButtonUI
@@ -128,7 +128,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                   size="small"
                   onClick={() => addChapterModalControl.openModal({ courseId })}
                 >
-                  Добавить главу
+                  <AddPlusSvgIcon /> Добавить главу
                 </ButtonUI>
               </div>
             </div>

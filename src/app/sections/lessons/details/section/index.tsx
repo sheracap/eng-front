@@ -35,7 +35,7 @@ import {
 } from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
-import { EditSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, EditSvgIcon } from "#src/assets/svg";
 
 type PropsType = {
   isMine: boolean;
@@ -79,7 +79,7 @@ export const LessonSection: FC<PropsType> = (props) => {
       {isMine && !sectionData && (
         <>
           <div className={styles.addSectionWrap} onClick={() => addSectionModalControl.openModal({ lessonId: lessonData.id })}>
-            <div className={styles.addSectionIcon}>+</div>
+            <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
             <div className={styles.addSectionText}>Добавить раздел</div>
           </div>
           <ModalUI
@@ -144,7 +144,7 @@ export const LessonSection: FC<PropsType> = (props) => {
       {isMine && sectionData && (
         <>
           <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ sectionId: sectionData.id })}>
-            <div className={styles.addSectionIcon}>+</div>
+            <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
             <div className={styles.addSectionText}>Добавить упражнение</div>
           </div>
           <DrawerModalUI

@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
 
 import { ROUTES } from "#constants/index";
-import { HomeSvgIcon, MonitoringSvgIcon } from "#svgIcons/menuIcons";
+import { CoursesIcon, HomeSvgIcon, StudentsIcon } from "#svgIcons/menuIcons";
 import { Layout, Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -19,12 +19,12 @@ const getMenuData = () => [
   {
     name: "Мои курсы",
     path: `${ROUTES.HOME}/my-courses`,
-    icon: <MonitoringSvgIcon />,
+    icon: <CoursesIcon />,
   },
   {
     name: "Мои ученики",
     path: `${ROUTES.HOME}/students`,
-    icon: <MonitoringSvgIcon />,
+    icon: <StudentsIcon />,
   },
 ];
 

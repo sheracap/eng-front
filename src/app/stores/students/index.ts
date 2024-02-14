@@ -19,3 +19,8 @@ export const $inviteStudent = createXHRStore<StudentInviteModel, any, StoreType>
   api.students.inviteStudent,
   new XHRSuccessState(),
 );
+
+export const $deleteStudent = createXHRStore<number, any, StoreType>(
+  api.students.deleteStudent,
+  new XHRSuccessState(),
+);

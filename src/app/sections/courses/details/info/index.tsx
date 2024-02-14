@@ -5,6 +5,7 @@ import { AddCourseModal, AddCourseModalType } from "#src/app/sections/home/myCou
 import { CourseDetailsModel } from "#businessLogic/models/courses";
 import { useModalControl } from "#hooks/useModalControl";
 import { CourseDetailsChapters } from "./chapters";
+import { EditSvgIcon } from "#src/assets/svg";
 
 type PropsTypes = {
   data: CourseDetailsModel;
@@ -33,7 +34,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
           </div>
           <div className="course-details__head__actions">
             <ButtonUI type="primary" onClick={() => updateCourseModalControl.openModal({ id: data.id })}>
-              Редактировать
+              <EditSvgIcon /> Редактировать
             </ButtonUI>
           </div>
         </div>

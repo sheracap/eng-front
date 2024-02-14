@@ -9,6 +9,7 @@ import {
   AddLessonModalPropTypes
 } from "#src/app/sections/courses/details/info/chapters/lessons/addLessonModal";
 import { useHistory } from "react-router-dom";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 type PropsTypes = {
   courseId: number;
@@ -49,7 +50,7 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
             size="small"
             onClick={() => addLessonModalControl.openModal({ chapterId })}
           >
-            Добавить урок
+            <AddPlusSvgIcon /> Добавить урок
           </ButtonUI>
           <ModalUI
             open={addLessonModalControl.modalProps.open}

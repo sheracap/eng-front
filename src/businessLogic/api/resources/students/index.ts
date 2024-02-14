@@ -17,3 +17,7 @@ export const inviteStudent: HandlerType<StudentInviteModel, any> = (
 ) => {
   return httpPost({ url: "/api/invitation", data });
 };
+
+export const deleteStudent: HandlerType<number, any> = (id) => {
+  return httpDelete({ url: `/api/students/${id}` });
+};

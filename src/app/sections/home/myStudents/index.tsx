@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useStore } from "effector-react";
+import { Popconfirm } from "antd";
 
 import { ColumnsType } from "antd/lib/table/interface";
 
-import { $studentsList } from "#stores/students";
+import { $deleteStudent, $studentsList } from "#stores/students";
 
 import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
@@ -21,6 +22,7 @@ export const MyStudents = () => {
   const history = useHistory();
 
   const studentsListState = useStore($studentsList.store);
+  const deleteStudentState = useStore($deleteStudent.store);
 
   const inviteStudentModalControl = useModalControl();
 
@@ -43,11 +45,30 @@ export const MyStudents = () => {
         title: "Email",
         dataIndex: "email",
         render: (_, item) => item.email,
+      },
+      {
+        title: "",
+        dataIndex: "remove",
+        width: 150,
+        render: (_, item) => (
+          <Popconfirm
+            title="Вы уверены, что хотите удалить ученика ?"
+            onConfirm={() => deleteStudent(item.id)}
+            okText="Да"
+            cancelText="Нет"
+          >
+            <ButtonUI danger>Удалить</ButtonUI>
+          </Popconfirm>
+        ),
       }
     ];
 
     return columns;
   }, []);
+
+  const deleteStudent = (id: number) => {
+    $deleteStudent.effect(id);
+  }
 
   const onChangePagination = () => {
 
@@ -60,6 +81,7 @@ export const MyStudents = () => {
         <ButtonUI type="primary" onClick={() => inviteStudentModalControl.openModal()}>Пригласить ученика</ButtonUI>
       </div>
       <TableUI
+        loading={studentsListState.loading || deleteStudentState.loading}
         dataSource={studentsListState.data.rows}
         columns={tableColumns}
         pagination={{

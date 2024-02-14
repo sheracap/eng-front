@@ -7,6 +7,7 @@ import { ButtonUI } from "#ui/button";
 import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
 import { AddCourseModal, AddCourseModalType } from "#src/app/sections/home/myCourses/addModal";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 export const MyCourses = () => {
 
@@ -28,7 +29,7 @@ export const MyCourses = () => {
     <div>
       <div className="folder-head content-block">
         <h1>Мои курсы</h1>
-        <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}>Добавить курс</ButtonUI>
+        <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}><AddPlusSvgIcon /> Добавить курс</ButtonUI>
       </div>
       <div className="courses">
         {myCoursesListState.data.rows.map((item) => (

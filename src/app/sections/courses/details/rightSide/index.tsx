@@ -13,6 +13,7 @@ import {
   AddExercisesModal,
   AddExercisesModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 
 type PropsTypes = {
@@ -54,7 +55,7 @@ export const CourseDetailsRightSide: FC<PropsTypes> = (props) => {
       {/*)}*/}
       {isMine && sectionData && (
         <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ sectionId: sectionData.id })}>
-          <div className={styles.addSectionIcon}>+</div>
+          <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
           <div className={styles.addSectionText}>Добавить упражнение</div>
         </div>
       )}
