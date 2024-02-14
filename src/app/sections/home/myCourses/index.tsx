@@ -29,7 +29,14 @@ export const MyCourses = () => {
     <div>
       <div className="folder-head content-block">
         <h1>Мои курсы</h1>
-        <ButtonUI type="primary" onClick={() => addCourseModalControl.openModal()}><AddPlusSvgIcon /> Добавить курс</ButtonUI>
+        <ButtonUI
+          type="primary"
+          withIcon
+          onClick={() => addCourseModalControl.openModal()}
+        >
+          <AddPlusSvgIcon />
+          Добавить курс
+        </ButtonUI>
       </div>
       <div className="courses">
         {myCoursesListState.data.rows.map((item) => (

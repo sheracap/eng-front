@@ -83,7 +83,7 @@ export const AddSectionModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()}>
-              Сохранить
+              Добавить
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

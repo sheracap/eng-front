@@ -117,6 +117,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                 {(isMine && !chapterOrderChangeMode && chapters.length > 1) && (
                   <ButtonUI
                     type="primary"
+                    withIcon
                     size="small"
                     onClick={() => setChapterOrderChangeMode(!chapterOrderChangeMode)}
                   >
@@ -125,6 +126,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                 )}
                 <ButtonUI
                   type="primary"
+                  withIcon
                   size="small"
                   onClick={() => addChapterModalControl.openModal({ courseId })}
                 >
@@ -212,7 +214,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
             className="add-entity-block"
             onClick={() => addChapterModalControl.openModal({ courseId })}
           >
-            <div className="add-entity-block__icon">+</div>
+            <div className="add-entity-block__icon"><AddPlusSvgIcon /></div>
             <div className="add-entity-block__text">Добавить главу</div>
           </div>
         )}

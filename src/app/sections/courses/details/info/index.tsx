@@ -33,7 +33,11 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
             </div>
           </div>
           <div className="course-details__head__actions">
-            <ButtonUI type="primary" onClick={() => updateCourseModalControl.openModal({ id: data.id })}>
+            <ButtonUI
+              type="primary"
+              withIcon
+              onClick={() => updateCourseModalControl.openModal({ id: data.id })}
+            >
               <EditSvgIcon /> Редактировать
             </ButtonUI>
           </div>

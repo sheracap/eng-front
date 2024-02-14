@@ -40,7 +40,7 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   }, []);
 
   const text = useMemo(() => {
-    return data.metaData.text;
+    return data.metaData.resultArray;
   }, []);
 
   const handleDragAndDrop = (results) => {

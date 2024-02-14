@@ -17,7 +17,7 @@ const getLinkSizeClass = (size?: string) => {
 };
 
 interface PropsType extends Omit<ButtonProps, "type"> {
-  type?: "primary" | "primary-light" | "secondary" | "auth" | "aPay" | "aPay-bordered" | "bordered" | "light-blue";
+  type?: "primary" | "primary-light" | "secondary" | "auth" | "bordered" | "light-blue";
   fullWidth?: boolean;
   withIcon?: boolean;
   link?: string;

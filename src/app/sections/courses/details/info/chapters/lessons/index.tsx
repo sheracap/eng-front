@@ -47,6 +47,7 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
           <h2>Уроки</h2>
           <ButtonUI
             type="primary"
+            withIcon
             size="small"
             onClick={() => addLessonModalControl.openModal({ chapterId })}
           >

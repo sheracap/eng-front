@@ -10,6 +10,7 @@ import { LessonDetailsModel } from "#businessLogic/models/lessons";
 import { $lessonSections } from "#src/app/sections/lessons/details/effector";
 import { useStore } from "effector-react";
 import { useHistory } from "react-router-dom";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 type PropsTypes = {
   courseId: number | undefined;
@@ -54,8 +55,13 @@ export const LessonSections: FC<PropsTypes> = (props) => {
         <div>Разделы / Секции</div>
         {isMine && (
           <>
-            <ButtonUI type="primary" size="small" onClick={() => addSectionModalControl.openModal({ lessonId })}>
-              Добавить
+            <ButtonUI
+              type="primary"
+              withIcon
+              size="small"
+              onClick={() => addSectionModalControl.openModal({ lessonId })}
+            >
+              <AddPlusSvgIcon /> Добавить
             </ButtonUI>
             <ModalUI
               open={addSectionModalControl.modalProps.open}

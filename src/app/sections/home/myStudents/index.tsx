@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useStore } from "effector-react";
 import { Popconfirm } from "antd";
@@ -15,11 +15,11 @@ import { useModalControl } from "#hooks/useModalControl";
 
 import { InviteStudentModal } from "./inviteModal";
 import { StudentsListItemModel } from "#businessLogic/models/students";
+import { AddPlusSvgIcon } from "#src/assets/svg";
+import { notificationSuccess } from "#ui/notifications";
 
 
-export const MyStudents = () => {
-
-  const history = useHistory();
+export const MyStudents: FC = () => {
 
   const studentsListState = useStore($studentsList.store);
   const deleteStudentState = useStore($deleteStudent.store);
@@ -33,6 +33,14 @@ export const MyStudents = () => {
   useEffect(() => {
     getList();
   }, []);
+
+  useEffect(() => {
+    if (deleteStudentState.success) {
+      notificationSuccess("Ученик удален", "");
+      $deleteStudent.reset();
+      getList();
+    }
+  }, [deleteStudentState.success]);
 
   const tableColumns = useMemo(() => {
     const columns: ColumnsType<StudentsListItemModel> = [
@@ -77,8 +85,14 @@ export const MyStudents = () => {
   return (
     <div>
       <div className="folder-head content-block">
-        <h1>Мои ученики</h1>
-        <ButtonUI type="primary" onClick={() => inviteStudentModalControl.openModal()}>Пригласить ученика</ButtonUI>
+        <h1>Мои ученики ({studentsListState.data.count})</h1>
+        <ButtonUI
+          type="primary"
+          withIcon
+          onClick={() => inviteStudentModalControl.openModal()}
+        >
+          <AddPlusSvgIcon /> Пригласить ученика
+        </ButtonUI>
       </div>
       <TableUI
         loading={studentsListState.loading || deleteStudentState.loading}
@@ -91,7 +105,6 @@ export const MyStudents = () => {
           hideOnSinglePage: true,
           onChange: onChangePagination,
         }}
-
       />
       <ModalUI
         open={inviteStudentModalControl.modalProps.open}

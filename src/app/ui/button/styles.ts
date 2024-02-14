@@ -6,10 +6,6 @@ const secondaryColor = new Color($colors.secondary);
 const secondaryColorHover = secondaryColor.darken(0.05).toString();
 const secondaryColorActive = secondaryColor.darken(0.1).toString();
 
-const aPayColor = new Color($colors.aPay);
-const aPayColorHover = aPayColor.lighten(0.1).toString();
-const aPayColorActive = aPayColor.darken(0.1).toString();
-
 const primaryLightColor = new Color($colors.primaryLight);
 const primaryLightColorHover = primaryLightColor.darken(0.1).toString();
 const primaryLightColorActive = primaryLightColor.darken(0.15).toString();
@@ -133,26 +129,6 @@ export const useStyles = createUseStyles({
       background: numpadColorActive,
     },
   },
-  aPay: {
-    background: aPayColor.toString(),
-    border: "none",
-    boxShadow: "none",
-    color: "#fff",
-
-    "&:focus": {
-      background: aPayColor.toString(),
-      color: "#fff",
-    },
-
-    "&:hover": {
-      background: aPayColorHover,
-      color: "#fff",
-    },
-
-    "&:active": {
-      background: aPayColorActive,
-    },
-  },
   auth: {
     background: $colors.gradientAuth,
     border: "none",
@@ -173,33 +149,6 @@ export const useStyles = createUseStyles({
     "&:active": {
       opacity: 0.6,
       background: $colors.gradientAuth,
-    },
-  },
-  "aPay-bordered": {
-    background: "#fff",
-    border: `2px solid ${aPayColorHover}`,
-    color: "#00BFDA",
-    lineHeight: 1,
-    boxShadow: "none",
-    "&.ant-btn-dangerous": {
-      borderColor: aPayColor,
-      color: aPayColor,
-    },
-    "&:focus": {
-      background: "transparent",
-      color: "#00BFDA",
-      borderColor: aPayColorHover,
-    },
-
-    "&:hover": {
-      background: aPayColorHover,
-      color: "#fff",
-      borderColor: aPayColorHover,
-    },
-
-    "&:active": {
-      background: aPayColorActive,
-      borderColor: aPayColorHover,
     },
   },
   noBorder: {
