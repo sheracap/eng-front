@@ -178,19 +178,6 @@ input:-webkit-autofill:focus {
       font-size: 25px;
       margin-right: 10px;
     }
-
-    &__actions {
-      opacity: 0;
-      visibility: hidden;
-      transition: all .3s ease-in-out;
-    }
-  }
-
-  &:hover {
-    .exercise-item__title__actions {
-      opacity: 1;
-      visibility: visible;
-    }
   }
 }
 

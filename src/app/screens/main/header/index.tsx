@@ -1,15 +1,14 @@
 import React, { FC } from "react";
 
-import { BurgerMenuSvgIcon } from "#svgIcons/index";
-import { ButtonUI } from "#ui/button";
 import { Header } from "antd/lib/layout/layout";
-import { Link } from "react-router-dom";
 
 import { CurrentUserDropdown } from "../currentUserDropdown";
 import { Notifications } from "../notifications";
 
 import "./styles.scss";
 import { ActiveLesson } from "#src/app/screens/main/header/activeLesson";
+import { useRole } from "#hooks/useRole";
+import { StartLesson } from "#src/app/screens/main/header/startLesson";
 
 interface HeaderUIPropsType {
   siderOpened: boolean;
@@ -17,18 +16,16 @@ interface HeaderUIPropsType {
 }
 
 export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
-
+  const { isTeacher } = useRole();
 
 
 
   return (
     <Header className="header content-block">
       <div className="headerLeftSide">
-        <div className="logo">
-          <Link to="/">
-            Logo
-          </Link>
-        </div>
+        {isTeacher && (
+          <StartLesson />
+        )}
       </div>
       <div className="headerRightSide">
         <ActiveLesson />

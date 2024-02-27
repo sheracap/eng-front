@@ -16,16 +16,11 @@
 .headerLeftSide {
   display: flex;
   align-items: center;
-
-  & .ant-btn {
-    color: $primaryColor;
-  }
 }
 
 .headerRightSide {
   display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .burgerButton {

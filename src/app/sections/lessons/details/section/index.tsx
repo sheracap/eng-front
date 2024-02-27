@@ -35,10 +35,11 @@ import {
 } from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
-import { AddPlusSvgIcon, EditSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
 import { Popconfirm } from "antd";
 import { $deleteExercise } from "#stores/exercise";
 import { notificationSuccess } from "#ui/notifications";
+import { ContextPopover } from "#ui/contextPopover";
 
 type PropsType = {
   isMine: boolean;
@@ -122,30 +123,40 @@ export const LessonSection: FC<PropsType> = (props) => {
                 <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
                 {isMine && (
                   <div className="exercise-item__title__actions">
-                    <ButtonUI
-                      type="primary"
-                      withIcon
-                      onClick={() => {
-                        editExerciseModalControl.openModal({
-                          editableData: item, sectionId: sectionData.id, template: item.template
-                        });
-                      }}
-                    >
-                      <EditSvgIcon />
-                    </ButtonUI>
-                    <Popconfirm
-                      title="Вы уверены, что хотите удалить упражнение ?"
-                      onConfirm={() => $deleteExercise.effect(item.id)}
-                      okText="Да"
-                      cancelText="Нет"
-                    >
-                      <ButtonUI
-                        danger
-                        loading={deleteExerciseState.loading}
-                      >
-                        Удалить
-                      </ButtonUI>
-                    </Popconfirm>
+                    <ContextPopover
+                      content={(
+                        <>
+                          <div className="custom__popover__item">
+                            <ButtonUI
+                              withIcon
+                              onClick={() => {
+                                editExerciseModalControl.openModal({
+                                  editableData: item, sectionId: sectionData.id, template: item.template
+                                });
+                              }}
+                            >
+                              <EditSvgIcon /> Редактировать
+                            </ButtonUI>
+                          </div>
+                          <div className="custom__popover__item">
+                            <Popconfirm
+                              title="Вы уверены, что хотите удалить упражнение ?"
+                              onConfirm={() => $deleteExercise.effect(item.id)}
+                              okText="Да"
+                              cancelText="Нет"
+                            >
+                              <ButtonUI
+                                danger
+                                withIcon
+                                loading={deleteExerciseState.loading}
+                              >
+                                <DeleteIcon /> Удалить
+                              </ButtonUI>
+                            </Popconfirm>
+                          </div>
+                        </>
+                      )}
+                    />
                   </div>
                 )}
               </div>
