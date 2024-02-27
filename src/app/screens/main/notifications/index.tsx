@@ -21,6 +21,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY_FOR_COOKIE } from "#constants/index";
 import { httpPost } from "#core/httpClient";
+import { $activeLessonByNotification } from "#src/app/screens/main/effector";
 
 const NotificationsList = () => {
 
@@ -86,7 +87,6 @@ export const Notifications: FC = (props) => {
   useEffect(() => {
     $newNotificationsCount.effect();
 
-
     subscribe();
   }, []);
 
@@ -109,8 +109,15 @@ export const Notifications: FC = (props) => {
     eventSource.onmessage = function (event) {
       const message = JSON.parse(event.data);
 
-      console.log("jjj", message);
-      setNewCount((prevCount) => prevCount + 1);
+      if (message && message.type) {
+        if (message.type === "LESSON") {
+          $activeLessonByNotification.update({
+            lessonId: 2
+          });
+        } else {
+          setNewCount((prevCount) => prevCount + 1);
+        }
+      }
     }
 
   }

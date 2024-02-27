@@ -9,6 +9,7 @@ import { CurrentUserDropdown } from "../currentUserDropdown";
 import { Notifications } from "../notifications";
 
 import "./styles.scss";
+import { ActiveLesson } from "#src/app/screens/main/header/activeLesson";
 
 interface HeaderUIPropsType {
   siderOpened: boolean;
@@ -30,6 +31,7 @@ export const HeaderUI: FC<HeaderUIPropsType> = (props) => {
         </div>
       </div>
       <div className="headerRightSide">
+        <ActiveLesson />
         <Notifications />
         <CurrentUserDropdown />
       </div>

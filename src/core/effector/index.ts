@@ -1,7 +1,7 @@
 import { Store, createEffect, createEvent, createStore } from "effector";
 
 import { FailReducerType, GetReducerType, ReducerType } from "./types/reducer";
-import { CreateAdvancedFilterStorePropTypes, CreateXHRStoreType } from "./types/store";
+import { CreateAdvancedFilterStorePropTypes, CreateXHRStoreType, TCreateGlobalStore } from "./types/store";
 
 const zeroReducerDefault: ReducerType = (state) => ({ ...state, loading: true });
 const doneReducerDefault = (state, response) => {
@@ -109,14 +109,14 @@ export const createAdvancedFilterStore: CreateAdvancedFilterStorePropTypes = (in
   };
 };
 
-export const createGlobalStore = (initialState, withoutSpread?) => {
-  const handler = (prevStore, props) => {
+export const createGlobalStore: TCreateGlobalStore = (initialState, withoutSpread?) => {
+  const handler = (prevStore: typeof initialState, props: typeof initialState) => {
     return withoutSpread ? props : { ...prevStore, ...props };
   };
 
-  const update = createEvent();
-  const reset = createEvent();
-  const store = createStore(initialState).on(update, handler).reset(reset);
+  const update = createEvent<typeof initialState>();
+  const reset = createEvent<void>();
+  const store: Store<typeof initialState> = createStore(initialState).on(update, handler).reset(reset);
 
   return {
     update,

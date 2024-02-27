@@ -3,6 +3,7 @@ export interface CurrentUserModel {
   id: number;
   name: string;
   role: { code: "TEACHER" | "STUDENT"; name: string; };
+  teacherId: number | null;
 }
 
 export interface LoginPayloadType {

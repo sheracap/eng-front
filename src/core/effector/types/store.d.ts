@@ -43,3 +43,12 @@ export type CreateAdvancedFilterStorePropTypes = <P, A>(
   store: Store<AdvancedFilterStore<P, A>>;
   reset: Event<void>;
 };
+
+export type TCreateGlobalStore = <StateType>(
+  initialState: StateType,
+  withoutSpread?: boolean,
+) => {
+  update: Event<StateType>;
+  store: Store<StateType>;
+  reset: Event<void>;
+};

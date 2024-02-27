@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
 
 import { $sectionDetails } from "#stores/section";
@@ -36,6 +36,9 @@ import {
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 import { AddPlusSvgIcon, EditSvgIcon } from "#src/assets/svg";
+import { Popconfirm } from "antd";
+import { $deleteExercise } from "#stores/exercise";
+import { notificationSuccess } from "#ui/notifications";
 
 type PropsType = {
   isMine: boolean;
@@ -48,10 +51,13 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
+  const deleteExerciseState = useStore($deleteExercise.store);
 
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();
   const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
+
+  const [deletedExerciseIds, setDeletedExerciseIds] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     return () => {
@@ -66,6 +72,17 @@ export const LessonSection: FC<PropsType> = (props) => {
       $sectionDetails.effect(sectionId);
     }
   }, [sectionIndex, lessonSectionsState]);
+
+  useEffect(() => {
+    if (deleteExerciseState.data) {
+      notificationSuccess("", "Упражнение удалено");
+
+      setDeletedExerciseIds((prevState) => ({
+        ...prevState,
+        [deleteExerciseState.data.id]: true
+      }));
+    }
+  }, [deleteExerciseState.data]);
 
   console.log("isMine", isMine);
 
@@ -98,47 +115,64 @@ export const LessonSection: FC<PropsType> = (props) => {
 
 
       {sectionData?.exercises.map((item, index) => (
-        <div className="exercise-item" key={item.id}>
-          <div className="exercise-item__title">
-            <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
-            {isMine && (
-              <div className="exercise-item__title__actions">
-                <ButtonUI
-                  type="primary"
-                  withIcon
-                  onClick={() => {
-                    editExerciseModalControl.openModal({
-                      editableData: item, sectionId: sectionData.id, template: item.template
-                    });
-                  }}
-                >
-                  <EditSvgIcon />
-                </ButtonUI>
+        <>
+          {!deletedExerciseIds[item.id] && (
+            <div className="exercise-item" key={item.id}>
+              <div className="exercise-item__title">
+                <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
+                {isMine && (
+                  <div className="exercise-item__title__actions">
+                    <ButtonUI
+                      type="primary"
+                      withIcon
+                      onClick={() => {
+                        editExerciseModalControl.openModal({
+                          editableData: item, sectionId: sectionData.id, template: item.template
+                        });
+                      }}
+                    >
+                      <EditSvgIcon />
+                    </ButtonUI>
+                    <Popconfirm
+                      title="Вы уверены, что хотите удалить упражнение ?"
+                      onConfirm={() => $deleteExercise.effect(item.id)}
+                      okText="Да"
+                      cancelText="Нет"
+                    >
+                      <ButtonUI
+                        danger
+                        loading={deleteExerciseState.loading}
+                      >
+                        Удалить
+                      </ButtonUI>
+                    </Popconfirm>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          {item.template === templateTypes.TEST && (
-            <TemplateTest data={item} />
+              {item.template === templateTypes.TEST && (
+                <TemplateTest data={item} />
+              )}
+              {item.template === templateTypes.TEXT_BLOCK && (
+                <TemplateTextBlock data={item} />
+              )}
+              {item.template === templateTypes.BLANK && (
+                <TemplateBlank data={item} />
+              )}
+              {item.template === templateTypes.FILL_TEXT && (
+                <TemplateFillText data={item} />
+              )}
+              {item.template === templateTypes.VIDEO && (
+                <TemplateVideo data={item} />
+              )}
+              {item.template === templateTypes.IMAGES && (
+                <TemplateImages data={item} />
+              )}
+              {item.template === templateTypes.FILL_IMAGES && (
+                <TemplateFillImages data={item} />
+              )}
+            </div>
           )}
-          {item.template === templateTypes.TEXT_BLOCK && (
-            <TemplateTextBlock data={item} />
-          )}
-          {item.template === templateTypes.BLANK && (
-            <TemplateBlank data={item} />
-          )}
-          {item.template === templateTypes.FILL_TEXT && (
-            <TemplateFillText data={item} />
-          )}
-          {item.template === templateTypes.VIDEO && (
-            <TemplateVideo data={item} />
-          )}
-          {item.template === templateTypes.IMAGES && (
-            <TemplateImages data={item} />
-          )}
-          {item.template === templateTypes.FILL_IMAGES && (
-            <TemplateFillImages data={item} />
-          )}
-        </div>
+        </>
       ))}
 
       {isMine && sectionData && (
