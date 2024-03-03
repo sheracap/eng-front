@@ -14,6 +14,11 @@ export const $lessonDetails = createXHRStore<string, LessonDetailsModel, StoreTy
   new XHRDataState(null),
 );
 
+export const $myLessonsByCourse = createXHRStore<number, Array<LessonItemModel>, StoreTypeWithData<Array<LessonItemModel>>>(
+  api.lessons.getMyLessonsByCourse,
+  new XHRDataState([]),
+);
+
 export const $lessonsByChapter = createXHRStore<
   number,
   Array<LessonItemModel>,

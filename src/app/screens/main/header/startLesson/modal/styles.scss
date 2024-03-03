@@ -1,5 +1,14 @@
+@import "src/styles/variables.scss";
 
 .start-lesson-modal {
+  &__steps-wr {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    margin-left: -300px;
+    width: 600px;
+  }
+
   .ant-modal-content {
     height: 100%;
   }
@@ -14,5 +23,91 @@
     width: 48px;
     height: 48px;
     line-height: 48px;
+  }
+}
+
+.start-lesson__courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  &__item {
+    width: 150px;
+    cursor: pointer;
+
+    &:hover {
+      .start-lesson__courses__item__name {
+        color: $primaryColor;
+      }
+    }
+
+    &__image {
+      margin-bottom: 5px;
+      height: 200px;
+
+      img {
+        width: 150px;
+        height: auto;
+        max-height: 200px;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+    }
+
+    &__name {
+      color: $text;
+    }
+  }
+}
+
+.start-lesson__lessons {
+  &__title {
+    margin-bottom: 15px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: 10px;
+
+    &__item {
+      cursor: pointer;
+      width: 170px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+      transition: all .3s ease-in-out;
+
+      &.active {
+        border-color: $primaryColor;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      &:not(.active):hover {
+        border-color: $grayHover;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      &__image {
+        margin-bottom: 5px;
+        height: 170px;
+
+        img {
+          width: 150px;
+          height: auto;
+          max-height: 170px;
+          border-radius: 6px;
+          object-fit: cover;
+        }
+      }
+
+      &__name {
+        font-weight: bold;
+      }
+    }
   }
 }

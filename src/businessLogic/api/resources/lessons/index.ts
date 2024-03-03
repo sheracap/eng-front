@@ -6,6 +6,10 @@ export const getLessonDetails: HandlerType<string, LessonDetailsModel> = (id) =>
   return httpGet({ url: `/api/lesson/${id}` });
 };
 
+export const getMyLessonsByCourse: HandlerType<number, Array<LessonItemModel>> = (id) => {
+  return httpGet({ url: `/api/lesson/course/${id}` });
+};
+
 export const getLessonsByChapter: HandlerType<number, Array<LessonItemModel>> = (
   chapterId,
 ) => {

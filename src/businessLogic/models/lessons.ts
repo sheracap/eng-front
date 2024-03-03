@@ -4,6 +4,7 @@ export interface LessonItemModel {
   id: number;
   name: string;
   img: string;
+  chapter: { id: number; name: string; }
 }
 
 export interface LessonDetailsModel {

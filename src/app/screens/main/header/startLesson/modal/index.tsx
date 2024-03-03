@@ -1,10 +1,12 @@
-import React, { FC, useEffect, useState } from "react";
-import { Steps } from "antd";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import { Steps, Tabs } from "antd";
 
 import { ModalControlType } from "#hooks/useModalControl";
 import { $addChapter } from "#stores/chapter";
 import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
+
+import { StartLessonCoursesTab } from "./courses";
 
 import "./styles.scss";
 
@@ -27,6 +29,13 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
     };
   }, []);
 
+  const items = useMemo(() => {
+    return [
+      { label: "Курсы", key: "courses", children: <StartLessonCoursesTab /> },
+      { label: "Уроки", key: "lessons", children: 'Content 2' },
+    ]
+  }, []);
+
   const onCancelClick = () => {
     if (step === 0) {
       closeModal();
@@ -43,17 +52,19 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
     }
   }
 
-
   return (
     <>
       <ModalUI.Header>
         <ModalUI.Title>Начать урок</ModalUI.Title>
+        <div className="start-lesson-modal__steps-wr">
+          <Steps current={step}>
+            <Step title="Выберите урок" />
+            <Step title="Выберите учеников" />
+          </Steps>
+        </div>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <Steps current={step}>
-          <Step title="Выберите урок" />
-          <Step title="Выберите учеников" />
-        </Steps>
+        <Tabs items={items} />
       </ModalUI.Middle>
       <ModalUI.Footer>
         <ModalUI.Buttons>

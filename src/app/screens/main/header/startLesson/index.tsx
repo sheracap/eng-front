@@ -27,7 +27,7 @@ export const StartLesson: FC = () => {
         className="start-lesson-modal"
         open={startLessonModalControl.modalProps.open}
         onCancel={startLessonModalControl.closeModal}
-        width={"100%"}
+        width={1400}
       >
         <StartLessonModal modalControl={startLessonModalControl} />
       </ModalUI>

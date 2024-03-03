@@ -48,6 +48,12 @@ export const $myCoursesList = createXHRStore<
   StoreTypeWithData<PaginationListModel<CoursesListItemModel>>
 >(api.courses.myCoursesList, new XHRDataState(new PaginationList()));
 
+export const $myCoursesListForLesson = createXHRStore<
+  void,
+  PaginationListModel<CoursesListItemModel>,
+  StoreTypeWithData<PaginationListModel<CoursesListItemModel>>
+>(api.courses.myCoursesList, new XHRDataState(new PaginationList()));
+
 export const $addCourse = createXHRStore<CourseCreateModel, any, StoreTypeWithData<any>>(
   api.courses.addCourse,
   new XHRDataState(null),

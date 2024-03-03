@@ -133,6 +133,12 @@ input:-webkit-autofill:focus {
   justify-content: space-between;
 }
 
+.flex-start {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .actions-save-panel {
   &.active {
     margin-top: 100px;
