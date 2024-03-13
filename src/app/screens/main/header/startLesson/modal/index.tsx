@@ -9,6 +9,12 @@ import { ModalUI } from "#ui/modal";
 import { StartLessonCoursesTab } from "./courses";
 
 import "./styles.scss";
+import { StartLessonStudentsTab } from "#src/app/screens/main/header/startLesson/modal/students";
+import { useStore } from "effector-react";
+import { $selectedLesson, $selectedStudents } from "#src/app/screens/main/effector";
+import { notificationWarning } from "#ui/notifications";
+import { $createActiveLesson } from "#stores/activeLesson";
+import { useHistory } from "react-router-dom";
 
 const { Step } = Steps;
 
@@ -19,20 +25,37 @@ type PropTypes = {
 export const StartLessonModal: FC<PropTypes> = (props) => {
   const { modalControl } = props;
 
+  const history = useHistory();
+
   const { closeModal } = modalControl;
+
+  const createActiveLessonState = useStore($createActiveLesson.store);
+  const selectedLessonState = useStore($selectedLesson.store);
+  const selectedStudentsState = useStore($selectedStudents.store);
 
   const [step, setStep] = useState(0);
 
   useEffect(() => {
     return () => {
       $addChapter.reset();
+      $createActiveLesson.reset();
+      $selectedLesson.reset();
+      $selectedStudents.reset();
     };
   }, []);
+
+  useEffect(() => {
+    if (createActiveLessonState.success) {
+      //history.push();
+
+      closeModal();
+    }
+  }, [createActiveLessonState.success]);
 
   const items = useMemo(() => {
     return [
       { label: "Курсы", key: "courses", children: <StartLessonCoursesTab /> },
-      { label: "Уроки", key: "lessons", children: 'Content 2' },
+      { label: "Уроки", key: "lessons", children: <StartLessonStudentsTab /> },
     ]
   }, []);
 
@@ -46,14 +69,26 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
 
   const onContinueClick = () => {
     if (step === 0) {
-      setStep(1);
+      if (!selectedLessonState) {
+        notificationWarning("Выберите урок", "");
+      } else {
+        setStep(1);
+      }
     } else {
-
+      if (!selectedStudentsState.length || !selectedLessonState) {
+        notificationWarning("Выберите учеников", "");
+      } else {
+        $createActiveLesson.effect({
+          lessonId: selectedLessonState.lessonId,
+          studentsIds: selectedStudentsState
+        });
+      }
     }
   }
 
   return (
     <>
+      <ModalUI.Loading show={createActiveLessonState.loading} />
       <ModalUI.Header>
         <ModalUI.Title>Начать урок</ModalUI.Title>
         <div className="start-lesson-modal__steps-wr">

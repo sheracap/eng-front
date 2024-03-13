@@ -7,14 +7,15 @@ import { Spinner } from "#ui/spinner";
 import { ArrowBackSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { LessonItemModel } from "#businessLogic/models/lessons";
+import { $selectedLesson } from "#src/app/screens/main/effector";
 
 export const StartLessonCoursesTab: FC = () => {
 
   const myCoursesListState = useStore($myCoursesListForLesson.store);
   const myLessonsByCourseState = useStore($myLessonsByCourse.store);
+  const selectedLessonState = useStore($selectedLesson.store);
 
   const [selectedCourse, setSelectedCourse] = useState<null | CoursesListItemModel>(null);
-  const [selectedLesson, setSelectedLesson] = useState<null | LessonItemModel>(null);
 
   useEffect(() => {
     $myCoursesListForLesson.effect();
@@ -35,11 +36,11 @@ export const StartLessonCoursesTab: FC = () => {
 
   const onBackClick = () => {
     setSelectedCourse(null);
-    setSelectedLesson(null);
+    $selectedLesson.update(null);
   }
 
   const onLessonClick = (item: LessonItemModel) => {
-    setSelectedLesson(item);
+    $selectedLesson.update({ lessonId: item.id, courseId: selectedCourse?.id });
   }
 
   return (
@@ -61,7 +62,7 @@ export const StartLessonCoursesTab: FC = () => {
           <div className="start-lesson__lessons__list">
             {myLessonsByCourseState.data.map((item) => (
               <div
-                className={`start-lesson__lessons__list__item ${item.id === selectedLesson?.id ? "active" : ""}`}
+                className={`start-lesson__lessons__list__item ${item.id === selectedLessonState?.lessonId ? "active" : ""}`}
                 key={item.id}
                 onClick={() => onLessonClick(item)}
               >

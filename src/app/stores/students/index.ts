@@ -15,6 +15,12 @@ export const $studentsList = createXHRStore<
   StoreTypeWithData<PaginationListModel<StudentsListItemModel>>
 >(api.students.getStudentsList, new XHRDataState(new PaginationList()));
 
+export const $studentsForLessonList = createXHRStore<
+  void,
+  PaginationListModel<StudentsListItemModel>,
+  StoreTypeWithData<PaginationListModel<StudentsListItemModel>>
+>(api.students.getStudentsList, new XHRDataState(new PaginationList()));
+
 export const $inviteStudent = createXHRStore<StudentInviteModel, any, StoreType>(
   api.students.inviteStudent,
   new XHRSuccessState(),
