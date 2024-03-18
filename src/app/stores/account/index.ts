@@ -37,15 +37,4 @@ export const $logIn = createXHRStore<LoginPayloadType, LoginResponseType, StoreT
 export const $registration = createXHRStore<RegistrationPayloadType, RegistrationResponseType, StoreType>(
   api.account.registration,
   new XHRSuccessState(),
-  {
-    doneReducer: (state, response) => {
-      Cookies.set(ACCESS_TOKEN_KEY_FOR_COOKIE, response.result.data.token);
-      return {
-        ...state,
-        loading: false,
-        success: true,
-        error: null,
-      };
-    },
-  },
 );

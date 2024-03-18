@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 
-import { requiredRules } from "#constants/index";
+import { requiredRules, ROUTES } from "#constants/index";
 import * as accountEffector from "#stores/account";
 import { ButtonUI } from "#ui/button";
 import { InputUI } from "#ui/input";
@@ -36,7 +36,7 @@ export const Registration: FC = () => {
   useEffect(() => {
     if (registrationState.success) {
       $registration.reset();
-      history.push("/");
+      history.push(ROUTES.USER_SIGN_IN);
     }
   }, [registrationState]);
 

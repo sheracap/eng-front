@@ -55,7 +55,7 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
   const items = useMemo(() => {
     return [
       { label: "Курсы", key: "courses", children: <StartLessonCoursesTab /> },
-      { label: "Уроки", key: "lessons", children: <StartLessonStudentsTab /> },
+      { label: "Уроки", key: "lessons", children: <div>12</div> },
     ]
   }, []);
 
@@ -79,6 +79,7 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
         notificationWarning("Выберите учеников", "");
       } else {
         $createActiveLesson.effect({
+          courseId: selectedLessonState.courseId,
           lessonId: selectedLessonState.lessonId,
           studentsIds: selectedStudentsState
         });
@@ -99,7 +100,12 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
         </div>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <Tabs items={items} />
+        {step === 0 && (
+          <Tabs items={items} />
+        )}
+        {step === 1 && (
+          <StartLessonStudentsTab />
+        )}
       </ModalUI.Middle>
       <ModalUI.Footer>
         <ModalUI.Buttons>

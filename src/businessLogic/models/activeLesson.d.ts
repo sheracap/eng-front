@@ -4,6 +4,7 @@ export type ActiveLessonParamsType = {
 }
 
 export type ActiveLessonCreateModel = {
+  courseId?: number;
   lessonId: number;
   studentsIds: Array<number>;
 }

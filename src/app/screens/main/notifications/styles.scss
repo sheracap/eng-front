@@ -1,6 +1,8 @@
 @import "src/styles/variables.scss";
 
 .header-notifications {
+  margin-left: 10px;
+
   .ant-badge-count {
     top: 5px;
   }
