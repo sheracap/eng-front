@@ -17,3 +17,8 @@ export const $addSection = createXHRStore<SectionCreateModel, number, StoreTypeW
   api.section.addSection,
   new XHRDataState(null),
 );
+
+export const $changeExercisesPosition = createXHRStore<any, number, StoreType>(
+  api.section.changeExercisesPosition,
+  new XHRSuccessState(),
+);
