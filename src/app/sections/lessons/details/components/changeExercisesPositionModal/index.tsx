@@ -1,27 +1,26 @@
 import React, { FC, useEffect, useState } from "react";
+import { useStore } from "effector-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { ModalControlType } from "#hooks/useModalControl";
 import { $changeExercisesPosition } from "#stores/section";
-import { ButtonUI } from "#ui/button";
 
+import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
-import { Form } from "antd";
-import { useStore } from "effector-react";
-import { BurgerMenuSvgIcon } from "#src/assets/svg";
-import { ExerciseItemModel } from "#businessLogic/models/section";
 import { notificationSuccess } from "#ui/notifications";
 
+import { ExerciseItemModel } from "#businessLogic/models/section";
 
+import "./styles.scss";
 
-export type AddSectionModalPropTypes = {
+export type ChangeExercisesPositionModalPropTypes = {
   lessonId: number;
   sectionId: number;
   editableExercises: Array<ExerciseItemModel>;
 };
 
 type PropTypes = {
-  modalControl: ModalControlType<AddSectionModalPropTypes>;
+  modalControl: ModalControlType<ChangeExercisesPositionModalPropTypes>;
   callback: () => void;
 };
 
@@ -31,8 +30,6 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
   const { closeModal, modalProps } = modalControl;
 
   const { lessonId, sectionId, editableExercises } = modalProps;
-
-  const [form] = Form.useForm();
 
   const changeExercisesPositionState = useStore($changeExercisesPosition.store);
 
@@ -69,10 +66,10 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
 
     const reorderedExercises = [...exercises];
 
-    const chaptersourceIndex = source.index;
+    const exercisesourceIndex = source.index;
     const storeDestinatonIndex = destination.index;
 
-    const [removedStore] = reorderedExercises.splice(chaptersourceIndex, 1);
+    const [removedStore] = reorderedExercises.splice(exercisesourceIndex, 1);
     reorderedExercises.splice(storeDestinatonIndex, 0, removedStore);
 
     return setExercises(reorderedExercises);
@@ -104,7 +101,7 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
         <DragDropContext onDragEnd={handleDragAndDrop}>
           <Droppable droppableId="ROOT" type="group">
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
+              <div {...provided.droppableProps} ref={provided.innerRef} className="exercises-swap-list">
                 {exercises.map((item, index) => (
                   <Draggable
                     draggableId={String(item.id)}
@@ -116,6 +113,7 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                         ref={provided.innerRef}
+                        className="exercises-swap-list__item"
                       >
                         <div>
                           {index + 1}. {item.title}
@@ -138,8 +136,8 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
             </ButtonUI>
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
-            <ButtonUI type="primary" onClick={() => form.submit()}>
-              Добавить
+            <ButtonUI type="primary" onClick={() => onFinish()}>
+              Сохранить
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

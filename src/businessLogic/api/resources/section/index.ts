@@ -15,10 +15,3 @@ export const addSection: HandlerType<SectionCreateModel, number> = (data) => {
     data
   });
 };
-
-export const changeExercisesPosition: HandlerType<SectionCreateModel, number> = (data) => {
-  return httpPost({
-    url: "/api/section",
-    data
-  });
-};

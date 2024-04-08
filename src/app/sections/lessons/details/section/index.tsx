@@ -36,11 +36,15 @@ import {
 } from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
-import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon, SwapIcon } from "#src/assets/svg";
 import { Popconfirm, Radio, Space } from "antd";
 import { $deleteExercise } from "#stores/exercise";
 import { notificationSuccess } from "#ui/notifications";
 import { ContextPopover } from "#ui/contextPopover";
+import {
+  ChangeExercisesPositionModal,
+  ChangeExercisesPositionModalPropTypes
+} from "#src/app/sections/lessons/details/components/changeExercisesPositionModal";
 
 type PropsType = {
   isMine: boolean;
@@ -58,6 +62,7 @@ export const LessonSection: FC<PropsType> = (props) => {
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();
   const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
+  const editExercisePositionModalControl = useModalControl<ChangeExercisesPositionModalPropTypes>();
 
   const [deletedExerciseIds, setDeletedExerciseIds] = useState<{ [key: string]: boolean }>({});
   const [showHints, setShowHints] = useState(isMine);
@@ -91,6 +96,16 @@ export const LessonSection: FC<PropsType> = (props) => {
     }
   }, [deleteExerciseState.data]);
 
+  const changePosition = () => {
+    if (sectionData) {
+      editExercisePositionModalControl.openModal({
+        sectionId: sectionData.id,
+        lessonId: lessonData.id,
+        editableExercises: sectionData.exercises
+      })
+    }
+  }
+
   return (
     <div>
       {sectionLoading && (
@@ -122,7 +137,17 @@ export const LessonSection: FC<PropsType> = (props) => {
         <>
           {isMine && (
             <div className="exercise-hints-actions">
-              Подсказки <Switch checked={showHints} onChange={(val) => setShowHints(val)} />
+              <ButtonUI
+                type="primary"
+                withIcon
+                size="small"
+                onClick={changePosition}
+              >
+                <SwapIcon /> Поменять порядок
+              </ButtonUI>
+              <div>
+                Подсказки <Switch checked={showHints} onChange={(val) => setShowHints(val)} />
+              </div>
             </div>
           )}
           {sectionData.exercises.map((item, index) => (
@@ -217,6 +242,13 @@ export const LessonSection: FC<PropsType> = (props) => {
             width={600}
           >
             <AddEditExercisesFormModal modalControl={editExerciseModalControl} callback={getSectionDetails} />
+          </ModalUI>
+          <ModalUI
+            open={editExercisePositionModalControl.modalProps.open}
+            onClose={editExercisePositionModalControl.closeModal}
+            width={600}
+          >
+            <ChangeExercisesPositionModal modalControl={editExercisePositionModalControl} callback={() => {}} />
           </ModalUI>
         </>
       )}

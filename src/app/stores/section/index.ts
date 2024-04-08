@@ -19,6 +19,6 @@ export const $addSection = createXHRStore<SectionCreateModel, number, StoreTypeW
 );
 
 export const $changeExercisesPosition = createXHRStore<any, number, StoreType>(
-  api.section.changeExercisesPosition,
+  api.exercise.changeExercisesPosition,
   new XHRSuccessState(),
 );
