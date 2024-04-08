@@ -170,6 +170,17 @@ input:-webkit-autofill:focus {
 
 }
 
+.exercise-hints-actions {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .ant-switch {
+    margin-left: 15px;
+  }
+}
+
 .exercise-item {
   margin-bottom: 20px;
 

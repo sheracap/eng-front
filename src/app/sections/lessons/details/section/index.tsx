@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
+import { Switch } from "antd";
 
 import { $sectionDetails } from "#stores/section";
 import { useModalControl } from "#hooks/useModalControl";
@@ -36,7 +37,7 @@ import {
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
-import { Popconfirm } from "antd";
+import { Popconfirm, Radio, Space } from "antd";
 import { $deleteExercise } from "#stores/exercise";
 import { notificationSuccess } from "#ui/notifications";
 import { ContextPopover } from "#ui/contextPopover";
@@ -59,6 +60,15 @@ export const LessonSection: FC<PropsType> = (props) => {
   const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
 
   const [deletedExerciseIds, setDeletedExerciseIds] = useState<{ [key: string]: boolean }>({});
+  const [showHints, setShowHints] = useState(isMine);
+
+  const getSectionDetails = () => {
+    const sectionId = lessonSectionsState[Number(sectionIndex) - 1]?.id;
+
+    if (sectionId && sectionId !== sectionData?.id) {
+      $sectionDetails.effect(sectionId);
+    }
+  }
 
   useEffect(() => {
     return () => {
@@ -67,11 +77,7 @@ export const LessonSection: FC<PropsType> = (props) => {
   }, []);
 
   useEffect(() => {
-    const sectionId = lessonSectionsState[Number(sectionIndex) - 1]?.id;
-
-    if (sectionId && sectionId !== sectionData?.id) {
-      $sectionDetails.effect(sectionId);
-    }
+    getSectionDetails();
   }, [sectionIndex, lessonSectionsState]);
 
   useEffect(() => {
@@ -84,8 +90,6 @@ export const LessonSection: FC<PropsType> = (props) => {
       }));
     }
   }, [deleteExerciseState.data]);
-
-  console.log("isMine", isMine);
 
   return (
     <div>
@@ -114,77 +118,85 @@ export const LessonSection: FC<PropsType> = (props) => {
         </>
       )}
 
-
-      {sectionData?.exercises.map((item, index) => (
+      {sectionData && sectionData.exercises.length > 0 && (
         <>
-          {!deletedExerciseIds[item.id] && (
-            <div className="exercise-item" key={item.id}>
-              <div className="exercise-item__title">
-                <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
-                {isMine && (
-                  <div className="exercise-item__title__actions">
-                    <ContextPopover
-                      content={(
-                        <>
-                          <div className="custom__popover__item">
-                            <ButtonUI
-                              withIcon
-                              onClick={() => {
-                                editExerciseModalControl.openModal({
-                                  editableData: item, sectionId: sectionData.id, template: item.template
-                                });
-                              }}
-                            >
-                              <EditSvgIcon /> Редактировать
-                            </ButtonUI>
-                          </div>
-                          <div className="custom__popover__item">
-                            <Popconfirm
-                              title="Вы уверены, что хотите удалить упражнение ?"
-                              onConfirm={() => $deleteExercise.effect(item.id)}
-                              okText="Да"
-                              cancelText="Нет"
-                            >
-                              <ButtonUI
-                                danger
-                                withIcon
-                                loading={deleteExerciseState.loading}
-                              >
-                                <DeleteIcon /> Удалить
-                              </ButtonUI>
-                            </Popconfirm>
-                          </div>
-                        </>
-                      )}
-                    />
-                  </div>
-                )}
-              </div>
-              {item.template === templateTypes.TEST && (
-                <TemplateTest data={item} />
-              )}
-              {item.template === templateTypes.TEXT_BLOCK && (
-                <TemplateTextBlock data={item} />
-              )}
-              {item.template === templateTypes.BLANK && (
-                <TemplateBlank data={item} />
-              )}
-              {item.template === templateTypes.FILL_TEXT && (
-                <TemplateFillText data={item} />
-              )}
-              {item.template === templateTypes.VIDEO && (
-                <TemplateVideo data={item} />
-              )}
-              {item.template === templateTypes.IMAGES && (
-                <TemplateImages data={item} />
-              )}
-              {item.template === templateTypes.FILL_IMAGES && (
-                <TemplateFillImages data={item} />
-              )}
+          {isMine && (
+            <div className="exercise-hints-actions">
+              Подсказки <Switch checked={showHints} onChange={(val) => setShowHints(val)} />
             </div>
           )}
+          {sectionData.exercises.map((item, index) => (
+            <React.Fragment key={item.id}>
+              {!deletedExerciseIds[item.id] && (
+                <div className="exercise-item" key={item.id}>
+                  <div className="exercise-item__title">
+                    <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
+                    {isMine && (
+                      <div className="exercise-item__title__actions">
+                        <ContextPopover
+                          content={(
+                            <>
+                              <div className="custom__popover__item">
+                                <ButtonUI
+                                  withIcon
+                                  onClick={() => {
+                                    editExerciseModalControl.openModal({
+                                      editableData: item, sectionId: sectionData.id, template: item.template
+                                    });
+                                  }}
+                                >
+                                  <EditSvgIcon /> Редактировать
+                                </ButtonUI>
+                              </div>
+                              <div className="custom__popover__item">
+                                <Popconfirm
+                                  title="Вы уверены, что хотите удалить упражнение ?"
+                                  onConfirm={() => $deleteExercise.effect(item.id)}
+                                  okText="Да"
+                                  cancelText="Нет"
+                                >
+                                  <ButtonUI
+                                    danger
+                                    withIcon
+                                    loading={deleteExerciseState.loading}
+                                  >
+                                    <DeleteIcon /> Удалить
+                                  </ButtonUI>
+                                </Popconfirm>
+                              </div>
+                            </>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {item.template === templateTypes.TEST && (
+                    <TemplateTest data={item} showHints={showHints} />
+                  )}
+                  {item.template === templateTypes.TEXT_BLOCK && (
+                    <TemplateTextBlock data={item} />
+                  )}
+                  {item.template === templateTypes.BLANK && (
+                    <TemplateBlank data={item} showHints={showHints} />
+                  )}
+                  {item.template === templateTypes.FILL_TEXT && (
+                    <TemplateFillText data={item} />
+                  )}
+                  {item.template === templateTypes.VIDEO && (
+                    <TemplateVideo data={item} />
+                  )}
+                  {item.template === templateTypes.IMAGES && (
+                    <TemplateImages data={item} />
+                  )}
+                  {item.template === templateTypes.FILL_IMAGES && (
+                    <TemplateFillImages data={item} />
+                  )}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
         </>
-      ))}
+      )}
 
       {isMine && sectionData && (
         <>
@@ -196,7 +208,7 @@ export const LessonSection: FC<PropsType> = (props) => {
             open={addExercisesModalControl.modalProps.open}
             onClose={addExercisesModalControl.closeModal}
           >
-            <AddExercisesModal modalControl={addExercisesModalControl} />
+            <AddExercisesModal modalControl={addExercisesModalControl} callback={getSectionDetails} />
           </DrawerModalUI>
 
           <ModalUI
@@ -204,7 +216,7 @@ export const LessonSection: FC<PropsType> = (props) => {
             onCancel={editExerciseModalControl.closeModal}
             width={600}
           >
-            <AddEditExercisesFormModal modalControl={editExerciseModalControl} />
+            <AddEditExercisesFormModal modalControl={editExerciseModalControl} callback={getSectionDetails} />
           </ModalUI>
         </>
       )}

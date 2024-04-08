@@ -31,9 +31,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
 
   const [form] = Form.useForm();
 
-  const addExerciseState = useStore($addExercise.store);
-  const updateExerciseState = useStore($updateExercise.store);
-
   const [savedPhotos, setSavedPhotos] = useState<Array<{ id: number; url: string; }>>([]);
   const [removedPhotoIds, setRemovedPhotoIds] = useState<Array<number>>([]);
   const [newPhotos, setNewPhotos] = useState<Array<{ id: number; url: string; }>>([]);
@@ -53,18 +50,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
       $updateExercise.reset();
     };
   }, []);
-
-  useEffect(() => {
-    if (addExerciseState.data) {
-      closeModal();
-    }
-  }, [addExerciseState.data]);
-
-  useEffect(() => {
-    if (updateExerciseState.data) {
-      closeModal();
-    }
-  }, [updateExerciseState.data]);
 
   const beforeUploadPhoto = (file) => {
     const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);

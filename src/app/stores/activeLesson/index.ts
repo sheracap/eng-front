@@ -17,7 +17,7 @@ export const $activeLesson = createXHRStore<ActiveLessonParamsType, any, StoreTy
   new XHRDataState(null),
 );
 
-export const $deleteActiveLesson = createXHRStore<number, any, StoreType>(
+export const $deleteActiveLesson = createXHRStore<void, any, StoreType>(
   api.activeLesson.deleteActiveLesson,
   new XHRSuccessState(),
 );

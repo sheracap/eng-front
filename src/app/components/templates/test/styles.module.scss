@@ -31,4 +31,9 @@
 
 .testVariants {
   margin-bottom: 10px;
+
+  :global(.correct-answer) {
+    color: #009f3c;
+    font-weight: bold;
+  }
 }

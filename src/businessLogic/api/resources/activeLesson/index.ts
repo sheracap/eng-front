@@ -12,6 +12,6 @@ export const getActiveLesson: HandlerType<ActiveLessonParamsType, any> = (params
   return httpGet({ url: "/api/active-lesson/current", params });
 };
 
-export const deleteActiveLesson: HandlerType<number, any> = (id) => {
-  return httpDelete({ url: `/api/active-lesson/${id}` });
+export const deleteActiveLesson: HandlerType<void, any> = () => {
+  return httpDelete({ url: "/api/active-lesson" });
 };

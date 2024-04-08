@@ -23,6 +23,12 @@
   align-items: center;
 }
 
+.active-lesson__actions {
+  .custom-btn {
+    margin-left: 10px;
+  }
+}
+
 .burgerButton {
   background: transparent;
   border: none;

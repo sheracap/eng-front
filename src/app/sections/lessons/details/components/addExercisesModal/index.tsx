@@ -20,10 +20,11 @@ export type AddExercisesModalPropTypes = {
 
 type TProps = {
   modalControl: ModalControlType<AddExercisesModalPropTypes>;
+  callback: () => void;
 };
 
 export const AddExercisesModal: FC<TProps> = (props) => {
-  const { modalControl } = props;
+  const { modalControl, callback } = props;
   const { closeModal, modalProps } = modalControl;
   const { sectionId } = modalProps;
 
@@ -94,7 +95,11 @@ export const AddExercisesModal: FC<TProps> = (props) => {
         open={addExercisesFormModalControl.modalProps.open}
         onClose={addExercisesFormModalControl.closeModal}
       >
-        <AddEditExercisesFormModal modalControl={addExercisesFormModalControl} closeModal={closeModal} />
+        <AddEditExercisesFormModal
+          modalControl={addExercisesFormModalControl}
+          closeModal={closeModal}
+          callback={callback}
+        />
       </DrawerModalUI>
 
 

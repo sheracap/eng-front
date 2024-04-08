@@ -40,18 +40,6 @@ export const VideoTemplateForm: FC<PropTypes> = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (addExerciseState.data) {
-      closeModal();
-    }
-  }, [addExerciseState.data]);
-
-  useEffect(() => {
-    if (updateExerciseState.data) {
-      closeModal();
-    }
-  }, [updateExerciseState.data]);
-
   const onFinish = (formData) => {
     const data = {
       title: formData.title,

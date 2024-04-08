@@ -25,9 +25,6 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
 
   const [form] = Form.useForm();
 
-  const addExerciseState = useStore($addExercise.store);
-  const updateExerciseState = useStore($updateExercise.store);
-
   const [variants, setVariants] = useState<Array<string>>([]);
   const [variantValue, setVariantValue] = useState("");
   const [answer, setAnswer] = useState("");
@@ -35,32 +32,14 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (editableData) {
       setAnswer(editableData.metaData.answer);
-      setVariants(editableData.metaData.wrongAnswers);
+      setVariants(editableData.metaData.variants);
 
       form.setFieldsValue({
         title: editableData.title,
         question: editableData.metaData.question,
       });
     }
-
-    return () => {
-      $addExercise.reset();
-      $updateExercise.reset();
-    };
   }, []);
-
-  useEffect(() => {
-    if (addExerciseState.data) {
-      closeModal();
-      closeMainModal && closeMainModal();
-    }
-  }, [addExerciseState.data]);
-
-  useEffect(() => {
-    if (updateExerciseState.data) {
-      closeModal();
-    }
-  }, [updateExerciseState.data]);
 
   const onAddVariant = () => {
     if (!variantValue) {
@@ -86,7 +65,7 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
       metaData: {
         question: formData.question,
         answer,
-        wrongAnswers: variants
+        variants: variants
       },
     }
 

@@ -24,9 +24,6 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
 
   const [form] = Form.useForm();
 
-  const addExerciseState = useStore($addExercise.store);
-  const updateExerciseState = useStore($updateExercise.store);
-
   useEffect(() => {
     if (editableData) {
       const text = editableData.metaData.resultArray.reduce((acc, currentVal) => {
@@ -44,18 +41,6 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
       $updateExercise.reset();
     };
   }, []);
-
-  useEffect(() => {
-    if (addExerciseState.data) {
-      closeModal();
-    }
-  }, [addExerciseState.data]);
-
-  useEffect(() => {
-    if (updateExerciseState.data) {
-      closeModal();
-    }
-  }, [updateExerciseState.data]);
 
   const onFinish = (formData) => {
 

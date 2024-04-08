@@ -38,13 +38,13 @@ export const CourseDetailsRightSide: FC<PropsTypes> = (props) => {
       {sectionData && (
         <div>
           <h2>{sectionData.name}</h2>
-          {sectionData.exercises.map((item) => (
-            <div className="exercise-item" key={item.id}>
-              {item.template === "TEST" && (
-                <TemplateTest data={item} />
-              )}
-            </div>
-          ))}
+          {/*{sectionData.exercises.map((item) => (*/}
+          {/*  <div className="exercise-item" key={item.id}>*/}
+          {/*    {item.template === "TEST" && (*/}
+          {/*      <TemplateTest data={item} showHints={false} />*/}
+          {/*    )}*/}
+          {/*  </div>*/}
+          {/*))}*/}
         </div>
       )}
       {/*{isMine && !sectionData && (*/}
@@ -66,12 +66,12 @@ export const CourseDetailsRightSide: FC<PropsTypes> = (props) => {
       {/*  <AddSectionModal modalControl={addSectionModalControl} callback={getSectionDetails} />*/}
       {/*</ModalUI>*/}
 
-      <DrawerModalUI
-        open={addExercisesModalControl.modalProps.open}
-        onClose={addExercisesModalControl.closeModal}
-      >
-        <AddExercisesModal modalControl={addExercisesModalControl} />
-      </DrawerModalUI>
+      {/*<DrawerModalUI*/}
+      {/*  open={addExercisesModalControl.modalProps.open}*/}
+      {/*  onClose={addExercisesModalControl.closeModal}*/}
+      {/*>*/}
+      {/*  <AddExercisesModal modalControl={addExercisesModalControl} />*/}
+      {/*</DrawerModalUI>*/}
 
     </div>
   )

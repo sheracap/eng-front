@@ -10,6 +10,7 @@ import { shuffledArray } from "#utils/index";
 import { ClearSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { notificationWarning } from "#ui/notifications";
+import { useRole } from "#hooks/useRole";
 
 type FilledItemsType = {
   [key: string]: {
@@ -25,15 +26,20 @@ type UsedAnswersType = {
 
 type PropsTypes = {
   data: ExerciseItemModel
+  showHints: boolean;
 }
 
 export const TemplateBlank: FC<PropsTypes> = (props) => {
-  const { data } = props;
+  const { data, showHints } = props;
 
   const [filledItems, setFilledItems] = useState<FilledItemsType>({});
   const [usedAnswers, setUsedAnswers] = useState<UsedAnswersType>({});
   const [showResults, setShowResults] = useState(false);
+  const [currentDraggedWord, setCurrentDraggedWord] = useState<string>("");
+
   const correctAnswersCount = useRef(0);
+
+  const { isTeacher } = useRole();
 
   const answer = useMemo(() => {
     return shuffledArray(data.metaData.answer);
@@ -43,8 +49,22 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
     return data.metaData.resultArray;
   }, []);
 
+  const onDragStart = (results) => {
+    if (showHints) {
+      const { draggableId, source } = results;
+
+      const draggableWord = draggableId.substring(0, draggableId.length - String(source.index).length);
+
+      setCurrentDraggedWord(draggableWord);
+    }
+  }
+
   const handleDragAndDrop = (results) => {
     const { draggableId, source, destination } = results;
+
+    if (showHints) {
+      setCurrentDraggedWord("");
+    }
 
     if (destination) {
       if (destination.droppableId !== "ROOT") {
@@ -110,12 +130,11 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
     }
   }
 
-
   return (
     <>
       <div className={styles.blankTemplate}>
 
-        <DragDropContext onDragEnd={handleDragAndDrop}>
+        <DragDropContext onDragEnd={handleDragAndDrop} onDragStart={onDragStart}>
           <div>
             <Droppable droppableId="ROOT" direction="horizontal">
               {(provided, snapshot) => (
@@ -162,8 +181,10 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
                       <div
                         className={`
                           ${styles.blankTemplateTextInput} ${snapshot.isDraggingOver ? "drag-over" : ""}
+                          is-filled_${!!filledItems[`${item}${index}`]}
                           show-answer_${showResults}
-                          is-correct-blank-answer_${!!filledItems[item + String(index)]?.isCorrect}
+                          show-hints_${showHints}
+                          is-correct-blank-answer_${(!!filledItems[item + String(index)]?.isCorrect) || currentDraggedWord === item}
                         `}
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -194,16 +215,20 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
           </div>
         </DragDropContext>
       </div>
-      {showResults ? (
-        <div className={styles.result}>
-          <BlankProgress result={correctAnswersCount.current} total={answer.length} />
-        </div>
-      ) : (
-        <div className={styles.testTemplateActions}>
-          <ButtonUI onClick={onCheckResult}>
-            Проверить
-          </ButtonUI>
-        </div>
+      {!isTeacher && (
+        <>
+          {showResults ? (
+            <div className={styles.result}>
+              <BlankProgress result={correctAnswersCount.current} total={answer.length} />
+            </div>
+          ) : (
+            <div className={styles.testTemplateActions}>
+              <ButtonUI onClick={onCheckResult}>
+                Проверить
+              </ButtonUI>
+            </div>
+          )}
+        </>
       )}
     </>
   )

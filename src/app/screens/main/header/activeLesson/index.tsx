@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useStore } from "effector-react";
 
-import { $activeLesson } from "#stores/activeLesson";
+import { $activeLesson, $deleteActiveLesson } from "#stores/activeLesson";
 import { $currentUser } from "#stores/account";
 import { $activeLessonByNotification } from "#src/app/screens/main/effector";
 
@@ -18,6 +18,7 @@ export const ActiveLesson: FC = () => {
   const currentUserState = useStore($currentUser.store);
   const activeLessonState = useStore($activeLesson.store);
   const activeLessonByNotificationState = useStore($activeLessonByNotification.store);
+  const deleteActiveLessonState = useStore($deleteActiveLesson.store);
 
   const { isTeacher, isStudent } = useRole();
 
@@ -30,6 +31,14 @@ export const ActiveLesson: FC = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (deleteActiveLessonState.success) {
+      $deleteActiveLesson.reset();
+      $activeLesson.reset();
+      $activeLessonByNotification.reset();
+    }
+  }, [deleteActiveLessonState.success]);
 
   const openLesson = () => {
     let courseId;
@@ -48,12 +57,23 @@ export const ActiveLesson: FC = () => {
     history.push(`/courses/${courseId}/lesson/${lessonId}/1`);
   }
 
+  const finishLesson = () => {
+    $deleteActiveLesson.effect();
+  }
+
   return (
-    <div>
+    <div className="active-lesson__actions">
       {(activeLessonState.data || activeLessonByNotificationState) && (
-        <ButtonUI type="primary" onClick={openLesson}>
-          Перейти к уроку
-        </ButtonUI>
+        <>
+          <ButtonUI type="primary" onClick={openLesson}>
+            Перейти к уроку
+          </ButtonUI>
+          {isTeacher && (
+            <ButtonUI type="primary" danger onClick={finishLesson}>
+              Завершить урок
+            </ButtonUI>
+          )}
+        </>
       )}
     </div>
   )

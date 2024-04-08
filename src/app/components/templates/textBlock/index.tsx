@@ -29,8 +29,23 @@ export const TemplateTextBlock: FC<PropsTypes> = (props) => {
     return data.metaData.text;
   }, [data.metaData.text]);
 
+  const handleTextSelect = () => {
+    const selection = window.getSelection();
+    const selectedText = selection?.toString().trim();
+
+    console.log("selectedText", selectedText);
+
+    // if (selectedText !== '') {
+    //   setSelectedWord(selectedText);
+    //   // Call your translation API here
+    //   // For demonstration purposes, let's just set a mock translation
+    //   setTranslation('TranslatedText');
+    //   setShowPopup(true);
+    // }
+  };
+
   return (
-    <div className={styles.textBlockTemplate}>
+    <div className={styles.textBlockTemplate} onMouseUp={handleTextSelect}>
       {text && <div>
         <div dangerouslySetInnerHTML={{ __html: text }} />
       </div>}
