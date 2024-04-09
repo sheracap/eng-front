@@ -109,7 +109,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
           <LessonSection
             isMine={isMine}
             lessonData={lessonData}
-            sectionIndex={sectionIndex}
+            sectionId={lessonData.sections[Number(sectionIndex) - 1]?.id}
           />
         </div>
       </div>

@@ -1,4 +1,6 @@
 import {
+  ExerciseAnswerCreateModel,
+  ExerciseAnswerModel,
   ExerciseCreateModel, ExerciseUpdateModel
 } from "#businessLogic/models/exercise";
 import { HandlerType } from "#core/effector/types/handler";
@@ -17,9 +19,22 @@ export const deleteExercise: HandlerType<number, { id: number }> = (id) => {
   return httpDelete({ url: `/api/exercise/${id}` });
 };
 
-export const changeExercisesPosition: HandlerType<SectionCreateModel, number> = (data) => {
+export const changeExercisesPosition: HandlerType<any, number> = (data) => {
   return httpPost({
     url: "/api/exercise/row-position",
+    data
+  });
+};
+
+export const getExerciseAnswersBySection: HandlerType<number, Array<ExerciseAnswerModel>> = (sectionId) => {
+  return httpGet({
+    url: `/api/exercise-answers/${sectionId}`,
+  });
+};
+
+export const addExerciseAnswer: HandlerType<ExerciseAnswerCreateModel, any> = (data) => {
+  return httpGet({
+    url: "/api/exercise-answers",
     data
   });
 };

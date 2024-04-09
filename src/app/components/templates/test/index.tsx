@@ -1,12 +1,17 @@
 import React, { FC, useState } from "react";
+import { useStore } from "effector-react";
 import { Radio, Space } from "antd";
 
+import { $addExerciseAnswer } from "#stores/exercise";
+import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
+
 import { ExerciseItemModel } from "#businessLogic/models/section";
+
+import { useRole } from "#hooks/useRole";
 
 import { ButtonUI } from "#ui/button";
 
 import styles from "./styles.module.scss";
-import { useRole } from "#hooks/useRole";
 
 type PropsTypes = {
   data: ExerciseItemModel;
@@ -16,10 +21,14 @@ type PropsTypes = {
 export const TemplateTest: FC<PropsTypes> = (props) => {
   const { data, showHints } = props;
 
-  const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
-  const [result, setResult] = useState<{ text: string; type: string } | null>(null);
+  const addExerciseAnswerState = useStore($addExerciseAnswer.store);
+  const exerciseAnswersState = useStore($exerciseAnswers.store);
 
-  const { isTeacher } = useRole();
+  const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
+
+  const result = exerciseAnswersState[data.id]?.metaData;
+
+  const { isStudent } = useRole();
 
   const onAnswerChange = (e) => {
     const val = e.target.value;
@@ -36,7 +45,20 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
       res = { text: "Неправильно", type: "WRONG" };
     }
 
-    setResult(res);
+    $addExerciseAnswer.effect({
+      sectionId: data.sectionId,
+      exerciseId: data.id,
+      metaData: res
+    }).then((result) => {
+      if (result) {
+        $exerciseAnswers.update({
+          [data.sectionId]: {
+            ...exerciseAnswersState[data.id],
+            [data.id]: res
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -62,7 +84,7 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
           </Radio.Group>
         )}
       </div>
-      {!isTeacher && (
+      {isStudent && (
         <>
           {result ? (
             <div className={styles.result} datatype={result.type}>

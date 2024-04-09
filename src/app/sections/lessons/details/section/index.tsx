@@ -1,19 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { Switch } from "antd";
+import { Switch, Popconfirm } from "antd";
 
 import { $sectionDetails } from "#stores/section";
+import { $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
+import { $exerciseAnswers, $lessonSections } from "#src/app/sections/lessons/details/effector";
+
 import { useModalControl } from "#hooks/useModalControl";
-import { AddSectionModal, AddSectionModalPropTypes } from "../components/addSectionModal";
+import { useRole } from "#hooks/useRole";
 
 import { LessonDetailsModel } from "#businessLogic/models/lessons";
 
-import { $lessonSections } from "#src/app/sections/lessons/details/effector";
 import {
   AddExercisesModal,
   AddExercisesModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
-
 
 import { templateTypes } from "#constants/index";
 
@@ -29,33 +30,33 @@ import { ModalUI } from "#ui/modal";
 import { DrawerModalUI } from "#ui/drawerModal";
 import { ButtonUI } from "#ui/button";
 import { Spinner } from "#ui/spinner";
-
-import {
-  AddEditExercisesFormModal,
-  AddEditExercisesFormModalPropTypes
-} from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
+import { notificationSuccess } from "#ui/notifications";
+import { ContextPopover } from "#ui/contextPopover";
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon, SwapIcon } from "#src/assets/svg";
-import { Popconfirm, Radio, Space } from "antd";
-import { $deleteExercise } from "#stores/exercise";
-import { notificationSuccess } from "#ui/notifications";
-import { ContextPopover } from "#ui/contextPopover";
+
 import {
   ChangeExercisesPositionModal,
   ChangeExercisesPositionModalPropTypes
-} from "#src/app/sections/lessons/details/components/changeExercisesPositionModal";
+} from "../components/changeExercisesPositionModal";
+import { AddSectionModal, AddSectionModalPropTypes } from "../components/addSectionModal";
+import {
+  AddEditExercisesFormModal,
+  AddEditExercisesFormModalPropTypes
+} from "../components/addExercisesModal/formModal";
 
 type PropsType = {
   isMine: boolean;
   lessonData: LessonDetailsModel;
-  sectionIndex: string;
+  sectionId: number | undefined;
 }
 
 export const LessonSection: FC<PropsType> = (props) => {
-  const { isMine, lessonData, sectionIndex } = props;
+  const { isMine, lessonData, sectionId } = props;
 
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
+  const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
   const deleteExerciseState = useStore($deleteExercise.store);
 
@@ -67,11 +68,20 @@ export const LessonSection: FC<PropsType> = (props) => {
   const [deletedExerciseIds, setDeletedExerciseIds] = useState<{ [key: string]: boolean }>({});
   const [showHints, setShowHints] = useState(isMine);
 
-  const getSectionDetails = () => {
-    const sectionId = lessonSectionsState[Number(sectionIndex) - 1]?.id;
+  const { isStudent } = useRole();
 
-    if (sectionId && sectionId !== sectionData?.id) {
+  const getSectionDetails = () => {
+    console.log("getSectionDetails");
+    if (sectionId) {
       $sectionDetails.effect(sectionId);
+    }
+  }
+
+  const getExerciseAnswers = () => {
+    const exerciseAnswers = $exerciseAnswers.store.getState();
+
+    if (sectionId && !exerciseAnswers[sectionId]) {
+      $exerciseAnswersBySection.effect(sectionId);
     }
   }
 
@@ -83,7 +93,26 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   useEffect(() => {
     getSectionDetails();
-  }, [sectionIndex, lessonSectionsState]);
+
+    if (isStudent) {
+      getExerciseAnswers();
+    }
+  }, [sectionId, lessonSectionsState]);
+
+  useEffect(() => {
+    if (exerciseAnswersBySectionState.data && sectionId) {
+      const answers = exerciseAnswersBySectionState.data.reduce((acc, item) => {
+        return {
+          ...acc,
+          [item.exerciseId]: item.metaData
+        }
+      }, {});
+
+      $exerciseAnswers.update({
+        [sectionId]: answers,
+      });
+    }
+  }, [exerciseAnswersBySectionState.data]);
 
   useEffect(() => {
     if (deleteExerciseState.data) {
@@ -113,7 +142,7 @@ export const LessonSection: FC<PropsType> = (props) => {
           <Spinner />
         </div>
       )}
-      {isMine && !sectionData && (
+      {isMine && !sectionId && (
         <>
           <div className={styles.addSectionWrap} onClick={() => addSectionModalControl.openModal({ lessonId: lessonData.id })}>
             <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
@@ -166,7 +195,7 @@ export const LessonSection: FC<PropsType> = (props) => {
                                   withIcon
                                   onClick={() => {
                                     editExerciseModalControl.openModal({
-                                      editableData: item, sectionId: sectionData.id, template: item.template
+                                      editableData: item, sectionId: sectionData?.id, template: item.template
                                     });
                                   }}
                                 >
@@ -248,7 +277,7 @@ export const LessonSection: FC<PropsType> = (props) => {
             onClose={editExercisePositionModalControl.closeModal}
             width={600}
           >
-            <ChangeExercisesPositionModal modalControl={editExercisePositionModalControl} callback={() => {}} />
+            <ChangeExercisesPositionModal modalControl={editExercisePositionModalControl} callback={getSectionDetails} />
           </ModalUI>
         </>
       )}

@@ -1,4 +1,6 @@
 import {
+  ExerciseAnswerCreateModel,
+  ExerciseAnswerModel,
   ExerciseCreateModel, ExerciseUpdateModel
 } from "#businessLogic/models/exercise";
 import { XHRDataState, XHRSuccessState } from "#constructors/store";
@@ -20,4 +22,18 @@ export const $updateExercise = createXHRStore<ExerciseUpdateModel, number, Store
 export const $deleteExercise = createXHRStore<number, any, StoreTypeWithData<any>>(
   api.exercise.deleteExercise,
   new XHRDataState(null),
+);
+
+export const $exerciseAnswersBySection = createXHRStore<
+  number,
+  Array<ExerciseAnswerModel>,
+  StoreTypeWithData<Array<ExerciseAnswerModel>>
+>(
+  api.exercise.getExerciseAnswersBySection,
+  new XHRDataState([])
+);
+
+export const $addExerciseAnswer = createXHRStore<ExerciseAnswerCreateModel, number, StoreType>(
+  api.exercise.addExerciseAnswer,
+  new XHRSuccessState(),
 );
