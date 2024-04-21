@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Progress } from "antd";
 
@@ -11,6 +11,9 @@ import { ClearSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { notificationWarning } from "#ui/notifications";
 import { useRole } from "#hooks/useRole";
+import { $addExerciseAnswer } from "#stores/exercise";
+import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
+import { useStore } from "effector-react";
 
 type FilledItemsType = {
   [key: string]: {
@@ -32,6 +35,8 @@ type PropsTypes = {
 export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { data, showHints } = props;
 
+  const exerciseAnswersState = useStore($exerciseAnswers.store);
+
   const [filledItems, setFilledItems] = useState<FilledItemsType>({});
   const [usedAnswers, setUsedAnswers] = useState<UsedAnswersType>({});
   const [showResults, setShowResults] = useState(false);
@@ -40,6 +45,23 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const correctAnswersCount = useRef(0);
 
   const { isTeacher } = useRole();
+
+  useEffect(() => {
+    if (!showResults && exerciseAnswersState[data.sectionId] && exerciseAnswersState[data.sectionId][data.id]) {
+      const savedFilledItems = exerciseAnswersState[data.sectionId][data.id];
+      const correctCount = Object.entries(savedFilledItems).reduce((acc, [key, item]: any) => {
+        if (item.isCorrect) {
+          return acc + 1;
+        }
+
+        return acc;
+      }, 0);
+
+      setFilledItems(savedFilledItems);
+      correctAnswersCount.current = correctCount;
+      setShowResults(true);
+    }
+  }, [exerciseAnswersState]);
 
   const answer = useMemo(() => {
     return shuffledArray(data.metaData.answer);
@@ -124,7 +146,21 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
 
   const onCheckResult = () => {
     if (answer.length === Object.keys(filledItems).length) {
-      setShowResults(true);
+
+      $addExerciseAnswer.effect({
+        sectionId: data.sectionId,
+        exerciseId: data.id,
+        metaData: filledItems
+      }).then((response) => {
+        if (response) {
+          $exerciseAnswers.update({
+            [data.sectionId]: {
+              ...exerciseAnswersState[data.sectionId],
+              [data.id]: filledItems
+            }
+          });
+        }
+      });
     } else {
       notificationWarning("Заполните все поля", "");
     }
@@ -135,41 +171,43 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
       <div className={styles.blankTemplate}>
 
         <DragDropContext onDragEnd={handleDragAndDrop} onDragStart={onDragStart}>
-          <div>
-            <Droppable droppableId="ROOT" direction="horizontal">
-              {(provided, snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
-                  {answer.map((item, index) => (
-                    <Draggable
-                      draggableId={item + index}
-                      index={index}
-                      key={item + index}
-                      isDragDisabled={!!usedAnswers[item + index]}
-                    >
-                      {(provided, snapshot) => (
-                        <div className={`${styles.blankAnswerItemWr} ${!!usedAnswers[item + index] ? styles.hiddenItem : ""}`}>
+          {!showResults && (
+            <div>
+              <Droppable droppableId="ROOT" direction="horizontal">
+                {(provided, snapshot) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef} className={styles.blankAnswers}>
+                    {answer.map((item, index) => (
+                      <Draggable
+                        draggableId={item + index}
+                        index={index}
+                        key={item + index}
+                        isDragDisabled={!!usedAnswers[item + index]}
+                      >
+                        {(provided, snapshot) => (
+                          <div className={`${styles.blankAnswerItemWr} ${!!usedAnswers[item + index] ? styles.hiddenItem : ""}`}>
 
-                          <div className={`${styles.blankAnswerItem} ${styles.hiddenItem}`}>
-                            {item.substring(1, item.length - 1)}
+                            <div className={`${styles.blankAnswerItem} ${styles.hiddenItem}`}>
+                              {item.substring(1, item.length - 1)}
+                            </div>
+
+                            <div
+                              {...provided.dragHandleProps}
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                              className={`${styles.blankAnswerItem} ${styles.blankAnswerItemDrag} ${snapshot.isDragging ? "active" : "" }`}
+                            >
+                              {item.substring(1, item.length - 1)}
+                            </div>
                           </div>
+                        )}
+                      </Draggable>
+                    ))}
 
-                          <div
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                            className={`${styles.blankAnswerItem} ${styles.blankAnswerItemDrag} ${snapshot.isDragging ? "active" : "" }`}
-                          >
-                            {item.substring(1, item.length - 1)}
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-
-                </div>
-              )}
-            </Droppable>
-          </div>
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          )}
 
 
           <div className={styles.blankTemplateText}>

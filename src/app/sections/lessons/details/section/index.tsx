@@ -4,7 +4,7 @@ import { Switch, Popconfirm } from "antd";
 
 import { $sectionDetails } from "#stores/section";
 import { $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
-import { $exerciseAnswers, $lessonSections } from "#src/app/sections/lessons/details/effector";
+import { $exerciseAnswers, $lessonSections } from "../effector";
 
 import { useModalControl } from "#hooks/useModalControl";
 import { useRole } from "#hooks/useRole";
@@ -14,7 +14,7 @@ import { LessonDetailsModel } from "#businessLogic/models/lessons";
 import {
   AddExercisesModal,
   AddExercisesModalPropTypes
-} from "#src/app/sections/lessons/details/components/addExercisesModal";
+} from "../components/addExercisesModal";
 
 import { templateTypes } from "#constants/index";
 
@@ -71,7 +71,6 @@ export const LessonSection: FC<PropsType> = (props) => {
   const { isStudent } = useRole();
 
   const getSectionDetails = () => {
-    console.log("getSectionDetails");
     if (sectionId) {
       $sectionDetails.effect(sectionId);
     }

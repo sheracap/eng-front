@@ -96,12 +96,12 @@
       border-color: $success;
       background-color: rgba($success, 0.2);
     }
-  }
 
-  &:global(.is-filled_true) {
-    &:global(.is-correct-blank-answer_false) {
-      border-color: $danger;
-      background-color: rgba($danger, 0.2);
+    &:global(.is-filled_true) {
+      &:global(.is-correct-blank-answer_false) {
+        border-color: $danger;
+        background-color: rgba($danger, 0.2);
+      }
     }
   }
 }

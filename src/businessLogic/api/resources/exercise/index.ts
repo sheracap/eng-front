@@ -33,7 +33,7 @@ export const getExerciseAnswersBySection: HandlerType<number, Array<ExerciseAnsw
 };
 
 export const addExerciseAnswer: HandlerType<ExerciseAnswerCreateModel, any> = (data) => {
-  return httpGet({
+  return httpPost({
     url: "/api/exercise-answers",
     data
   });

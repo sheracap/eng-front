@@ -21,39 +21,40 @@ type PropsTypes = {
 export const TemplateTest: FC<PropsTypes> = (props) => {
   const { data, showHints } = props;
 
-  const addExerciseAnswerState = useStore($addExerciseAnswer.store);
   const exerciseAnswersState = useStore($exerciseAnswers.store);
 
   const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
 
-  const result = exerciseAnswersState[data.id]?.metaData;
+  const result = exerciseAnswersState[data.sectionId] ? exerciseAnswersState[data.sectionId][data.id] : undefined;
 
   const { isStudent } = useRole();
 
   const onAnswerChange = (e) => {
-    const val = e.target.value;
+    if (!result) {
+      const val = e.target.value;
 
-    setUserAnswer(val);
+      setUserAnswer(val);
+    }
   };
 
   const onCheck = () => {
     let res;
 
     if (String(userAnswer) === String(data.metaData.answer)) {
-      res = { text: "Правильно", type: "CORRECT" };
+      res = { text: "Правильно", type: "CORRECT", val: userAnswer };
     } else {
-      res = { text: "Неправильно", type: "WRONG" };
+      res = { text: "Неправильно", type: "WRONG", val: userAnswer };
     }
 
     $addExerciseAnswer.effect({
       sectionId: data.sectionId,
       exerciseId: data.id,
       metaData: res
-    }).then((result) => {
-      if (result) {
+    }).then((response) => {
+      if (response) {
         $exerciseAnswers.update({
           [data.sectionId]: {
-            ...exerciseAnswersState[data.id],
+            ...exerciseAnswersState[data.sectionId],
             [data.id]: res
           }
         });
@@ -64,16 +65,13 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
   return (
     <div className={styles.testTemplate}>
       <div className={styles.testQuestion}>{data.metaData.question}</div>
-      {/*<div>*/}
-      {/*  Правильный ответ: {data.answer}*/}
-      {/*</div>*/}
       <div className={styles.testVariants}>
         {data.metaData.variants && (
-          <Radio.Group value={userAnswer} onChange={onAnswerChange}>
+          <Radio.Group value={result ? result.val : userAnswer} onChange={onAnswerChange}>
             <Space direction="vertical">
               {data.metaData.variants.map((item, index) => (
                 <Radio
-                  className={showHints && item === data.metaData.answer ? "correct-answer" : ""}
+                  className={(showHints || result) && item === data.metaData.answer ? "correct-answer" : ""}
                   value={item}
                   key={index}
                 >
