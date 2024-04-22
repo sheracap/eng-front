@@ -18,6 +18,11 @@ export const $currentUser = createXHRStore<null, CurrentUserModel, StoreTypeWith
   new XHRDataState(null),
 );
 
+export const $updateUser = createXHRStore<any, any, StoreType>(
+  api.account.updateUser,
+  new XHRSuccessState(),
+);
+
 export const $logIn = createXHRStore<LoginPayloadType, LoginResponseType, StoreType>(
   api.account.logIn,
   new XHRSuccessState(),

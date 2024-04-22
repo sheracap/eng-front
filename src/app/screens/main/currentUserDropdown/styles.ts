@@ -40,7 +40,14 @@ export const useStyles = createUseStyles({
     height: "100%",
     color: $colors.mediumBlue,
     border: `1px solid ${$colors.mediumBlue}`,
+    overflow: "hidden",
     borderRadius: "50%",
+
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover"
+    },
 
     "& svg": {
       width: "20px",

@@ -1,26 +1,16 @@
 import React, { FC, memo } from "react";
 
 import { useLogOut } from "#hooks/useLogOut";
-import { UserAvatarSvgIcon, UserDropdownArrowSvgIcon } from "#svgIcons/index";
+import { UserAvatarSvgIcon } from "#svgIcons/index";
 import { ModalConfirmUI } from "#ui/modalConfirm";
 import { Popover, Spin } from "antd";
 
 import { useStyles } from "./styles";
 import { useStore } from "effector-react";
 import { $currentUser } from "#stores/account";
-
-const DropdownMenu = memo(() => {
-  const classes = useStyles();
-  const logOut = useLogOut();
-
-  return (
-    <div className={classes.dropdown}>
-      <ModalConfirmUI title="Вы точно хотите выйти из профиля ?" onOk={logOut}>
-        <div className={classes.dropdownItem}>Выйти из профиля</div>
-      </ModalConfirmUI>
-    </div>
-  );
-});
+import { UserEditModal } from "./userEditModal";
+import { ModalUI } from "#ui/modal";
+import { useModalControl } from "#hooks/useModalControl";
 
 export const CurrentUserDropdown: FC = memo((props) => {
 
@@ -29,6 +19,10 @@ export const CurrentUserDropdown: FC = memo((props) => {
   const { loading: currentUserLoading, data: currentUserData } = currentUserState;
 
   const classes = useStyles();
+
+  const logOut = useLogOut();
+
+  const userEditModalControl = useModalControl();
 
   const renderUserDetails = () => {
     if (currentUserLoading) {
@@ -53,18 +47,37 @@ export const CurrentUserDropdown: FC = memo((props) => {
       <Popover
         overlayClassName={classes.popoverWrap}
         placement="bottomRight"
-        content={<DropdownMenu />}
+        content={(
+          <div className={classes.dropdown}>
+            <div className={classes.dropdownItem} onClick={() => userEditModalControl.openModal()}>
+              Редактировать профиль
+            </div>
+            <ModalConfirmUI title="Вы точно хотите выйти из профиля ?" onOk={logOut}>
+              <div className={classes.dropdownItem}>Выйти из профиля</div>
+            </ModalConfirmUI>
+          </div>
+        )}
         trigger="click"
       >
         <div className={classes.userRow}>
           <div className={classes.userPhoto}>
             <div className={classes.userPhotoPlaceholder}>
-              <UserAvatarSvgIcon />
+              {currentUserData?.img ? (
+                <img src={`http://localhost:5000/${currentUserData.img}`} alt="" />
+              ) : (
+                <UserAvatarSvgIcon />
+              )}
             </div>
           </div>
           <div className={classes.userDetails}>{renderUserDetails()}</div>
         </div>
       </Popover>
+      <ModalUI
+        open={userEditModalControl.modalProps.open}
+        onCancel={userEditModalControl.closeModal}
+      >
+        <UserEditModal modalControl={userEditModalControl} callback={() => {}} />
+      </ModalUI>
     </div>
   );
 });

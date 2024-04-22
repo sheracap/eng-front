@@ -2,78 +2,58 @@ import React, { FC, useEffect, useState } from "react";
 
 import { requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
-import { $addCourse, $courseDetails, $updateCourse } from "#stores/courses";
+import { $updateUser } from "#stores/account";
 import { ButtonUI } from "#ui/button";
 import { FormUI } from "#ui/form";
 import { ModalUI } from "#ui/modal";
 import { Form, message, Upload } from "antd";
 import { useStore } from "effector-react";
-import { useHistory } from "react-router-dom";
 import { InputUI } from "#ui/input";
-import { CheckboxUI } from "#ui/checkbox";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { notificationSuccess } from "#ui/notifications";
 import { AddPlusSvgIcon } from "#src/assets/svg";
-
-export type AddCourseModalType = {
-  id?: number;
-}
+import { $currentUser } from "#stores/account";
 
 type PropTypes = {
-  modalControl: ModalControlType<AddCourseModalType>;
-  callback?: () => void;
+  modalControl: ModalControlType;
+  callback: () => void;
 };
 
-export const AddCourseModal: FC<PropTypes> = (props) => {
+export const UserEditModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
-
-  const { id: courseId } = modalControl.modalProps;
-
-  const history = useHistory();
 
   const [form] = Form.useForm();
 
-  const addCourseState = useStore($addCourse.store);
-  const updateCourseState = useStore($updateCourse.store);
-  const { data: courseDetails } = useStore($courseDetails.store);
+  const { data: currentUserData } = useStore($currentUser.store);
+  const updateUserState = useStore($updateUser.store);
 
   const [ uploadedPhoto, setUploadedPhoto ] = useState(undefined);
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
 
   useEffect(() => {
-    if (courseId && courseDetails) {
+    if (currentUserData) {
       form.setFieldsValue({
-        name: courseDetails.name,
-        description: courseDetails.description,
-        isPrivate: courseDetails.isPrivate
+        name: currentUserData.name,
+        email: currentUserData.email,
       });
 
-      if (courseDetails.img) {
-       setPhotoUrl(`http://localhost:5000/${courseDetails.img}`);
+      if (currentUserData.img) {
+        setPhotoUrl(`http://localhost:5000/${currentUserData.img}`);
       }
     }
 
     return () => {
-      $addCourse.reset();
-      $updateCourse.reset();
+      $updateUser.reset();
     };
   }, []);
 
   useEffect(() => {
-    if (addCourseState.data) {
-      modalControl.closeModal();
-
-      history.push(`/courses/${addCourseState.data.id}`);
-    }
-  }, [addCourseState.data]);
-
-  useEffect(() => {
-    if (updateCourseState.data) {
+    if (updateUserState.success) {
       notificationSuccess("Данные обновлены", "");
       modalControl.closeModal();
-      callback && callback();
+      callback();
     }
-  }, [updateCourseState.data]);
+  }, [updateUserState.success]);
 
   const beforeUploadPhoto = (file: any) => {
     const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);
@@ -121,26 +101,21 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
     }
 
     data.append("name", formData.name);
-    data.append("isPrivate", formData.isPrivate);
-    data.append("description", formData.description);
+    data.append("email", formData.email);
 
-    if (courseId) {
-      $updateCourse.effect({ id: courseId, data });
-    } else {
-      $addCourse.effect(data);
-    }
+    $updateUser.effect(data);
   };
 
   return (
     <>
-      <ModalUI.Loading show={addCourseState.loading || updateCourseState.loading} />
+      <ModalUI.Loading show={updateUserState.loading} />
       <ModalUI.Header>
-        <ModalUI.Title>{courseId ? "Редактирование" : "Добавить курс"}</ModalUI.Title>
+        <ModalUI.Title>Редактировать данные</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <FormUI phantomSubmit form={form} onFinish={onFinish} initialValues={{ isPrivate: true }}>
+        <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <Form.Item
-            label="Обложка"
+            label="Фото"
           >
             <div className="uploadPhoto">
               <Upload
@@ -151,7 +126,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
                 beforeUpload={beforeUploadPhoto}
                 accept="image/png, image/jpg, image/jpeg"
               >
-                {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (
+                {photoUrl ? <img src={photoUrl} alt="user-photo" style={{ width: '100%' }} /> : (
                   <div className="uploadPhotoEmpty">
                     <div>
                       <AddPlusSvgIcon />
@@ -173,14 +148,11 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
               )}
             </div>
           </Form.Item>
-          <FormUI.Item label="Название" name="name" rules={requiredRules}>
-            <InputUI placeholder="Введите название курса" />
+          <FormUI.Item label="Имя" name="name" rules={requiredRules}>
+            <InputUI placeholder="Введите имя" />
           </FormUI.Item>
-          <FormUI.Item label="Описание" name="description">
-            <InputUI.TextArea placeholder="Введите описание" />
-          </FormUI.Item>
-          <FormUI.Item name="isPrivate" valuePropName="checked">
-            <CheckboxUI>Приватный (виден только мне)</CheckboxUI>
+          <FormUI.Item label="Email" name="email" rules={[{ type: "email" }]}>
+            <InputUI placeholder="Введите email" />
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>
@@ -193,7 +165,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()}>
-              {courseId ? "Сохранить" : "Добавить"}
+              Сохранить
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

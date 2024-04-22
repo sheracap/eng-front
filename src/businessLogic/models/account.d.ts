@@ -2,6 +2,8 @@
 export interface CurrentUserModel {
   id: number;
   name: string;
+  email: string;
+  img: null | string;
   role: { code: "TEACHER" | "STUDENT"; name: string; };
   teacherId: number | null;
 }
