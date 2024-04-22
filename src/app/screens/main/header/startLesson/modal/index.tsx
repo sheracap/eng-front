@@ -11,7 +11,7 @@ import { StartLessonCoursesTab } from "./courses";
 import "./styles.scss";
 import { StartLessonStudentsTab } from "#src/app/screens/main/header/startLesson/modal/students";
 import { useStore } from "effector-react";
-import { $selectedLesson, $selectedStudents } from "#src/app/screens/main/effector";
+import { $activeLessonByNotification, $selectedLesson, $selectedStudents } from "#src/app/screens/main/effector";
 import { notificationWarning } from "#ui/notifications";
 import { $createActiveLesson } from "#stores/activeLesson";
 import { useHistory } from "react-router-dom";
@@ -46,7 +46,14 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (createActiveLessonState.success) {
-      //history.push();
+      if (selectedLessonState && selectedLessonState.courseId) {
+        $activeLessonByNotification.update({
+          lessonId: selectedLessonState.lessonId,
+          courseId: selectedLessonState.courseId
+        });
+
+        history.push(`/courses/${selectedLessonState.courseId}/lesson/${selectedLessonState.lessonId}/1`);
+      }
 
       closeModal();
     }
