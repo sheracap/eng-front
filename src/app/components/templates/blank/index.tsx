@@ -48,17 +48,10 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
 
   useEffect(() => {
     if (!showResults && exerciseAnswersState[data.sectionId] && exerciseAnswersState[data.sectionId][data.id]) {
-      const savedFilledItems = exerciseAnswersState[data.sectionId][data.id];
-      const correctCount = Object.entries(savedFilledItems).reduce((acc, [key, item]: any) => {
-        if (item.isCorrect) {
-          return acc + 1;
-        }
+      const answerData = exerciseAnswersState[data.sectionId][data.id];
 
-        return acc;
-      }, 0);
-
-      setFilledItems(savedFilledItems);
-      correctAnswersCount.current = correctCount;
+      setFilledItems(answerData.filledItems);
+      correctAnswersCount.current = answerData.correctAnswersCount;
       setShowResults(true);
     }
   }, [exerciseAnswersState]);
@@ -147,16 +140,21 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const onCheckResult = () => {
     if (answer.length === Object.keys(filledItems).length) {
 
+      const metaData = {
+        correctAnswersCount: correctAnswersCount.current,
+        filledItems
+      }
+
       $addExerciseAnswer.effect({
         sectionId: data.sectionId,
         exerciseId: data.id,
-        metaData: filledItems
+        metaData
       }).then((response) => {
         if (response) {
           $exerciseAnswers.update({
             [data.sectionId]: {
               ...exerciseAnswersState[data.sectionId],
-              [data.id]: filledItems
+              [data.id]: metaData
             }
           });
         }

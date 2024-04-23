@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 import styles from "./styles.module.scss";
@@ -6,6 +6,10 @@ import { debounce } from "#utils/debounceLodash";
 import { ButtonUI } from "#ui/button";
 import { notificationWarning } from "#ui/notifications";
 import { BlankProgress } from "#components/templates/blank";
+import { useRole } from "#hooks/useRole";
+import { $addExerciseAnswer } from "#stores/exercise";
+import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
+import { useStore } from "effector-react";
 
 type PropsTypes = {
   data: ExerciseItemModel
@@ -22,9 +26,24 @@ export const withDebounce = debounce(
 export const TemplateFillText: FC<PropsTypes> = (props) => {
   const { data } = props;
 
+  const exerciseAnswersState = useStore($exerciseAnswers.store);
+
   const [showResults, setShowResults] = useState(false);
   const filledAnswers = useRef({});
   const correctAnswersCount = useRef(0);
+
+  const { isStudent } = useRole();
+
+  useEffect(() => {
+    if (!showResults && exerciseAnswersState[data.sectionId] && exerciseAnswersState[data.sectionId][data.id]) {
+      const answerData = exerciseAnswersState[data.sectionId][data.id];
+
+      correctAnswersCount.current = answerData.correctAnswersCount;
+      filledAnswers.current = answerData.filledAnswers;
+
+      setShowResults(true);
+    }
+  }, [exerciseAnswersState]);
 
   const onChange = (e) => {
     withDebounce(() => {
@@ -53,7 +72,25 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
 
       correctAnswersCount.current = count;
 
-      setShowResults(true);
+      const metaData = {
+        correctAnswersCount: count,
+        filledAnswers: filledAnswers.current
+      }
+
+      $addExerciseAnswer.effect({
+        sectionId: data.sectionId,
+        exerciseId: data.id,
+        metaData
+      }).then((response) => {
+        if (response) {
+          $exerciseAnswers.update({
+            [data.sectionId]: {
+              ...exerciseAnswersState[data.sectionId],
+              [data.id]: metaData
+            }
+          });
+        }
+      });
     } else {
       notificationWarning("Заполните все поля", "");
     }
@@ -83,16 +120,20 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
           </React.Fragment>
         ))}
       </div>
-      {showResults ? (
-        <div className={styles.result}>
-          <BlankProgress result={correctAnswersCount.current} total={data.metaData.answer.length} />
-        </div>
-      ) : (
-        <div className={styles.testTemplateActions}>
-          <ButtonUI onClick={onCheckResult}>
-            Проверить
-          </ButtonUI>
-        </div>
+      {isStudent && (
+        <>
+          {showResults ? (
+            <div className={styles.result}>
+              <BlankProgress result={correctAnswersCount.current} total={data.metaData.answer.length} />
+            </div>
+          ) : (
+            <div className={styles.testTemplateActions}>
+              <ButtonUI onClick={onCheckResult}>
+                Проверить
+              </ButtonUI>
+            </div>
+          )}
+        </>
       )}
     </>
   )
