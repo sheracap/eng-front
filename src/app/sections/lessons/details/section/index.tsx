@@ -45,6 +45,8 @@ import {
   AddEditExercisesFormModal,
   AddEditExercisesFormModalPropTypes
 } from "../components/addExercisesModal/formModal";
+import { $activeLesson } from "#stores/activeLesson";
+import { $activeLessonByNotification } from "#src/app/screens/main/effector";
 
 type PropsType = {
   isMine: boolean;
@@ -54,6 +56,9 @@ type PropsType = {
 
 export const LessonSection: FC<PropsType> = (props) => {
   const { isMine, lessonData, sectionId } = props;
+
+  const activeLessonState = useStore($activeLesson.store);
+  const activeLessonByNotificationState = useStore($activeLessonByNotification.store);
 
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
   const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
@@ -69,6 +74,12 @@ export const LessonSection: FC<PropsType> = (props) => {
   const [showHints, setShowHints] = useState(isMine);
 
   const { isStudent } = useRole();
+
+  useEffect(() => {
+    if (activeLessonState.data || activeLessonByNotificationState) {
+      setShowHints(false);
+    }
+  }, [activeLessonState.data || activeLessonByNotificationState])
 
   const getSectionDetails = () => {
     if (sectionId) {
@@ -233,7 +244,7 @@ export const LessonSection: FC<PropsType> = (props) => {
                     <TemplateBlank data={item} showHints={showHints} />
                   )}
                   {item.template === templateTypes.FILL_TEXT && (
-                    <TemplateFillText data={item} />
+                    <TemplateFillText data={item} showHints={showHints} />
                   )}
                   {item.template === templateTypes.VIDEO && (
                     <TemplateVideo data={item} />

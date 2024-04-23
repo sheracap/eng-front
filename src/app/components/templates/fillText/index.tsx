@@ -12,7 +12,8 @@ import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
 import { useStore } from "effector-react";
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
+  showHints: boolean;
 }
 
 export const withDebounce = debounce(
@@ -24,7 +25,7 @@ export const withDebounce = debounce(
 );
 
 export const TemplateFillText: FC<PropsTypes> = (props) => {
-  const { data } = props;
+  const { data, showHints } = props;
 
   const exerciseAnswersState = useStore($exerciseAnswers.store);
 
@@ -53,7 +54,8 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
       filledAnswers.current = {
         ...filledAnswers.current,
         [index]: {
-          isCorrect: item === `[${value}]`
+          isCorrect: item === `[${value}]`,
+          value
         }
       };
     });
@@ -102,16 +104,33 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
         {data.metaData.resultArray.map((item, index) => (
           <React.Fragment key={index}>
             {item[0] === "[" && (
-              <span
-                className={`
-                  ${styles.fillTextInput}
-                  show-answer_${showResults}
-                  is-correct-blank-answer_${!!filledAnswers.current[index]?.isCorrect}
-                `}
-                onInput={onChange}
-                data-val={JSON.stringify({ index, item })}
-                contentEditable={!showResults}
-              />
+              <>
+                {showResults ? (
+                  <span
+                    className={`
+                    ${styles.fillTextInput}
+                    is-correct-blank-answer_${!!filledAnswers.current[index]?.isCorrect}
+                  `}
+                  >
+                    {filledAnswers.current[index]?.value}
+                  </span>
+                ) : (
+                  <span>
+                    {showHints ? (
+                      <span className={`${styles.fillTextInput}`}>
+                        {item.substring(1, item.length - 1)}
+                      </span>
+                    ) : (
+                      <span
+                        className={`${styles.fillTextInput}`}
+                        onInput={onChange}
+                        data-val={JSON.stringify({ index, item })}
+                        contentEditable={true}
+                      />
+                    )}
+                  </span>
+                )}
+              </>
             )}
 
             {item[0] !== "[" && (
