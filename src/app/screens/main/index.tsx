@@ -13,8 +13,10 @@ import { Home } from "../../sections/home";
 import { HeaderUI } from "./header";
 import { SideNavigation } from "./sideNavigation";
 import { Courses } from "#src/app/sections/courses";
+import { Vocabulary } from "#src/app/sections/vocabulary";
 
 import "./styles.scss";
+import { useRole } from "#hooks/useRole";
 
 const { Content } = Layout;
 
@@ -27,6 +29,8 @@ export const Main: FC = () => {
   const { data: currentUser } = currentUserState;
 
   const [siderOpened, setSiderOpened] = useState(false);
+
+  const { isStudent } = useRole();
 
   useEffect(() => {
     $currentUser.effect();
@@ -61,7 +65,9 @@ export const Main: FC = () => {
               <Switch>
                 <Route path={ROUTES.HOME} component={Home} />
                 <Route path={ROUTES.COURSES} component={Courses} />
-                <Route path={ROUTES.MONITORING} component={Monitoring} />
+                {isStudent && (
+                  <Route path={ROUTES.VOCABULARY} component={Vocabulary} />
+                )}
               </Switch>
             </div>
           </Content>

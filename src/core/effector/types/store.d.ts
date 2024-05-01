@@ -21,6 +21,7 @@ export interface CreateStoreReturnType<P, S, R> {
   effect: EffectByHandler<HandlerType<P, R>, any>;
   store: Store<S>;
   reset: Event<void>;
+  update: Event<S>;
 }
 
 export type CreateXHRStoreType = <P, R, S>(

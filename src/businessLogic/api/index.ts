@@ -8,6 +8,7 @@ import * as exercise from "./resources/exercise";
 import * as students from "./resources/students";
 import * as notifications from "./resources/notifications";
 import * as activeLesson from "./resources/activeLesson";
+import * as words from "./resources/words";
 
 export const api = {
   common,
@@ -20,4 +21,5 @@ export const api = {
   students,
   notifications,
   activeLesson,
+  words
 };

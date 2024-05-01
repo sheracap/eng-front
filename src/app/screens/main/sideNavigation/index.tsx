@@ -1,7 +1,7 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 
 import { ROUTES } from "#constants/index";
-import { CoursesIcon, HomeSvgIcon } from "#svgIcons/menuIcons";
+import { CoursesIcon, HomeSvgIcon, VocabularyIcon, StudentsIcon } from "#svgIcons/menuIcons";
 import { Layout, Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -24,7 +24,12 @@ const getMenuData = () => [
   {
     name: "Мои ученики",
     path: `${ROUTES.HOME}/students`,
-    icon: <CoursesIcon />,
+    icon: <StudentsIcon />,
+  },
+  {
+    name: "Словарь",
+    path: `${ROUTES.VOCABULARY}`,
+    icon: <VocabularyIcon />,
   },
 ];
 
@@ -100,7 +105,9 @@ export const SideNavigation: FC<PropTypes> = (props) => {
 
   const location = useLocation();
 
-  const menuData = getMenuData();
+  const menuData = useMemo(() => {
+    return getMenuData();
+  }, []);
 
   const [openKeys, setOpenKeys] = useState(getOpenKeys(menuData, location));
   const [menuProps, setMenuProps] = useState({ selectedKeys: openKeys, openKeys: !collapsed ? openKeys : undefined });

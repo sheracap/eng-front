@@ -29,6 +29,10 @@ const failReducerDefault: FailReducerType = (state, { error }, initialState) => 
   data: initialState.data,
 });
 
+const updateReducerDefault = (prevState, newState) => {
+  return newState;
+}
+
 const getDoneReducer: GetReducerType = (initialState) => {
   if (initialState && typeof initialState === "object" && "data" in initialState) {
     return doneReducerDefault;
@@ -44,6 +48,7 @@ export const createXHRStore: CreateXHRStoreType = (handler, initialState, reduce
   const failReducer = reducers.failReducer !== undefined ? reducers.failReducer : failReducerDefault;
 
   const effect = createEffect<typeof handler>({ handler });
+  const update = createEvent<typeof initialState>();
   const reset = createEvent<void>();
   const store: Store<typeof initialState> = createStore(initialState).reset(reset);
 
@@ -59,6 +64,9 @@ export const createXHRStore: CreateXHRStoreType = (handler, initialState, reduce
     store.on<any>(effect.fail, (prevState, response) => failReducer(prevState, response, initialState));
   }
 
+  store.on<any>(update, updateReducerDefault);
+
+
   if (resets) {
     if (Array.isArray(resets)) {
       resets.forEach((func) => {
@@ -73,6 +81,7 @@ export const createXHRStore: CreateXHRStoreType = (handler, initialState, reduce
     effect,
     store,
     reset,
+    update
   };
 };
 
