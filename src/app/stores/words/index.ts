@@ -5,7 +5,13 @@ import { createGlobalStore, createXHRStore } from "#core/effector";
 import { StoreType, StoreTypeWithData } from "#core/effector/types/store";
 import { PaginationListModel } from "#types/apiResponseModels";
 import { api } from "src/businessLogic/api";
-import { WordItemModel, WordsParamsType } from "#businessLogic/models/vocabulary";
+import {
+  CreateWordCategoryModel,
+  CreateWordModel,
+  WordCategoryItemModel,
+  WordItemModel,
+  WordsParamsType
+} from "#businessLogic/models/vocabulary";
 
 export const $wordsList = createXHRStore<
   WordsParamsType,
@@ -32,9 +38,9 @@ export const $wordsList = createXHRStore<
   }
 );
 
-export const $createWord = createXHRStore<any, any, StoreType>(
+export const $createWord = createXHRStore<CreateWordModel, WordItemModel, StoreTypeWithData<null | WordItemModel>>(
   api.words.createWord,
-  new XHRSuccessState(),
+  new XHRDataState(null),
 );
 
 export const $deleteWord = createXHRStore<number, any, StoreType>(
@@ -44,14 +50,14 @@ export const $deleteWord = createXHRStore<number, any, StoreType>(
 
 export const $wordCategories = createXHRStore<
   void,
-  Array<any>,
-  StoreTypeWithData<Array<any>>
+  Array<WordCategoryItemModel>,
+  StoreTypeWithData<Array<WordCategoryItemModel>>
 >(
   api.words.getWordCategories,
   new XHRDataState([]),
 );
 
-export const $createWordCategory = createXHRStore<any, number, StoreTypeWithData<null | number>>(
+export const $createWordCategory = createXHRStore<CreateWordCategoryModel, WordCategoryItemModel, StoreTypeWithData<null | WordCategoryItemModel>>(
   api.words.createWordCategory,
   new XHRDataState(null),
 );

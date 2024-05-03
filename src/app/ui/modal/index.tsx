@@ -1,17 +1,25 @@
-import React from "react";
+import React, { FC } from "react";
+import { Alert, Modal, ModalProps } from "antd";
 
 import { CloseCrossSvgIcon, CrossSvgIcon } from "#svgIcons/index";
 import { ErrorResponse } from "#types/apiResponseModels";
 import { ButtonUI } from "#ui/button";
 import { Spinner } from "#ui/spinner";
-import { Alert, Modal } from "antd";
 
-import { useStyles } from "./styles";
+import "./styles.scss";
 
-const ModalUI = (props: any) => {
+type ModalUIType = FC<ModalProps> & {
+  Header: typeof Header;
+  Title: typeof Title;
+  Middle: typeof Middle;
+  Buttons: typeof Buttons;
+  Loading: typeof Loading;
+  Footer: typeof Footer;
+  Error: typeof Error;
+};
+
+const ModalUI: ModalUIType = (props) => {
   const { className = "", width = 450, footer = false, ...restProps } = props;
-
-  useStyles();
 
   let classesCompose = "custom-modal";
 

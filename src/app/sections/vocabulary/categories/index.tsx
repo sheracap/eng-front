@@ -7,6 +7,7 @@ import { notificationSuccess } from "#ui/notifications";
 import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
 import { AddWordCategoryModal } from "./addCategoryModal";
+import { WordCategoryItemModel } from "#businessLogic/models/vocabulary";
 
 export const WordCategories = () => {
 
@@ -24,6 +25,7 @@ export const WordCategories = () => {
   useEffect(() => {
     if (deleteWordCategoryState.data) {
       const newList = wordCategoriesState.data.filter((item) => item.id !== deleteWordCategoryState.data);
+      // deleteWordCategoryState.data check type of id
 
       $wordCategories.update({
         ...deleteWordCategoryState,
@@ -36,7 +38,7 @@ export const WordCategories = () => {
     }
   }, [deleteWordCategoryState.data]);
 
-  const afterAdd = (item: { id: number; name: string; }) => {
+  const afterAdd = (item: WordCategoryItemModel) => {
     $wordCategories.update({
       ...wordCategoriesState,
       data: [item, ...wordCategoriesState.data]

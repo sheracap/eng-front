@@ -25,7 +25,7 @@ type PropTypes = {
 let abortController: undefined | AbortController = undefined;
 
 async function translate(text, targetLanguage) {
-  const apiKey = 'AIzaSyBCg5tXL5toVZLX63VuuUlFHvoV5ZlloLk'; // todo TEST KEY WITH LIMIT
+  const apiKey = 'AIzaSyBCg5tXL5toVZLX63VuuUlFHvoV5ZlloLk'; // todo TEST KEY WITH LIMIT in future make key for your domain
   const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
 
@@ -62,6 +62,8 @@ export const withDebounce = debounce(
   false,
 );
 
+const myCurrentLang = "ru";
+
 export const AddWordModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
 
@@ -78,17 +80,14 @@ export const AddWordModal: FC<PropTypes> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (createWordState.success) {
+    if (createWordState.data) {
       notificationSuccess("Слово добавлено", "");
 
       modalControl.closeModal();
 
-      callback({
-        id: 1,
-        value: "sad"
-      }); // todo
+      callback(createWordState.data);
     }
-  }, [createWordState.success]);
+  }, [createWordState.data]);
 
   const onWordChange = (e) => {
     const text = e.target.value;
@@ -114,7 +113,12 @@ export const AddWordModal: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = {
-
+      value: formData.word,
+      transcription: formData.transcription ? formData.transcription : undefined,
+      translate: {
+        [myCurrentLang]: formData.translate
+      },
+      wordCategoryId: undefined
     };
 
     $createWord.effect(data);
@@ -127,22 +131,24 @@ export const AddWordModal: FC<PropTypes> = (props) => {
         <ModalUI.Title>Добавить слово</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <div>
+        <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <div>
-            lang picker default EN-RU
-            <FormUI.Item label="Слово" name="word" rules={requiredRules}>
-              <InputUI.TextArea
-                placeholder="Введите слово"
-                onChange={onWordChange}
-              />
-            </FormUI.Item>
+            <div>
+              lang picker default EN-RU
+              <FormUI.Item label="Слово" name="word" rules={requiredRules}>
+                <InputUI.TextArea
+                  placeholder="Введите слово"
+                  onChange={onWordChange}
+                />
+              </FormUI.Item>
+            </div>
+            <div>
+              <FormUI.Item label="Перевод" name="translate" rules={requiredRules}>
+                <InputUI.TextArea />
+              </FormUI.Item>
+            </div>
           </div>
-          <div>
-            <FormUI.Item label="Перевод" name="translate" rules={requiredRules}>
-              <InputUI.TextArea />
-            </FormUI.Item>
-          </div>
-        </div>
+        </FormUI>
       </ModalUI.Middle>
       <ModalUI.Footer>
         <ModalUI.Buttons>

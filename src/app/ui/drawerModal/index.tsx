@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from "react";
 
-import { useStyles as useModalStyles } from "#ui/modal/styles";
 import { Drawer } from "antd";
 
 import { useStyles } from "./styles";
@@ -14,7 +13,6 @@ interface DrawerPropTypes {
 export const DrawerModalUI: FC<DrawerPropTypes & any> = (props) => {
   const { children, className, withoutInner, afterClose, ...restProps } = props;
   const classes = useStyles();
-  useModalStyles();
 
   const afterOpenChange = (open) => {
     if (!open && afterClose) {

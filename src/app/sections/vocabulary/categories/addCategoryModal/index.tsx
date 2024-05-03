@@ -10,14 +10,15 @@ import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
 import { notificationSuccess } from "#ui/notifications";
 import { requiredRules } from "#constants/index";
+import { WordCategoryItemModel } from "#businessLogic/models/vocabulary";
 
 type PropTypes = {
   modalControl: ModalControlType;
-  callback: (item: { id: number; name: string; }) => void;
+  callback: (item: WordCategoryItemModel) => void;
 };
 
 export const AddWordCategoryModal: FC<PropTypes> = (props) => {
-  const { modalControl } = props;
+  const { modalControl, callback } = props;
 
   const [form] = Form.useForm();
 
@@ -33,6 +34,9 @@ export const AddWordCategoryModal: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (createWordCategoryState.data) {
       notificationSuccess("Категория создана", "");
+
+      callback(createWordCategoryState.data);
+
       modalControl.closeModal();
     }
   }, [createWordCategoryState.data]);
@@ -43,7 +47,8 @@ export const AddWordCategoryModal: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = {
-      email: formData.email
+      name: formData.name,
+      //parentId
     };
 
     $createWordCategory.effect(data);
@@ -53,7 +58,7 @@ export const AddWordCategoryModal: FC<PropTypes> = (props) => {
     <>
       <ModalUI.Loading show={createWordCategoryState.loading} />
       <ModalUI.Header>
-        <ModalUI.Title>Пригласить ученика</ModalUI.Title>
+        <ModalUI.Title>Добавить категорию</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
