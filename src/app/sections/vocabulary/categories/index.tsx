@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
 import { useStore } from "effector-react";
 import { $wordCategories, $deleteWordCategory } from "#stores/words";
-import { AddPlusSvgIcon, TrashSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon, TrashSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { notificationSuccess } from "#ui/notifications";
 import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
 import { AddWordCategoryModal } from "./addCategoryModal";
 import { WordCategoryItemModel } from "#businessLogic/models/vocabulary";
+import { Popconfirm } from "antd";
+import { $deleteExercise } from "#stores/exercise";
+import { ContextPopover } from "#ui/contextPopover";
 
-export const WordCategories = () => {
+export const WordCategories = (props) => {
+  const { selectedCategory, setSelectedCategory } = props;
 
   const wordCategoriesState = useStore($wordCategories.store);
   const deleteWordCategoryState = useStore($deleteWordCategory.store);
@@ -51,7 +55,7 @@ export const WordCategories = () => {
 
   return (
     <div className="words__categories">
-      <div>
+      <div className="words__categories__head">
         <div>Категории</div>
         <ButtonUI
           type="primary"
@@ -59,18 +63,61 @@ export const WordCategories = () => {
           size="small"
           onClick={() => addWordCategoryModalControl.openModal()}
         >
-          <AddPlusSvgIcon /> Добавить
+          <AddPlusSvgIcon />
         </ButtonUI>
       </div>
-
+      <div className={`words__categories__item ${!selectedCategory ? "active" : ""}`}>
+        <div
+          className="words__categories__item__name"
+          onClick={() => setSelectedCategory(undefined)}
+        >
+          Все
+        </div>
+        <div className="words__categories__item__actions" />
+      </div>
       {wordCategoriesState.data.map((item) => (
-        <div className="words__categories__item" key={item.id}>
-          {item.name}
-          <ButtonUI
-            onClick={() => onDeleteCategory(item.id)}
+        <div
+          className={`words__categories__item ${selectedCategory?.id === item.id ? "active" : ""}`}
+          key={item.id}
+        >
+          <div
+            className="words__categories__item__name"
+            onClick={() => setSelectedCategory({ id: item.id, name: item.name })}
           >
-            <TrashSvgIcon />
-          </ButtonUI>
+            {item.name}
+          </div>
+          <div className="words__categories__item__actions">
+            <ContextPopover
+              placement="right"
+              content={(
+                <>
+                  <div className="custom__popover__item">
+                    <ButtonUI
+                      withIcon
+                    >
+                      <EditSvgIcon /> Редактировать
+                    </ButtonUI>
+                  </div>
+                  <div className="custom__popover__item">
+                    <Popconfirm
+                      title="Вы уверены, что хотите удалить упражнение ?"
+                      onConfirm={() => onDeleteCategory(item.id)}
+                      okText="Да"
+                      cancelText="Нет"
+                    >
+                      <ButtonUI
+                        danger
+                        withIcon
+                        //loading={deleteExerciseState.loading}
+                      >
+                        <DeleteIcon /> Удалить
+                      </ButtonUI>
+                    </Popconfirm>
+                  </div>
+                </>
+              )}
+            />
+          </div>
         </div>
       ))}
 

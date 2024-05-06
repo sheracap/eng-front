@@ -62,7 +62,7 @@ export const withDebounce = debounce(
   false,
 );
 
-const myCurrentLang = "ru";
+export const myCurrentLang = "ru";
 
 export const AddWordModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
@@ -136,7 +136,7 @@ export const AddWordModal: FC<PropTypes> = (props) => {
             <div>
               lang picker default EN-RU
               <FormUI.Item label="Слово" name="word" rules={requiredRules}>
-                <InputUI.TextArea
+                <InputUI
                   placeholder="Введите слово"
                   onChange={onWordChange}
                 />
@@ -144,7 +144,7 @@ export const AddWordModal: FC<PropTypes> = (props) => {
             </div>
             <div>
               <FormUI.Item label="Перевод" name="translate" rules={requiredRules}>
-                <InputUI.TextArea />
+                <InputUI />
               </FormUI.Item>
             </div>
           </div>

@@ -6,7 +6,7 @@ const secondaryColor = new Color($colors.secondary);
 const secondaryColorHover = secondaryColor.darken(0.05).toString();
 const secondaryColorActive = secondaryColor.darken(0.1).toString();
 
-const primaryLightColor = new Color($colors.primaryLight);
+const primaryLightColor = new Color($colors.primary);
 const primaryLightColorHover = primaryLightColor.darken(0.1).toString();
 const primaryLightColorActive = primaryLightColor.darken(0.15).toString();
 
@@ -22,6 +22,13 @@ export const useStyles = createUseStyles({
     boxShadow: "none",
     fontSize: "16px",
     lineHeight: 1.1,
+
+    "&.ant-btn-primary": {
+      "&:hover": {
+        borderColor: primaryLightColorHover,
+        background: primaryLightColorHover,
+      },
+    },
 
     "&.ant-btn-sm": {
       fontSize: "14px",
@@ -43,6 +50,7 @@ export const useStyles = createUseStyles({
       },
     },
   },
+
   bordered: {
     background: "#fff",
     border: `2px solid ${$colors.primary}`,
@@ -87,26 +95,6 @@ export const useStyles = createUseStyles({
 
     "&:active": {
       background: secondaryColorActive,
-    },
-  },
-  "primary-light": {
-    background: primaryLightColor.toString(),
-    border: "none",
-    boxShadow: "none",
-    color: $colors.primary,
-
-    "&:focus": {
-      background: primaryLightColor.toString(),
-      color: $colors.primary,
-    },
-
-    "&:hover": {
-      background: primaryLightColorHover,
-      color: $colors.primary,
-    },
-
-    "&:active": {
-      background: primaryLightColorActive,
     },
   },
   "light-blue": {

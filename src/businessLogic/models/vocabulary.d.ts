@@ -1,5 +1,6 @@
 export type WordsParamsType = {
   page: number;
+  wordCategoryId?: number;
 }
 
 export interface WordItemModel {

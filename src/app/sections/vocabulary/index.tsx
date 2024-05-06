@@ -13,7 +13,7 @@ import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 
-import { AddWordModal } from "./addWordModal";
+import { AddWordModal, myCurrentLang } from "./addWordModal";
 import { WordCategories } from "#src/app/sections/vocabulary/categories";
 
 import "./styles.scss";
@@ -24,28 +24,22 @@ export const Vocabulary: FC = () => {
 
   const wordsListState = useStore($wordsList.store);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState<undefined | { id: number; name: string; }>(undefined);
 
   const addWordModalControl = useModalControl();
 
   useEffect(() => {
-    if (!wordsListState.data.count) {
-      $wordsList.effect({
-        page
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     if (!wordsListState.data.pages[page]) {
       $wordsList.effect({
-        page
+        page,
+        wordCategoryId: selectedCategory?.id,
       });
     }
-  }, [page]);
+  }, [page, selectedCategory]);
 
   const addForListNewItem = (item, newPage) => {
-    const newList = [item, ...wordsListState.data[newPage]];
+    const newList = [item, ...wordsListState.data.pages[newPage]];
 
     if (newList.length > pageSize) {
       newList.slice(pageSize - 1, 1)
@@ -63,11 +57,11 @@ export const Vocabulary: FC = () => {
   }
 
   const afterAdd = (item: WordItemModel) => {
-    if (page === 0) {
+    if (page === 1) {
       addForListNewItem(item, page);
     } else {
-      if (wordsListState.data.pages[0]) {
-        addForListNewItem(item, 0);
+      if (wordsListState.data.pages[1]) {
+        addForListNewItem(item, 1);
       } else {
         // условие выполнится если будут queryParams в урле
         // сейчас оно никогда не выполняется
@@ -81,12 +75,12 @@ export const Vocabulary: FC = () => {
         });
       }
 
-      setPage(0);
+      setPage(1);
     }
   }
 
   const onPaginationChange = (page) => {
-    setPage(page - 1);
+    setPage(page);
   }
 
   // if new added 1) go to first page 2) if first page items length === size remove last item 3) inc count 4) add new item to top
@@ -96,32 +90,44 @@ export const Vocabulary: FC = () => {
   return (
     <ContentUI>
       <div className="folder-head content-block">
-        <h1>Словарь</h1>
-        <ButtonUI
-          type="primary"
-          withIcon
-          onClick={() => addWordModalControl.openModal()}
-        >
-          <AddPlusSvgIcon /> Добавить слово
-        </ButtonUI>
+        <h1>Словарь {wordsListState.data.count ? `(${wordsListState.data.count})` : ""}</h1>
+        <div className="folder-head__right">
+          <ButtonUI
+            type="primary"
+            withIcon
+          >
+            Упражнения
+          </ButtonUI>
+          <ButtonUI
+            type="primary"
+            withIcon
+            onClick={() => addWordModalControl.openModal()}
+          >
+            <AddPlusSvgIcon /> Добавить слово
+          </ButtonUI>
+        </div>
       </div>
 
       <div className="words__wrap">
-        <WordCategories />
+        <WordCategories selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         <div className="words__list">
-          {wordsListState.data.pages[page]?.map((item) => (
-            <div className="words__list__item" key={item.id}>
-              <div className="words__list__item__value">{item.value}</div>
-              <div className="words__list__item__translate">Тест</div>
-            </div>
-          ))}
+          <div>
+            {wordsListState.data.pages[page]?.map((item) => (
+              <div className="words__list__item" key={item.id}>
+                <div className="words__list__item__value">{item.value}</div>
+                <div className="words__list__item__translate">
+                  {item.translate[myCurrentLang]}
+                </div>
+              </div>
+            ))}
 
-          <Pagination
-            defaultCurrent={page + 1}
-            total={wordsListState.data.count}
-            onChange={onPaginationChange}
-            hideOnSinglePage={true}
-          />
+            <Pagination
+              defaultCurrent={page}
+              total={wordsListState.data.count}
+              onChange={onPaginationChange}
+              hideOnSinglePage={true}
+            />
+          </div>
         </div>
       </div>
 
