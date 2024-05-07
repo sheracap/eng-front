@@ -38,6 +38,15 @@ export const $wordsList = createXHRStore<
   }
 );
 
+export const $randomWordsList = createXHRStore<
+  void,
+  Array<WordItemModel>,
+  StoreTypeWithData<Array<WordItemModel>>
+>(
+  api.words.getRandomWordsList,
+  new XHRDataState([]),
+);
+
 export const $createWord = createXHRStore<CreateWordModel, WordItemModel, StoreTypeWithData<null | WordItemModel>>(
   api.words.createWord,
   new XHRDataState(null),

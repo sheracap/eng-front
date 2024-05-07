@@ -14,7 +14,9 @@ import { ModalUI } from "#ui/modal";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 
 import { AddWordModal, myCurrentLang } from "./addWordModal";
-import { WordCategories } from "#src/app/sections/vocabulary/categories";
+import { WordCategories } from "./categories";
+import { SelectExerciseTypeModal } from "./selectExerciseTypeModal";
+import { WordExercisesModal, WordExercisesModalType } from "./wordExercisesModal";
 
 import "./styles.scss";
 
@@ -28,6 +30,8 @@ export const Vocabulary: FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<undefined | { id: number; name: string; }>(undefined);
 
   const addWordModalControl = useModalControl();
+  const selectExerciseTypeModalControl = useModalControl();
+  const wordExercisesModalControl = useModalControl<WordExercisesModalType>();
 
   useEffect(() => {
     if (!wordsListState.data.pages[page]) {
@@ -86,6 +90,10 @@ export const Vocabulary: FC = () => {
   // if new added 1) go to first page 2) if first page items length === size remove last item 3) inc count 4) add new item to top
   // cache pages and reset them after adding new
 
+  const afterExerciseSelect = (type: string) => {
+    wordExercisesModalControl.openModal({ type });
+  }
+
 
   return (
     <ContentUI>
@@ -95,6 +103,7 @@ export const Vocabulary: FC = () => {
           <ButtonUI
             type="primary"
             withIcon
+            onClick={() => selectExerciseTypeModalControl.openModal()}
           >
             Упражнения
           </ButtonUI>
@@ -137,6 +146,20 @@ export const Vocabulary: FC = () => {
         width={800}
       >
         <AddWordModal modalControl={addWordModalControl} callback={afterAdd} />
+      </ModalUI>
+
+      <ModalUI
+        open={selectExerciseTypeModalControl.modalProps.open}
+        onCancel={selectExerciseTypeModalControl.closeModal}
+      >
+        <SelectExerciseTypeModal modalControl={selectExerciseTypeModalControl} callback={afterExerciseSelect} />
+      </ModalUI>
+
+      <ModalUI
+        open={wordExercisesModalControl.modalProps.open}
+        onCancel={wordExercisesModalControl.closeModal}
+      >
+        <WordExercisesModal modalControl={wordExercisesModalControl} words={wordsListState.data.pages[page]} />
       </ModalUI>
 
     </ContentUI>

@@ -8,10 +8,14 @@ import {
   WordsParamsType
 } from "#businessLogic/models/vocabulary";
 
-export const getWordsList: HandlerType<WordsParamsType, PaginationListModel<any>> = (
+export const getWordsList: HandlerType<WordsParamsType, PaginationListModel<WordItemModel>> = (
   params,
 ) => {
   return httpGet({ url: "/api/words", params });
+};
+
+export const getRandomWordsList: HandlerType<void, Array<WordItemModel>> = () => {
+  return httpGet({ url: "/api/words/random" });
 };
 
 export const createWord: HandlerType<CreateWordModel, WordItemModel> = (data) => {
