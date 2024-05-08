@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ModalUI } from "#ui/modal";
 import { ButtonUI } from "#ui/button";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
