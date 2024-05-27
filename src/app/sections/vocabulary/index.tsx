@@ -91,7 +91,7 @@ export const Vocabulary: FC = () => {
   // cache pages and reset them after adding new
 
   const afterExerciseSelect = (type: string) => {
-    wordExercisesModalControl.openModal({ type });
+    wordExercisesModalControl.openModal({ type, words: wordsListState.data.pages[page] });
   }
 
 
@@ -159,7 +159,7 @@ export const Vocabulary: FC = () => {
         open={wordExercisesModalControl.modalProps.open}
         onCancel={wordExercisesModalControl.closeModal}
       >
-        <WordExercisesModal modalControl={wordExercisesModalControl} words={wordsListState.data.pages[page]} />
+        <WordExercisesModal modalControl={wordExercisesModalControl} />
       </ModalUI>
 
     </ContentUI>

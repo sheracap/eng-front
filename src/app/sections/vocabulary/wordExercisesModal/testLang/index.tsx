@@ -14,14 +14,12 @@ type AnswersWordType = { key: number; name: string; isCorrect: boolean; };
 
 const getWrongAnswers = (inputList, excludeIndex) => {
   // Copy the input list to avoid modifying the original list
-  let tempList = inputList.slice();
+
+  let tempList = [...inputList];
 
   // Remove the element at the excludeIndex
   tempList.splice(excludeIndex, 1);
 
-  tempList = shuffledArray(tempList);
-
-  // Shuffle the tempList
   const newList: Array<AnswersWordType> = [];
 
   for (let i = 0; i < 3; i++) {
@@ -55,10 +53,8 @@ export const TestLang: FC<PropsTypes> = (props) => {
   }, [currentIndex]);
 
   const onSelectAnswer = (item: AnswersWordType, index) => {
-    if (selectedAnswer) {
+    if (!selectedAnswer) {
       setSelectedAnswer({ isCorrect: item.isCorrect, index });
-    } else {
-
     }
   }
 
@@ -79,6 +75,7 @@ export const TestLang: FC<PropsTypes> = (props) => {
       setCurrentIndex((prevState) => prevState + 1);
     }
   }
+
 
   return (
     <>
@@ -120,7 +117,7 @@ export const TestLang: FC<PropsTypes> = (props) => {
         <ModalUI.Buttons>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={onNext}>
-              Далее
+              {showResult ? "Запустить еще" : "Далее"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

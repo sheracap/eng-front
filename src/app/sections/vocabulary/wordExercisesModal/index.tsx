@@ -14,23 +14,24 @@ import { WordItemModel } from "#businessLogic/models/vocabulary";
 
 export type WordExercisesModalType = {
   type: string;
+  words: Array<WordItemModel>;
 }
 
 type PropTypes = {
   modalControl: ModalControlType<WordExercisesModalType>;
-  words: Array<WordItemModel>;
 };
 
 
 export const WordExercisesModal: FC<PropTypes> = (props) => {
-  const { modalControl, words: currentPageWords } = props;
+  const { modalControl } = props;
 
-  const { type } = modalControl.modalProps;
+  const { type, words: currentPageWords } = modalControl.modalProps;
 
   const randomWordsListState = useStore($randomWordsList.store);
 
   const [step, setStep] = useState(1);
   const [words, setWords] = useState(currentPageWords);
+
 
   useEffect(() => {
     return () => {
@@ -41,7 +42,7 @@ export const WordExercisesModal: FC<PropTypes> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (randomWordsListState.data) {
+    if (randomWordsListState.data.length) {
       setWords(randomWordsListState.data);
       setStep(2);
     }
@@ -75,7 +76,7 @@ export const WordExercisesModal: FC<PropTypes> = (props) => {
         </div>
       )}
 
-      {step === 2 && (
+      {step === 2 && words.length > 0 && (
         <>
           {type === "TEST_LANG" && (
             <TestLang words={words} />
