@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
+import { Progress } from "antd";
 import { ModalUI } from "#ui/modal";
 import { ButtonUI } from "#ui/button";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 import { shuffledArray } from "#utils/index";
 import { myCurrentLang } from "#src/app/sections/vocabulary/addWordModal";
 import { notificationWarning } from "#ui/notifications";
+import { Spinner } from "#ui/spinner";
 
 type PropsTypes = {
   words: Array<WordItemModel>;
@@ -59,6 +61,14 @@ export const TestLang: FC<PropsTypes> = (props) => {
   }
 
   const onNext = () => {
+    if (showResult) {
+      setShowResult(false);
+      setCorrectAnswersCount(0);
+      setCurrentIndex(0);
+
+      return;
+    }
+
     if (selectedAnswer === null) {
       notificationWarning("Выберите ответ", "");
       return;
@@ -83,40 +93,55 @@ export const TestLang: FC<PropsTypes> = (props) => {
         <ModalUI.Title></ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-
         {showResult ? (
           <div>
             {correctAnswersCount} / {shuffledWords.length}
           </div>
         ): (
-          <div className="words-test-exercise">
-            <div className="words-test-exercise__value">{shuffledWords[currentIndex].value}</div>
+          <>
+            <div>
+              <Progress
+                percent={showResult ? 100 : Number((currentIndex * 100 / shuffledWords.length).toFixed(0))}
+              />
 
-            {!answers.length && <div>Loading</div>}
-
-            <div className="words-test-exercise__answers">
-              {answers.map((item, index) => (
-                <div
-                  key={item.key}
-                  className={`
-                    words-test-exercise__answers__item
-                    ${selectedAnswer && item.isCorrect ? "correct" : selectedAnswer && !selectedAnswer.isCorrect && index === selectedAnswer.index ? "wrong" : ""}
-                  `}
-                  onClick={() => onSelectAnswer(item, index)}
-                >
-                  {item.name}
-                </div>
-              ))}
+              {currentIndex + 1} / {shuffledWords.length}
             </div>
+            <div className="words-test-exercise">
+              <div className="words-test-exercise__value">{shuffledWords[currentIndex].value}</div>
 
-          </div>
+              {!answers.length && (
+                <div className="abs-loader">
+                  <Spinner />
+                </div>
+              )}
+
+              <div className="words-test-exercise__answers">
+                {answers.map((item, index) => (
+                  <div
+                    key={item.key}
+                    className={`
+                      words-test-exercise__answers__item
+                      ${selectedAnswer && item.isCorrect ? "correct" : selectedAnswer && !selectedAnswer.isCorrect && index === selectedAnswer.index ? "wrong" : ""}
+                    `}
+                    onClick={() => onSelectAnswer(item, index)}
+                  >
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </>
         )}
 
       </ModalUI.Middle>
       <ModalUI.Footer>
         <ModalUI.Buttons>
           <ModalUI.Buttons.Col>
-            <ButtonUI type="primary" onClick={onNext}>
+            <ButtonUI
+              type="primary"
+              onClick={onNext}
+            >
               {showResult ? "Запустить еще" : "Далее"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
