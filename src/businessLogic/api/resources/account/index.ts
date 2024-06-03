@@ -29,3 +29,10 @@ export const registration: HandlerType<RegistrationPayloadType, RegistrationResp
     data,
   });
 };
+
+export const verifyRegistration: HandlerType<any, any> = (data) => {
+  return httpPost({
+    url: "/api/user/verify",
+    data,
+  });
+};

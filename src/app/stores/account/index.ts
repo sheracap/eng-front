@@ -43,3 +43,8 @@ export const $registration = createXHRStore<RegistrationPayloadType, Registratio
   api.account.registration,
   new XHRSuccessState(),
 );
+
+export const $verifyRegistration = createXHRStore<any, any, StoreType>(
+  api.account.verifyRegistration,
+  new XHRSuccessState(),
+);
