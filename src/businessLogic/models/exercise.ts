@@ -1,8 +1,10 @@
 export type ExerciseCreateModel = {
   title: string;
-  sectionId: number;
+  sectionId?: number;
+  homeworkId?: number;
   template: string;
   metaData: any;
+  isHomework: boolean;
 }
 
 export type ExerciseUpdateModel = ExerciseCreateModel & {

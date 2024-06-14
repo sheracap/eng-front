@@ -354,3 +354,42 @@ input:-webkit-autofill:focus {
     }
   }
 }
+
+.result-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &__title {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  &__body {
+    color: $text;
+
+    span {
+      display: block;
+      padding-top: 5px;
+      font-size: 21px;
+    }
+  }
+
+  &__status {
+    margin-top: 20px;
+    font-size: 40px;
+    font-weight: 600;
+    color: $success;
+
+    &.good {
+      color: $orange;
+    }
+
+    &.bad {
+      color: $danger;
+    }
+  }
+}

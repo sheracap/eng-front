@@ -9,7 +9,10 @@ import { isJsonString } from "#utils/index";
 import styles from "./styles.module.scss";
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
+  showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const TemplateTextBlock: FC<PropsTypes> = (props) => {

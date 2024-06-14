@@ -4,16 +4,12 @@ import { Progress } from "antd";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
-
 import styles from "./styles.module.scss";
 import { shuffledArray } from "#utils/index";
 import { ClearSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { notificationWarning } from "#ui/notifications";
 import { useRole } from "#hooks/useRole";
-import { $addExerciseAnswer } from "#stores/exercise";
-import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
-import { useStore } from "effector-react";
 
 type FilledItemsType = {
   [key: string]: {
@@ -28,14 +24,14 @@ type UsedAnswersType = {
 }
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
   showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const TemplateBlank: FC<PropsTypes> = (props) => {
-  const { data, showHints } = props;
-
-  const exerciseAnswersState = useStore($exerciseAnswers.store);
+  const { data, showHints, answersState, onCreateExerciseAnswer } = props;
 
   const [filledItems, setFilledItems] = useState<FilledItemsType>({});
   const [usedAnswers, setUsedAnswers] = useState<UsedAnswersType>({});
@@ -47,14 +43,14 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { isTeacher } = useRole();
 
   useEffect(() => {
-    if (!showResults && exerciseAnswersState[data.sectionId] && exerciseAnswersState[data.sectionId][data.id]) {
-      const answerData = exerciseAnswersState[data.sectionId][data.id];
+    if (!showResults && answersState && answersState[data.id]) {
+      const answerData = answersState[data.id];
 
       setFilledItems(answerData.filledItems);
       correctAnswersCount.current = answerData.correctAnswersCount;
       setShowResults(true);
     }
-  }, [exerciseAnswersState]);
+  }, [answersState]);
 
   const answer = useMemo(() => {
     return shuffledArray(data.metaData.answer);
@@ -145,20 +141,7 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
         filledItems
       }
 
-      $addExerciseAnswer.effect({
-        sectionId: data.sectionId,
-        exerciseId: data.id,
-        metaData
-      }).then((response) => {
-        if (response) {
-          $exerciseAnswers.update({
-            [data.sectionId]: {
-              ...exerciseAnswersState[data.sectionId],
-              [data.id]: metaData
-            }
-          });
-        }
-      });
+      onCreateExerciseAnswer(data.id, metaData, answersState);
     } else {
       notificationWarning("Заполните все поля", "");
     }

@@ -9,6 +9,8 @@ import * as students from "./resources/students";
 import * as notifications from "./resources/notifications";
 import * as activeLesson from "./resources/activeLesson";
 import * as words from "./resources/words";
+import * as homework from "./resources/homework";
+import * as textForReading from "./resources/textForReading";
 
 export const api = {
   common,
@@ -21,5 +23,7 @@ export const api = {
   students,
   notifications,
   activeLesson,
-  words
+  words,
+  homework,
+  textForReading
 };

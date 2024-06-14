@@ -20,14 +20,15 @@ import { getBase64Photo, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/
 
 type PropTypes = {
   editableData?: ExerciseItemModel;
-  sectionId: number;
+  entityId: number;
+  isHomework: boolean;
   closeModal: () => void;
 };
 
 const uploadPhotoLimit = 10;
 
 export const ImagesTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, sectionId, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal } = props;
 
   const [form] = Form.useForm();
 
@@ -108,7 +109,9 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
   const onFinish = (formData) => {
     const data = {
       title: formData.title,
-      sectionId,
+      sectionId: isHomework ? undefined : entityId,
+      homeworkId: isHomework ? entityId : undefined,
+      isHomework,
       template: templateTypes.VIDEO,
       metaData: {}
     }

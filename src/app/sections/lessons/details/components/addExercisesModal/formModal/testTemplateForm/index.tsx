@@ -15,13 +15,14 @@ import { ExerciseItemModel } from "#businessLogic/models/section";
 
 type PropTypes = {
   editableData?: ExerciseItemModel;
-  sectionId: number;
+  entityId: number;
+  isHomework: boolean;
   closeModal: () => void;
   closeMainModal?: () => void;
 };
 
 export const TestTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, sectionId, closeModal, closeMainModal } = props;
+  const { editableData, entityId, isHomework, closeModal, closeMainModal } = props;
 
   const [form] = Form.useForm();
 
@@ -60,7 +61,9 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
 
     const data = {
       title: formData.title,
-      sectionId,
+      sectionId: isHomework ? undefined : entityId,
+      homeworkId: isHomework ? entityId : undefined,
+      isHomework,
       template: templateTypes.TEST,
       metaData: {
         question: formData.question,

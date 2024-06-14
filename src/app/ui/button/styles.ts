@@ -24,9 +24,18 @@ export const useStyles = createUseStyles({
     lineHeight: 1.1,
 
     "&.ant-btn-primary": {
-      "&:hover": {
+      "&:not(.ant-btn-dangerous):hover": {
         borderColor: primaryLightColorHover,
         background: primaryLightColorHover,
+      },
+    },
+
+    "&.ant-btn-dangerous": {
+      backgroundColor: $colors.danger,
+
+      "&:hover": {
+        color: "#fff",
+        backgroundColor: "#db111c"
       },
     },
 

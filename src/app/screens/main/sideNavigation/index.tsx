@@ -1,37 +1,21 @@
 import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 
 import { ROUTES } from "#constants/index";
-import { CoursesIcon, HomeSvgIcon, VocabularyIcon, StudentsIcon } from "#svgIcons/menuIcons";
+import {
+  CoursesIcon,
+  HomeSvgIcon,
+  VocabularyIcon,
+  StudentsIcon,
+  HomeworkIcon,
+  SpeakingIcon
+} from "#svgIcons/menuIcons";
 import { Layout, Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 
 import "./styles.scss";
+import { useRole } from "#hooks/useRole";
 
 const { Sider } = Layout;
-
-const getMenuData = () => [
-  {
-    name: "Главная",
-    path: ROUTES.HOME,
-    icon: <HomeSvgIcon />,
-    linkProps: { exact: true },
-  },
-  {
-    name: "Мои курсы",
-    path: `${ROUTES.HOME}/my-courses`,
-    icon: <CoursesIcon />,
-  },
-  {
-    name: "Мои ученики",
-    path: `${ROUTES.HOME}/students`,
-    icon: <StudentsIcon />,
-  },
-  {
-    name: "Словарь",
-    path: `${ROUTES.VOCABULARY}`,
-    icon: <VocabularyIcon />,
-  },
-];
 
 const findOpenKeysInTree = (tree, path, parents) => {
   if (!tree || !tree.length) {
@@ -105,8 +89,50 @@ export const SideNavigation: FC<PropTypes> = (props) => {
 
   const location = useLocation();
 
+  const { isStudent, isTeacher } = useRole();
+
   const menuData = useMemo(() => {
-    return getMenuData();
+    return [
+      {
+        name: "Главная",
+        path: ROUTES.HOME,
+        icon: <HomeSvgIcon />,
+        linkProps: { exact: true },
+      },
+
+      ...(isTeacher ? [
+        {
+          name: "Мои курсы",
+          path: `${ROUTES.HOME}/my-courses`,
+          icon: <CoursesIcon />,
+        },
+        {
+          name: "Мои ученики",
+          path: `${ROUTES.HOME}/students`,
+          icon: <StudentsIcon />,
+        }
+      ] : []),
+
+      ...(isStudent ? [
+        {
+          name: "Словарь",
+          path: `${ROUTES.VOCABULARY}`,
+          icon: <VocabularyIcon />,
+        },
+        {
+          name: "Домашнее задание",
+          path: `${ROUTES.HOMEWORK}`,
+          icon: <HomeworkIcon />,
+        }
+      ] : []),
+
+      {
+        name: "Произношение",
+        path: `${ROUTES.SPEAKING}`,
+        icon: <SpeakingIcon />,
+      }
+
+    ];
   }, []);
 
   const [openKeys, setOpenKeys] = useState(getOpenKeys(menuData, location));

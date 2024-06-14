@@ -243,3 +243,43 @@ export const DeleteIcon = () => {
     </svg>
   )
 }
+
+export const PlayIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="-1 0 12 12" version="1.1">
+      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g transform="translate(-65.000000, -3803.000000)" fill="currentColor">
+          <g transform="translate(56.000000, 160.000000)">
+            <path d="M18.074,3650.7335 L12.308,3654.6315 C10.903,3655.5815 9,3654.5835 9,3652.8985 L9,3645.1015 C9,3643.4155 10.903,3642.4185 12.308,3643.3685 L18.074,3647.2665 C19.306,3648.0995 19.306,3649.9005 18.074,3650.7335">
+
+            </path>
+          </g>
+        </g>
+      </g>
+    </svg>
+  )
+}
+
+export const MicrophoneIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+      <path d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+export const StopIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 28 28" version="1.1">
+
+
+      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g transform="translate(-520.000000, -571.000000)" fill="currentColor">
+          <path d="M546,571 L522,571 C520.896,571 520,571.896 520,573 L520,597 C520,598.104 520.896,599 522,599 L546,599 C547.104,599 548,598.104 548,597 L548,573 C548,571.896 547.104,571 546,571">
+
+          </path>
+        </g>
+      </g>
+    </svg>
+  )
+}

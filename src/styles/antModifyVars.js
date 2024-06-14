@@ -12,7 +12,7 @@ const $colors = {
   textColor: "#323954",
   inputColor: "#000",
   inputBorderColor: "#D0D5DD",
-  danger: "#f5222d",
+  danger: "#ff4d4f",
   bodyColor: "#F9FAFB",
   gradientAuth:
     "linear-gradient(95.08deg, #155EEF 2.49%, #165EEF 10.13%, #175FEF 17.2%, #1860F0 23.79%, #1A62F0 29.99%, #1D64F1 35.88%, #2066F2 41.55%, #2469F3 47.09%, #296CF4 52.58%, #2D70F5 58.12%, #3274F7 63.8%, #3878F8 69.69%, #3E7DFA 75.88%, #4481FB 82.47%, #4B86FD 89.54%, #528BFF 97.19%)",

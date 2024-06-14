@@ -132,6 +132,7 @@ export const Notifications: FC = (props) => {
         placement="bottomRight"
         content={<NotificationsList />}
         trigger="click"
+        overlayClassName="notifications-popover"
       >
         <div>
           <Badge count={newCount}>

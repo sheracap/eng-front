@@ -18,10 +18,11 @@ type PropsTypes = {
   sections: LessonDetailsModel["sections"];
   sectionIndex: string;
   isMine: boolean;
+  selectedHomeworkId: any;
 }
 
 export const LessonSections: FC<PropsTypes> = (props) => {
-  const { courseId, lessonId, sections, sectionIndex, isMine } = props;
+  const { courseId, lessonId, sections, sectionIndex, isMine, selectedHomeworkId } = props;
 
   const history = useHistory();
 
@@ -80,7 +81,7 @@ export const LessonSections: FC<PropsTypes> = (props) => {
       <div className="lesson-details__sections__list">
         {lessonSectionsState.map((item, index) => (
           <div
-            className={`lesson-details__sections__list__item ${Number(sectionIndex) - 1 === index ? "active" : ""}`}
+            className={`lesson-details__sections__list__item ${Number(sectionIndex) - 1 === index && !selectedHomeworkId ? "active" : ""}`}
             key={item.id}
             onClick={() => onSectionClick(index)}
           >

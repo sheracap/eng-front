@@ -17,7 +17,6 @@ export const StatusUI: FC<PropTypes> = (props) => {
 
   return (
     <Tag className={`${classes.status} ${className}`}>
-      <span></span>
       {children}
     </Tag>
   );

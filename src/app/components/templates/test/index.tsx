@@ -1,9 +1,5 @@
 import React, { FC, useState } from "react";
-import { useStore } from "effector-react";
 import { Radio, Space } from "antd";
-
-import { $addExerciseAnswer } from "#stores/exercise";
-import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
@@ -16,16 +12,16 @@ import styles from "./styles.module.scss";
 type PropsTypes = {
   data: ExerciseItemModel;
   showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const TemplateTest: FC<PropsTypes> = (props) => {
-  const { data, showHints } = props;
-
-  const exerciseAnswersState = useStore($exerciseAnswers.store);
+  const { data, showHints, answersState, onCreateExerciseAnswer } = props;
 
   const [userAnswer, setUserAnswer] = useState<string | undefined>(undefined);
 
-  const result = exerciseAnswersState[data.sectionId] ? exerciseAnswersState[data.sectionId][data.id] : undefined;
+  const result = answersState ? answersState[data.id] : undefined;
 
   const { isStudent } = useRole();
 
@@ -46,20 +42,7 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
       res = { text: "Неправильно", type: "WRONG", val: userAnswer };
     }
 
-    $addExerciseAnswer.effect({
-      sectionId: data.sectionId,
-      exerciseId: data.id,
-      metaData: res
-    }).then((response) => {
-      if (response) {
-        $exerciseAnswers.update({
-          [data.sectionId]: {
-            ...exerciseAnswersState[data.sectionId],
-            [data.id]: res
-          }
-        });
-      }
-    });
+    onCreateExerciseAnswer(data.id, res, answersState);
   };
 
   return (

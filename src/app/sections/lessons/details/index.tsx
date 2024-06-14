@@ -12,6 +12,11 @@ import { LessonSection } from "#src/app/sections/lessons/details/section";
 import { $currentUser } from "#stores/account";
 
 import { LessonSections } from "#src/app/sections/lessons/details/components/sections";
+import { $lessonSections } from "#src/app/sections/lessons/details/effector";
+import { LessonHomework } from "#src/app/sections/lessons/details/components/homework";
+import { useLocation } from "react-router";
+import { parseParams } from "#hooks/useQueryParams";
+import { HomeworkDetails } from "#src/app/sections/lessons/details/homework";
 
 export interface LessonDetailsMatchParams {
   id: string;
@@ -28,9 +33,14 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
   const lessonId = match.params.id;
   const sectionIndex = match.params.index;
 
+  const location = useLocation();
+
+  const queryParams = parseParams(location.search, false);
+
   const { data: currentUserData } = useStore($currentUser.store);
   const { data: lessonData } = useStore($lessonDetails.store);
   const { data: chapters } = useStore($courseChapters.store);
+  const lessonSectionsState: any = useStore($lessonSections.store);
 
   useEffect(() => {
     $lessonDetails.effect(lessonId);
@@ -101,16 +111,29 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
             sections={lessonData.sections}
             sectionIndex={sectionIndex}
             isMine={isMine}
+            selectedHomeworkId={queryParams.homeworkId}
           />
         </div>
+        {isMine && (
+          <div className="content-block">
+            <LessonHomework
+              lessonId={lessonData.id}
+              selectedHomeworkId={queryParams.homeworkId}
+            />
+          </div>
+        )}
       </div>
       <div className="lesson-details__right">
         <div className="content-block">
-          <LessonSection
-            isMine={isMine}
-            lessonData={lessonData}
-            sectionId={lessonData.sections[Number(sectionIndex) - 1]?.id}
-          />
+          {isMine && queryParams.homeworkId ? (
+            <HomeworkDetails homeworkId={Number(queryParams.homeworkId)} isMine={isMine} />
+          ) : (
+            <LessonSection
+              isMine={isMine}
+              lessonData={lessonData}
+              sectionId={lessonSectionsState[Number(sectionIndex) - 1]?.id}
+            />
+          )}
         </div>
       </div>
     </div>

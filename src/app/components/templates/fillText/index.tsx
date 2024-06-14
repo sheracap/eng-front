@@ -7,13 +7,12 @@ import { ButtonUI } from "#ui/button";
 import { notificationWarning } from "#ui/notifications";
 import { BlankProgress } from "#components/templates/blank";
 import { useRole } from "#hooks/useRole";
-import { $addExerciseAnswer } from "#stores/exercise";
-import { $exerciseAnswers } from "#src/app/sections/lessons/details/effector";
-import { useStore } from "effector-react";
 
 type PropsTypes = {
   data: ExerciseItemModel;
   showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const withDebounce = debounce(
@@ -25,9 +24,7 @@ export const withDebounce = debounce(
 );
 
 export const TemplateFillText: FC<PropsTypes> = (props) => {
-  const { data, showHints } = props;
-
-  const exerciseAnswersState = useStore($exerciseAnswers.store);
+  const { data, showHints, answersState, onCreateExerciseAnswer } = props;
 
   const [showResults, setShowResults] = useState(false);
   const filledAnswers = useRef({});
@@ -36,15 +33,15 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
   const { isStudent } = useRole();
 
   useEffect(() => {
-    if (!showResults && exerciseAnswersState[data.sectionId] && exerciseAnswersState[data.sectionId][data.id]) {
-      const answerData = exerciseAnswersState[data.sectionId][data.id];
+    if (!showResults && answersState && answersState[data.id]) {
+      const answerData = answersState[data.id];
 
       correctAnswersCount.current = answerData.correctAnswersCount;
       filledAnswers.current = answerData.filledAnswers;
 
       setShowResults(true);
     }
-  }, [exerciseAnswersState]);
+  }, [answersState]);
 
   const onChange = (e) => {
     withDebounce(() => {
@@ -79,20 +76,7 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
         filledAnswers: filledAnswers.current
       }
 
-      $addExerciseAnswer.effect({
-        sectionId: data.sectionId,
-        exerciseId: data.id,
-        metaData
-      }).then((response) => {
-        if (response) {
-          $exerciseAnswers.update({
-            [data.sectionId]: {
-              ...exerciseAnswersState[data.sectionId],
-              [data.id]: metaData
-            }
-          });
-        }
-      });
+      onCreateExerciseAnswer(data.id, metaData, answersState);
     } else {
       notificationWarning("Заполните все поля", "");
     }

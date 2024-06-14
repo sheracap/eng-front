@@ -158,6 +158,8 @@ export const Vocabulary: FC = () => {
       <ModalUI
         open={wordExercisesModalControl.modalProps.open}
         onCancel={wordExercisesModalControl.closeModal}
+        className="words-exercise-modal"
+        width={800}
       >
         <WordExercisesModal modalControl={wordExercisesModalControl} />
       </ModalUI>

@@ -24,7 +24,10 @@ type UsedAnswersType = {
 }
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
+  showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const TemplateFillImages: FC<PropsTypes> = (props) => {

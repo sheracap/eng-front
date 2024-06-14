@@ -19,7 +19,7 @@ export const $studentsForLessonList = createXHRStore<
   void,
   PaginationListModel<StudentsListItemModel>,
   StoreTypeWithData<PaginationListModel<StudentsListItemModel>>
->(api.students.getStudentsList, new XHRDataState(new PaginationList()));
+>(api.students.getStudentsList, new XHRDataState(new PaginationList())); // rename store name
 
 export const $inviteStudent = createXHRStore<StudentInviteModel, any, StoreType>(
   api.students.inviteStudent,

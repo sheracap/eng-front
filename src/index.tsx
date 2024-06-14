@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd";
 import "antd/dist/antd.less";
 import locale from "antd/es/locale/ru_RU";
 import { createRoot } from "react-dom/client";
+import "regenerator-runtime/runtime";
 
 import { App } from "./app";
 

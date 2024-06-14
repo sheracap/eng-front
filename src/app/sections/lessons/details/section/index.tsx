@@ -3,7 +3,7 @@ import { useStore } from "effector-react";
 import { Switch, Popconfirm } from "antd";
 
 import { $sectionDetails } from "#stores/section";
-import { $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
+import { $addExerciseAnswer, $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
 import { $exerciseAnswers, $lessonSections } from "../effector";
 
 import { useModalControl } from "#hooks/useModalControl";
@@ -16,25 +16,14 @@ import {
   AddExercisesModalPropTypes
 } from "../components/addExercisesModal";
 
-import { templateTypes } from "#constants/index";
-
-import { TemplateTest } from "#components/templates/test";
-import { TemplateTextBlock } from "#components/templates/textBlock";
-import { TemplateBlank } from "#components/templates/blank";
-import { TemplateFillText } from "#components/templates/fillText";
-import { TemplateVideo } from "#components/templates/video";
-import { TemplateImages } from "#components/templates/images";
-import { TemplateFillImages } from "#components/templates/fillImages";
 
 import { ModalUI } from "#ui/modal";
 import { DrawerModalUI } from "#ui/drawerModal";
 import { ButtonUI } from "#ui/button";
 import { Spinner } from "#ui/spinner";
-import { notificationSuccess } from "#ui/notifications";
-import { ContextPopover } from "#ui/contextPopover";
 
 import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
-import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon, SwapIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, SwapIcon } from "#src/assets/svg";
 
 import {
   ChangeExercisesPositionModal,
@@ -47,6 +36,7 @@ import {
 } from "../components/addExercisesModal/formModal";
 import { $activeLesson } from "#stores/activeLesson";
 import { $activeLessonByNotification } from "#src/app/screens/main/effector";
+import { Exercises } from "#components/exercises";
 
 type PropsType = {
   isMine: boolean;
@@ -63,14 +53,13 @@ export const LessonSection: FC<PropsType> = (props) => {
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
   const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
-  const deleteExerciseState = useStore($deleteExercise.store);
+
 
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();
   const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
   const editExercisePositionModalControl = useModalControl<ChangeExercisesPositionModalPropTypes>();
 
-  const [deletedExerciseIds, setDeletedExerciseIds] = useState<{ [key: string]: boolean }>({});
   const [showHints, setShowHints] = useState(isMine);
 
   const { isStudent } = useRole();
@@ -107,7 +96,7 @@ export const LessonSection: FC<PropsType> = (props) => {
     if (isStudent) {
       getExerciseAnswers();
     }
-  }, [sectionId, lessonSectionsState]);
+  }, [sectionId]);
 
   useEffect(() => {
     if (exerciseAnswersBySectionState.data && sectionId) {
@@ -124,17 +113,6 @@ export const LessonSection: FC<PropsType> = (props) => {
     }
   }, [exerciseAnswersBySectionState.data]);
 
-  useEffect(() => {
-    if (deleteExerciseState.data) {
-      notificationSuccess("", "Упражнение удалено");
-
-      setDeletedExerciseIds((prevState) => ({
-        ...prevState,
-        [deleteExerciseState.data.id]: true
-      }));
-    }
-  }, [deleteExerciseState.data]);
-
   const changePosition = () => {
     if (sectionData) {
       editExercisePositionModalControl.openModal({
@@ -142,6 +120,14 @@ export const LessonSection: FC<PropsType> = (props) => {
         lessonId: lessonData.id,
         editableExercises: sectionData.exercises
       })
+    }
+  }
+
+  const onExerciseEdit = (item) => {
+    if (sectionData) {
+      editExerciseModalControl.openModal({
+        editableData: item, entityId: sectionData.id, isHomework: false, template: item.template
+      });
     }
   }
 
@@ -189,82 +175,36 @@ export const LessonSection: FC<PropsType> = (props) => {
               </div>
             </div>
           )}
-          {sectionData.exercises.map((item, index) => (
-            <React.Fragment key={item.id}>
-              {!deletedExerciseIds[item.id] && (
-                <div className="exercise-item" key={item.id}>
-                  <div className="exercise-item__title">
-                    <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
-                    {isMine && (
-                      <div className="exercise-item__title__actions">
-                        <ContextPopover
-                          content={(
-                            <>
-                              <div className="custom__popover__item">
-                                <ButtonUI
-                                  withIcon
-                                  onClick={() => {
-                                    editExerciseModalControl.openModal({
-                                      editableData: item, sectionId: sectionData?.id, template: item.template
-                                    });
-                                  }}
-                                >
-                                  <EditSvgIcon /> Редактировать
-                                </ButtonUI>
-                              </div>
-                              <div className="custom__popover__item">
-                                <Popconfirm
-                                  title="Вы уверены, что хотите удалить упражнение ?"
-                                  onConfirm={() => $deleteExercise.effect(item.id)}
-                                  okText="Да"
-                                  cancelText="Нет"
-                                >
-                                  <ButtonUI
-                                    danger
-                                    withIcon
-                                    loading={deleteExerciseState.loading}
-                                  >
-                                    <DeleteIcon /> Удалить
-                                  </ButtonUI>
-                                </Popconfirm>
-                              </div>
-                            </>
-                          )}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {item.template === templateTypes.TEST && (
-                    <TemplateTest data={item} showHints={showHints} />
-                  )}
-                  {item.template === templateTypes.TEXT_BLOCK && (
-                    <TemplateTextBlock data={item} />
-                  )}
-                  {item.template === templateTypes.BLANK && (
-                    <TemplateBlank data={item} showHints={showHints} />
-                  )}
-                  {item.template === templateTypes.FILL_TEXT && (
-                    <TemplateFillText data={item} showHints={showHints} />
-                  )}
-                  {item.template === templateTypes.VIDEO && (
-                    <TemplateVideo data={item} />
-                  )}
-                  {item.template === templateTypes.IMAGES && (
-                    <TemplateImages data={item} />
-                  )}
-                  {item.template === templateTypes.FILL_IMAGES && (
-                    <TemplateFillImages data={item} />
-                  )}
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+          <Exercises
+            exercises={sectionData.exercises}
+            onExerciseEdit={onExerciseEdit}
+            isMine={isMine}
+            showHints={showHints}
+            entityId={sectionData.id}
+            isHomework={false}
+            onCreateExerciseAnswerMain={(id, res, prevState) => {
+              $addExerciseAnswer.effect({
+                sectionId: sectionData.id,
+                exerciseId: id,
+                metaData: res
+              }).then((response) => {
+                if (response) {
+                  $exerciseAnswers.update({
+                    [sectionData.id]: {
+                      ...prevState,
+                      [id]: res
+                    }
+                  });
+                }
+              });
+            }}
+          />
         </>
       )}
 
       {isMine && sectionData && (
         <>
-          <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ sectionId: sectionData.id })}>
+          <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ entityId: sectionData.id, isHomework: false })}>
             <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
             <div className={styles.addSectionText}>Добавить упражнение</div>
           </div>

@@ -109,6 +109,8 @@
     "react-jss": "^10.9.2",
     "react-moment": "^1.0.0",
     "react-router-dom": "^5.3.4",
+    "react-speech-recognition": "^3.10.0",
+    "regenerator-runtime": "^0.14.1",
     "slate": "^0.78.0",
     "slate-history": "^0.66.0",
     "slate-react": "^0.79.0"

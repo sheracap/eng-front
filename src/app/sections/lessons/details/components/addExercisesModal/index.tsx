@@ -15,7 +15,8 @@ import {
 import { templateTypes } from "#constants/index";
 
 export type AddExercisesModalPropTypes = {
-  sectionId: number;
+  entityId: number;
+  isHomework: boolean;
 };
 
 type TProps = {
@@ -26,7 +27,7 @@ type TProps = {
 export const AddExercisesModal: FC<TProps> = (props) => {
   const { modalControl, callback } = props;
   const { closeModal, modalProps } = modalControl;
-  const { sectionId } = modalProps;
+  const { entityId, isHomework } = modalProps;
 
   const addExercisesFormModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
 
@@ -45,7 +46,7 @@ export const AddExercisesModal: FC<TProps> = (props) => {
 
   const onSelectTemplate = (val: string) => {
     //setSelectedTemplate(val);
-    addExercisesFormModalControl.openModal({ sectionId, template: val });
+    addExercisesFormModalControl.openModal({ entityId, isHomework, template: val });
   };
 
   // const onSubmitClick = () => {

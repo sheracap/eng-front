@@ -16,7 +16,8 @@ import { notificationSuccess } from "#ui/notifications";
 
 export type AddEditExercisesFormModalPropTypes = {
   editableData?: ExerciseItemModel;
-  sectionId: number;
+  entityId: number;
+  isHomework: boolean;
   template: string;
 };
 
@@ -29,7 +30,7 @@ type TProps = {
 export const AddEditExercisesFormModal: FC<TProps> = (props) => {
   const { modalControl, closeModal: closeMainModal, callback } = props;
   const { modalProps } = modalControl;
-  const { editableData, sectionId, template } = modalProps;
+  const { editableData, entityId, isHomework, template } = modalProps;
 
   const addExerciseState = useStore($addExercise.store);
   const updateExerciseState = useStore($updateExercise.store);
@@ -56,22 +57,22 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
   return (
     <>
       {template === templateTypes.TEST && (
-        <TestTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <TestTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.TEXT_BLOCK && (
-        <TextBlockTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <TextBlockTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.BLANK && (
-        <BlankTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <BlankTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.FILL_TEXT && (
-        <FillTextTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <FillTextTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.VIDEO && (
-        <VideoTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <VideoTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
       {template === templateTypes.IMAGES && (
-        <ImagesTemplateForm editableData={editableData} sectionId={sectionId} closeModal={modalControl.closeModal} />
+        <ImagesTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
       )}
     </>
   );

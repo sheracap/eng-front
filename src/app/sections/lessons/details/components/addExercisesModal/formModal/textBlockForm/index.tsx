@@ -15,12 +15,13 @@ import { ExerciseItemModel } from "#businessLogic/models/section";
 
 type PropTypes = {
   editableData?: ExerciseItemModel;
-  sectionId: number;
+  entityId: number;
+  isHomework: boolean;
   closeModal: () => void;
 };
 
 export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, sectionId, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal } = props;
 
   const [form] = Form.useForm();
 
@@ -45,7 +46,9 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
 
     const data = {
       title: formData.title,
-      sectionId,
+      sectionId: isHomework ? undefined : entityId,
+      homeworkId: isHomework ? entityId : undefined,
+      isHomework,
       template: templateTypes.TEXT_BLOCK,
       metaData: {
         text: JSON.stringify(formData.text)

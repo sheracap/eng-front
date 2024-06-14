@@ -53,12 +53,12 @@ export const CourseDetailsRightSide: FC<PropsTypes> = (props) => {
       {/*    <div className={styles.addSectionText}>Добавить раздел</div>*/}
       {/*  </div>*/}
       {/*)}*/}
-      {isMine && sectionData && (
-        <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ sectionId: sectionData.id })}>
-          <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
-          <div className={styles.addSectionText}>Добавить упражнение</div>
-        </div>
-      )}
+      {/*{isMine && sectionData && (*/}
+      {/*  <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ sectionId: sectionData.id })}>*/}
+      {/*    <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>*/}
+      {/*    <div className={styles.addSectionText}>Добавить упражнение</div>*/}
+      {/*  </div>*/}
+      {/*)}*/}
       {/*<ModalUI*/}
       {/*  open={addSectionModalControl.modalProps.open}*/}
       {/*  onCancel={addSectionModalControl.closeModal}*/}

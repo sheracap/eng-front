@@ -3,6 +3,8 @@ const MAIN = "/",
   COURSES = "/courses",
   MONITORING = "/monitoring",
   VOCABULARY = "/vocabulary",
+  SPEAKING = "/speaking",
+  HOMEWORK = "/homework",
   USER = "/user",
   SIGN_IN = "/sign-in",
   REGISTRATION = "/registration",
@@ -20,6 +22,8 @@ export const ROUTES = {
   MONITORING,
 
   VOCABULARY,
+  SPEAKING,
+  HOMEWORK,
 
   SETTINGS,
   ADMIN: SETTINGS + ADMIN,

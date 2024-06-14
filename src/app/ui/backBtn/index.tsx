@@ -16,15 +16,13 @@ export const BackBtn: React.FC<BackBtnPropTypes> = (props) => {
   const { history, backPath, onBackClick } = props;
   const classes = useStyles();
 
-  if (!history) {
-    return null;
-  }
-
   const onClick = () => {
-    if (backPath) {
-      history.push(backPath);
-    } else {
-      history.goBack();
+    if (history) {
+      if (backPath) {
+        history.push(backPath);
+      } else {
+        history.goBack();
+      }
     }
   };
 

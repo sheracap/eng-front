@@ -7,33 +7,13 @@ import { shuffledArray } from "#utils/index";
 import { myCurrentLang } from "#src/app/sections/vocabulary/addWordModal";
 import { notificationWarning } from "#ui/notifications";
 import { Spinner } from "#ui/spinner";
+import { TestResult } from "../components/testResult";
+import { getWrongAnswers, AnswersWordType } from "../utils";
 
 type PropsTypes = {
   words: Array<WordItemModel>;
 }
 
-type AnswersWordType = { key: number; name: string; isCorrect: boolean; };
-
-const getWrongAnswers = (inputList, excludeIndex) => {
-  // Copy the input list to avoid modifying the original list
-
-  let tempList = [...inputList];
-
-  // Remove the element at the excludeIndex
-  tempList.splice(excludeIndex, 1);
-
-  const newList: Array<AnswersWordType> = [];
-
-  for (let i = 0; i < 3; i++) {
-    const item = tempList[i];
-    const key = (excludeIndex * 4) + i + 1;
-
-    newList.push({ key: key === 0 ? 1 : key, name: item.translate[myCurrentLang], isCorrect: false });
-  }
-
-  // Return the first 3 elements of the shuffled tempList
-  return newList;
-}
 
 export const TestLang: FC<PropsTypes> = (props) => {
   const { words } = props;
@@ -48,7 +28,7 @@ export const TestLang: FC<PropsTypes> = (props) => {
   useEffect(() => {
     const newAnswers = [
       { key: currentIndex * 4, name: shuffledWords[currentIndex].translate[myCurrentLang], isCorrect: true },
-      ...getWrongAnswers(words, currentIndex)
+      ...getWrongAnswers(words, shuffledWords[currentIndex].id, currentIndex, "TRANSLATE")
     ];
 
     setAnswers(shuffledArray(newAnswers));
@@ -89,22 +69,21 @@ export const TestLang: FC<PropsTypes> = (props) => {
 
   return (
     <>
-      <ModalUI.Header>
-        <ModalUI.Title></ModalUI.Title>
-      </ModalUI.Header>
       <ModalUI.Middle>
         {showResult ? (
-          <div>
-            {correctAnswersCount} / {shuffledWords.length}
-          </div>
-        ): (
+          <TestResult
+            resultPercent={Number((correctAnswersCount * 100 / shuffledWords.length).toFixed(0))}
+            correctAnswersCount={correctAnswersCount}
+            wordsLength={shuffledWords.length}
+          />
+        ) : (
           <>
             <div>
               <Progress
                 percent={showResult ? 100 : Number((currentIndex * 100 / shuffledWords.length).toFixed(0))}
               />
 
-              {currentIndex + 1} / {shuffledWords.length}
+              {currentIndex} / {shuffledWords.length}
             </div>
             <div className="words-test-exercise">
               <div className="words-test-exercise__value">{shuffledWords[currentIndex].value}</div>
@@ -121,6 +100,7 @@ export const TestLang: FC<PropsTypes> = (props) => {
                     key={item.key}
                     className={`
                       words-test-exercise__answers__item
+                      ${selectedAnswer ? "has-answer" : ""}
                       ${selectedAnswer && item.isCorrect ? "correct" : selectedAnswer && !selectedAnswer.isCorrect && index === selectedAnswer.index ? "wrong" : ""}
                     `}
                     onClick={() => onSelectAnswer(item, index)}
@@ -142,7 +122,7 @@ export const TestLang: FC<PropsTypes> = (props) => {
               type="primary"
               onClick={onNext}
             >
-              {showResult ? "Запустить еще" : "Далее"}
+              {showResult ? "Попробовать еще" : "Далее"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

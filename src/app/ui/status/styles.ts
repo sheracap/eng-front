@@ -4,17 +4,10 @@ import { createUseStyles } from "react-jss";
 const getColorByStatus = (status: string) => {
   switch (status) {
     case "NEW":
-    case "DRAFT":
       return $colors.info;
-    case "IN_PROGRESS":
-    case "PENDING":
-    case "RETURNED":
+    case "assigned":
       return $colors.orange;
-    case "ACCEPTED":
-    case "CLOSED":
-    case "SHIPPED":
-    case "CREATED":
-    case "ACTIVE":
+    case "completed":
       return $colors.success;
     case "CANCELLED":
     case "BLOCKED":
@@ -33,27 +26,16 @@ type statusPropTypes = {
 
 export const useStyles = createUseStyles<any, statusPropTypes>({
   status: {
-    display: "flex",
-    alignItems: "center",
-    position: "relative",
+    padding: "3px 10px",
+    margin: "0",
     border: "none",
-    background: "none",
-    color: (props) => {
+    borderRadius: "10px",
+    backgroundColor: (props) => {
       return props.color ? props.color : getColorByStatus(props.status);
     },
+    color: "#fff",
     fontSize: "14px",
     lineHeight: "22px",
     whiteSpace: "nowrap",
-
-    "& span": {
-      display: "block",
-      width: "8px",
-      height: "8px",
-      borderRadius: "50%",
-      marginRight: "10px",
-      background: (props) => {
-        return props.color ? props.color : getColorByStatus(props.status);
-      },
-    },
   },
 });

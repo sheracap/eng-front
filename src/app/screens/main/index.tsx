@@ -1,22 +1,25 @@
 import React, { FC, useEffect, useState } from "react";
 
 import { ROUTES } from "#constants/index";
-import { Monitoring } from "#src/app/sections/monitoring";
 import { $currentUser } from "#stores/account";
 import { Spinner } from "#ui/spinner";
 import { Layout } from "antd";
 import { useStore } from "effector-react";
 import { Route, Switch, useLocation } from "react-router-dom";
 
+import { useRole } from "#hooks/useRole";
+
 import { Home } from "../../sections/home";
+
+import { Courses } from "#src/app/sections/courses";
+import { Vocabulary } from "#src/app/sections/vocabulary";
+import { Homework } from "#src/app/sections/homework";
+import { Speaking } from "#src/app/sections/speaking";
 
 import { HeaderUI } from "./header";
 import { SideNavigation } from "./sideNavigation";
-import { Courses } from "#src/app/sections/courses";
-import { Vocabulary } from "#src/app/sections/vocabulary";
 
 import "./styles.scss";
-import { useRole } from "#hooks/useRole";
 
 const { Content } = Layout;
 
@@ -65,8 +68,12 @@ export const Main: FC = () => {
               <Switch>
                 <Route path={ROUTES.HOME} component={Home} />
                 <Route path={ROUTES.COURSES} component={Courses} />
+                <Route path={ROUTES.SPEAKING} component={Speaking} />
                 {isStudent && (
-                  <Route path={ROUTES.VOCABULARY} component={Vocabulary} />
+                  <>
+                    <Route path={ROUTES.VOCABULARY} component={Vocabulary} />
+                    <Route path={ROUTES.HOMEWORK} component={Homework} />
+                  </>
                 )}
               </Switch>
             </div>

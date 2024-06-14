@@ -1,0 +1,251 @@
+@import "src/styles/variables.scss";
+
+.speaking-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+  height: 100%;
+
+  &__col {
+    width: 50%;
+    max-width: 50%;
+    height: 100%;
+
+    & > div {
+      padding: 0 10px;
+      height: 100%;
+    }
+  }
+}
+
+.text-for-speaking {
+  position: relative;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    &__title {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+
+      .custom-btn {
+        margin-right: 10px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+
+      button {
+        margin-left: 10px;
+      }
+
+    }
+  }
+
+  &__textarea {
+    flex-grow: 1;
+    overflow: auto;
+
+    textarea {
+      min-height: 200px;
+    }
+  }
+
+  &__details {
+    white-space: pre-wrap;
+    font-size: 16px;
+  }
+
+  &__filter {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    &__item {
+      cursor: pointer;
+      padding: 10px 9px;
+      border: 1px solid $primaryColor;
+      transition: background-color .3s ease;
+      border-radius: 4px;
+      font-size: 18px;
+      line-height: 18px;
+      margin: 0 5px 5px;
+      color: $primaryColor;
+
+      &:hover, &.active {
+        color: #fff;
+        background-color: $primaryColor;
+      }
+    }
+  }
+
+  &__list {
+    flex-grow: 1;
+    overflow: auto;
+
+    &__item {
+      cursor: pointer;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      border: 1px solid $gray;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #fff;
+      transition: background-color .3s ease-in-out;
+
+      &:hover {
+        background-color: $primaryLight;
+      }
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    margin-top: auto;
+  }
+}
+
+.speaking-voice-recorder {
+  position: relative;
+  padding: 20px;
+  height: 100%;
+
+  .play-btn-wrap {
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &:hover {
+      .play-btn {
+        background-color: #4061da;
+      }
+
+      .play-btn-text {
+        color: #4061da;
+      }
+    }
+
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      color: #fff;
+      background-color: $primaryColor;
+      transition: all .3s cubic-bezier(.645,.045,.355,1);
+
+      svg {
+        position: relative;
+        left: 3px;
+      }
+    }
+
+    .play-btn-text {
+      margin-top: 5px;
+      font-size: 25px;
+      font-weight: 600;
+      color: $primaryColor;
+      transition: all .3s cubic-bezier(.645,.045,.355,1);
+    }
+  }
+
+  .microphone-wrap {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      color: #fff;
+      background-color: $primaryColor;
+    }
+
+    &__text {
+      margin-top: 5px;
+      font-size: 25px;
+      font-weight: 600;
+      color: $primaryColor;
+      animation: fade 1s infinite linear;
+    }
+  }
+}
+
+.speaking-voice-recorder__transcript {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .custom-btn {
+      margin-left: 10px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  &__text {
+    flex-grow: 1;
+    overflow: auto;
+    font-size: 16px;
+  }
+
+  &__mark {
+    display: inline-block;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    background-color: $primaryColor;
+    border-radius: 50%;
+    margin-left: 5px;
+    animation: pulse .6s ease-in-out infinite both;
+  }
+
+  &__check {
+    margin-top: auto;
+    padding-top: 15px;
+    text-align: center;
+  }
+}
+
+@keyframes fade {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, to { transform: scale(.66); }
+  50% { transform: scale(1); }
+}

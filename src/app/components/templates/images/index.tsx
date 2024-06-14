@@ -4,7 +4,10 @@ import { Carousel } from "antd";
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 type PropsTypes = {
-  data: ExerciseItemModel
+  data: ExerciseItemModel;
+  showHints: boolean;
+  answersState: any;
+  onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
 export const TemplateImages: FC<PropsTypes> = (props) => {

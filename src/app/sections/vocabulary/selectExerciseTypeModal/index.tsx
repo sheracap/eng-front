@@ -6,6 +6,7 @@ import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
 import { notificationWarning } from "#ui/notifications";
 
+import "./styles.scss";
 
 type PropTypes = {
   modalControl: ModalControlType;
@@ -14,8 +15,9 @@ type PropTypes = {
 
 
 const wordExerciseTypes = [
-  { name: "Test Lang - Native", code: "TEST_LANG" },
-  { name: "Test Native - Lang", code: "TEST_NATIVE" },
+  { name: "Test English - Russian", code: "TEST_LANG" },
+  { name: "Test Russian - English", code: "TEST_NATIVE" },
+  { name: "Pronunciation", code: "PRONUNCIATION" },
 ];
 
 
