@@ -43,6 +43,12 @@ export const TemplateBlank: FC<PropsTypes> = (props) => {
   const { isTeacher } = useRole();
 
   useEffect(() => {
+    if (answersState && !answersState[data.id] && showResults) {
+      setFilledItems({});
+      correctAnswersCount.current = 0;
+      setShowResults(false);
+    }
+
     if (!showResults && answersState && answersState[data.id]) {
       const answerData = answersState[data.id];
 

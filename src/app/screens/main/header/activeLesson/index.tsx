@@ -3,7 +3,6 @@ import { useStore } from "effector-react";
 
 import { $activeLesson, $deleteActiveLesson } from "#stores/activeLesson";
 import { $currentUser } from "#stores/account";
-import { $activeLessonByNotification } from "#src/app/screens/main/effector";
 
 import { useRole } from "#hooks/useRole";
 
@@ -17,7 +16,6 @@ export const ActiveLesson: FC = () => {
 
   const currentUserState = useStore($currentUser.store);
   const activeLessonState = useStore($activeLesson.store);
-  const activeLessonByNotificationState = useStore($activeLessonByNotification.store);
   const deleteActiveLessonState = useStore($deleteActiveLesson.store);
 
   const { isTeacher, isStudent } = useRole();
@@ -36,7 +34,6 @@ export const ActiveLesson: FC = () => {
     if (deleteActiveLessonState.success) {
       $deleteActiveLesson.reset();
       $activeLesson.reset();
-      $activeLessonByNotification.reset();
     }
   }, [deleteActiveLessonState.success]);
 
@@ -44,12 +41,7 @@ export const ActiveLesson: FC = () => {
     let courseId;
     let lessonId;
 
-    if (activeLessonByNotificationState) {
-      if (activeLessonByNotificationState.courseId) {
-        courseId = activeLessonByNotificationState.courseId;
-        lessonId = activeLessonByNotificationState.lessonId;
-      }
-    } else if (activeLessonState.data) {
+    if (activeLessonState.data) {
       courseId = activeLessonState.data.courseId;
       lessonId = activeLessonState.data.lessonId;
     }
@@ -63,7 +55,7 @@ export const ActiveLesson: FC = () => {
 
   return (
     <div className="active-lesson__actions">
-      {(activeLessonState.data || activeLessonByNotificationState) && (
+      {activeLessonState.data && (
         <>
           <ButtonUI type="primary" onClick={openLesson}>
             Перейти к уроку

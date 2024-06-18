@@ -5,6 +5,10 @@ export const useStyles = createUseStyles({
     ".ui-checkbox": {
       alignItems: "center",
 
+      "& .ant-checkbox-checked:after": {
+        borderRadius: "6px"
+      },
+
       "& .ant-checkbox": {
         "& + span": {
           paddingTop: "5px",

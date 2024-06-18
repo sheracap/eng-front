@@ -17,11 +17,9 @@ import { ButtonUI } from "#ui/button";
 import { NotificationItemModel } from "#businessLogic/models/notifications";
 
 import "./styles.scss";
-import axios from "axios";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY_FOR_COOKIE } from "#constants/index";
-import { httpPost } from "#core/httpClient";
-import { $activeLessonByNotification } from "#src/app/screens/main/effector";
+import { $activeLesson } from "#stores/activeLesson";
 
 const NotificationsList = () => {
 
@@ -109,13 +107,17 @@ export const Notifications: FC = (props) => {
     eventSource.onmessage = function (event) {
       const message = JSON.parse(event.data);
 
-      console.log("message", message);
+      console.log("message++", message);
 
       if (message && message.type) {
         if (message.type === "LESSON") {
-          $activeLessonByNotification.update({
-            lessonId: message.lessonId,
-            courseId: message.courseId
+          $activeLesson.update({
+            loading: false,
+            data: {
+              lessonId: message.lessonId,
+              courseId: message.courseId
+            },
+            error: null
           });
         } else {
           setNewCount((prevCount) => prevCount + 1);

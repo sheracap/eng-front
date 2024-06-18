@@ -1,15 +1,17 @@
 import React, { FC, useEffect } from "react";
+import { Form } from "antd";
 
 import { requiredRules, templateTypes } from "#constants/index";
 import { $addExercise, $updateExercise } from "#stores/exercise";
-import { FormUI } from "#ui/form";
-import { Form } from "antd";
-import { useStore } from "effector-react";
-import { ButtonUI } from "#ui/button";
 
+import { FormUI } from "#ui/form";
+import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
-import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
 import { InputUI } from "#ui/input";
+import { CheckboxUI } from "#ui/checkbox";
+
+import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
+
 import { ExerciseItemModel } from "#businessLogic/models/section";
 
 
@@ -26,13 +28,13 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-
-
     if (editableData) {
       form.setFieldsValue({
         title: editableData.title,
         text: JSON.parse(editableData.metaData.text),
         initText: JSON.parse(editableData.metaData.text),
+        notes: editableData.metaData.notes?.value,
+        showNotes: editableData.metaData.notes?.showNotes || false,
       });
     }
 
@@ -51,7 +53,11 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
       isHomework,
       template: templateTypes.TEXT_BLOCK,
       metaData: {
-        text: JSON.stringify(formData.text)
+        text: JSON.stringify(formData.text),
+        notes: formData.notes ? {
+          value: formData.notes,
+          showNotes: formData.showNotes
+        } : null
       },
     }
 
@@ -74,6 +80,9 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
         <FormUI
           phantomSubmit
           form={form}
+          initialValues={{
+            showNotes: false
+          }}
           onFinish={onFinish}
         >
           <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
@@ -86,6 +95,25 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
               return (
                 <FormUI.Item label="Текст" name="text" rules={requiredRules}>
                   <RichTextEditorWrapper initialValue={initText} />
+                </FormUI.Item>
+              )
+            }}
+          </FormUI.Item>
+          <FormUI.Item label="Заметки / Подсказки" name="notes">
+            <InputUI.TextArea placeholder="Введите текст" rows={3} />
+          </FormUI.Item>
+
+          <FormUI.Item dependencies={["notes"]}>
+            {() => {
+              const notes = form.getFieldValue("notes");
+
+              if (!notes) {
+                return null;
+              }
+
+              return (
+                <FormUI.Item name="showNotes" valuePropName="checked">
+                  <CheckboxUI>Отображать у ученика</CheckboxUI>
                 </FormUI.Item>
               )
             }}

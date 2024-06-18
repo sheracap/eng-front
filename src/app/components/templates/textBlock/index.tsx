@@ -49,9 +49,11 @@ export const TemplateTextBlock: FC<PropsTypes> = (props) => {
 
   return (
     <div className={styles.textBlockTemplate} onMouseUp={handleTextSelect}>
-      {text && <div>
-        <div dangerouslySetInnerHTML={{ __html: text }} />
-      </div>}
+      {text && (
+        <div>
+          <div dangerouslySetInnerHTML={{ __html: text }} />
+        </div>
+      )}
     </div>
   )
 };

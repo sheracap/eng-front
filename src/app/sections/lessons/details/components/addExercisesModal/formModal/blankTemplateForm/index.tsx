@@ -11,6 +11,7 @@ import { ModalUI } from "#ui/modal";
 import { InputUI } from "#ui/input";
 import { notificationWarning } from "#ui/notifications";
 import { ExerciseItemModel } from "#businessLogic/models/section";
+import { CheckboxUI } from "#ui/checkbox";
 
 
 type PropTypes = {
@@ -33,7 +34,9 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
 
       form.setFieldsValue({
         title: editableData.title,
-        text
+        text,
+        notes: editableData.metaData.notes?.value,
+        showNotes: editableData.metaData.notes?.showNotes || false,
       });
     }
 
@@ -71,7 +74,11 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
       template: templateTypes.BLANK,
       metaData: {
         resultArray,
-        answer
+        answer,
+        notes: formData.notes ? {
+          value: formData.notes,
+          showNotes: formData.showNotes
+        } : null
       },
     }
 
@@ -88,15 +95,41 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
   return (
     <>
       <ModalUI.Header>
-        <ModalUI.Title>Шаблон бланк</ModalUI.Title>
+        <ModalUI.Title>Шаблон "Заполнить поля"</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <FormUI phantomSubmit form={form} onFinish={onFinish}>
+        <FormUI
+          phantomSubmit
+          form={form}
+          initialValues={{
+            showNotes: false
+          }}
+          onFinish={onFinish}
+        >
           <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
             <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
           <FormUI.Item label="Текст" name="text" rules={requiredRules}>
             <InputUI.TextArea placeholder="Введите текст" rows={10} />
+          </FormUI.Item>
+          <FormUI.Item label="Заметки / Подсказки" name="notes">
+            <InputUI.TextArea placeholder="Введите текст" rows={3} />
+          </FormUI.Item>
+
+          <FormUI.Item dependencies={["notes"]}>
+            {() => {
+              const notes = form.getFieldValue("notes");
+
+              if (!notes) {
+                return null;
+              }
+
+              return (
+                <FormUI.Item name="showNotes" valuePropName="checked">
+                  <CheckboxUI>Отображать у ученика</CheckboxUI>
+                </FormUI.Item>
+              )
+            }}
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>

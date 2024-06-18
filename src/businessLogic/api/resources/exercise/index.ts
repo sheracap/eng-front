@@ -32,6 +32,12 @@ export const getExerciseAnswersBySection: HandlerType<number, Array<ExerciseAnsw
   });
 };
 
+export const getStudentExerciseAnswersBySection: HandlerType<any, Array<ExerciseAnswerModel>> = ({ studentId, sectionId }) => {
+  return httpGet({
+    url: `/api/exercise-answers/${studentId}/${sectionId}`,
+  });
+};
+
 export const addExerciseAnswer: HandlerType<ExerciseAnswerCreateModel, any> = (data) => {
   return httpPost({
     url: "/api/exercise-answers",

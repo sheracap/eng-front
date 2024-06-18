@@ -7,7 +7,7 @@ type PropsTypes = {
   correctAnswersCount: number;
   wordsLength: number;
 }
-
+// rename comp name
 export const TestResult: FC<PropsTypes> = (props) => {
   const { resultPercent, correctAnswersCount, wordsLength } = props;
 

@@ -10,6 +10,7 @@ import { ModalUI } from "#ui/modal";
 import { TestLang } from "./testLang";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 import { TestNative } from "#src/app/sections/vocabulary/wordExercisesModal/testNative";
+import { PronunciationEx } from "#src/app/sections/vocabulary/wordExercisesModal/pronunciation";
 
 
 export type WordExercisesModalType = {
@@ -116,6 +117,9 @@ export const WordExercisesModal: FC<PropTypes> = (props) => {
           )}
           {type === "TEST_NATIVE" && (
             <TestNative words={words} />
+          )}
+          {type === "PRONUNCIATION" && (
+            <PronunciationEx words={words} />
           )}
         </>
       )}

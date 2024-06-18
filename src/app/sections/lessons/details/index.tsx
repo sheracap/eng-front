@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { $lessonDetails } from "#stores/lessons";
 import { useStore } from "effector-react";
@@ -12,11 +12,14 @@ import { LessonSection } from "#src/app/sections/lessons/details/section";
 import { $currentUser } from "#stores/account";
 
 import { LessonSections } from "#src/app/sections/lessons/details/components/sections";
-import { $lessonSections } from "#src/app/sections/lessons/details/effector";
+import { $exerciseAnswers, $lessonSections } from "#src/app/sections/lessons/details/effector";
 import { LessonHomework } from "#src/app/sections/lessons/details/components/homework";
 import { useLocation } from "react-router";
 import { parseParams } from "#hooks/useQueryParams";
 import { HomeworkDetails } from "#src/app/sections/lessons/details/homework";
+import { $activeLesson } from "#stores/activeLesson";
+import { $studentExerciseAnswersBySection } from "#stores/exercise";
+import { useRole } from "#hooks/useRole";
 
 export interface LessonDetailsMatchParams {
   id: string;
@@ -38,9 +41,12 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
   const queryParams = parseParams(location.search, false);
 
   const { data: currentUserData } = useStore($currentUser.store);
+  const activeLessonState = useStore($activeLesson.store);
   const { data: lessonData } = useStore($lessonDetails.store);
   const { data: chapters } = useStore($courseChapters.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
+
+  const { isTeacher } = useRole();
 
   useEffect(() => {
     $lessonDetails.effect(lessonId);
@@ -66,44 +72,81 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
 
   const isMine = currentUserData?.id === lessonData.userId;
 
+  const onStudentClick = (id) => {
+    const sectionId = lessonSectionsState[Number(sectionIndex) - 1]?.id;
+
+    $studentExerciseAnswersBySection.effect({
+      studentId: id,
+      sectionId
+    }).then((res) => {
+      const answers = res.data.reduce((acc, item) => {
+        return {
+          ...acc,
+          [item.exerciseId]: item.metaData
+        }
+      }, {});
+
+      $exerciseAnswers.update({
+        [sectionId]: answers,
+      });
+
+    })
+  }
+
+  console.log("activeLessonState.data", activeLessonState.data);
+
   return (
     <div className="lesson-details">
       <div className="lesson-details__left">
-        <div className="content-block">
-          {lessonData.chapter && (
-            <>
-              <div className="lesson-details__course-name">
-                Курс: <strong>{lessonData.chapter.course.name}</strong>
-              </div>
-              <div>
-                <div className="lesson-details__chapters">
-                  <CollapseUI defaultActiveKey={[lessonData.chapter.id]}>
-                    {chapters.map((item) => (
-                      <CollapseUI.Item
-                        key={item.id}
-                        header={(
-                          <div className="lesson-details__chapters-item">
-                            <div>{item.name}</div>
-                          </div>
-                        )}
-                      >
-                        {lessonData.chapter && (
-                          <ChapterLessons
-                            courseId={lessonData.chapter.course.id}
-                            chapterId={item.id}
-                            lessonsCount={item.lessonsCount}
-                            isLessonPage={true}
-                            activeLessonId={lessonData.id}
-                          />
-                        )}
-                      </CollapseUI.Item>
-                    ))}
-                  </CollapseUI>
+        {/*<div className="content-block">*/}
+        {/*  {lessonData.chapter && (*/}
+        {/*    <>*/}
+        {/*      <div className="lesson-details__course-name">*/}
+        {/*        Курс: <strong>{lessonData.chapter.course.name}</strong>*/}
+        {/*      </div>*/}
+        {/*      <div>*/}
+        {/*        <div className="lesson-details__chapters">*/}
+        {/*          <CollapseUI defaultActiveKey={[lessonData.chapter.id]}>*/}
+        {/*            {chapters.map((item) => (*/}
+        {/*              <CollapseUI.Item*/}
+        {/*                key={item.id}*/}
+        {/*                header={(*/}
+        {/*                  <div className="lesson-details__chapters-item">*/}
+        {/*                    <div>{item.name}</div>*/}
+        {/*                  </div>*/}
+        {/*                )}*/}
+        {/*              >*/}
+        {/*                {lessonData.chapter && (*/}
+        {/*                  <ChapterLessons*/}
+        {/*                    courseId={lessonData.chapter.course.id}*/}
+        {/*                    chapterId={item.id}*/}
+        {/*                    lessonsCount={item.lessonsCount}*/}
+        {/*                    isLessonPage={true}*/}
+        {/*                    activeLessonId={lessonData.id}*/}
+        {/*                  />*/}
+        {/*                )}*/}
+        {/*              </CollapseUI.Item>*/}
+        {/*            ))}*/}
+        {/*          </CollapseUI>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*    </>*/}
+        {/*  )}*/}
+        {/*</div>*/}
+
+        {activeLessonState.data && isTeacher && (
+          <div>
+            <div>Участники:</div>
+            <div>
+              {JSON.parse(activeLessonState.data.students).map((item) => (
+                <div key={item.id} onClick={() => onStudentClick(item.id)}>
+                  {item.name}
                 </div>
-              </div>
-            </>
-          )}
-        </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="content-block">
           <LessonSections
             courseId={lessonData.chapter?.course.id}

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { $studentsForLessonList } from "#stores/students";
 import { useStore } from "effector-react";
 import { TableUI } from "#ui/table";
@@ -9,7 +9,7 @@ import { $selectedStudents } from "#src/app/screens/main/effector";
 export const StartLessonStudentsTab: FC = () => {
 
   const studentsForLessonListState = useStore($studentsForLessonList.store);
-  const selectedStudentsState = useStore($selectedStudents.store);
+  const [selectedStudentsIds, setSelectedStudentsIds] = useState([]);
 
   useEffect(() => {
     $studentsForLessonList.effect();
@@ -36,8 +36,9 @@ export const StartLessonStudentsTab: FC = () => {
 
   };
 
-  const onRowSelect = (ids) => {
-    $selectedStudents.update(ids);
+  const onRowSelect = (ids, items) => {
+    setSelectedStudentsIds(ids);
+    $selectedStudents.update(items);
   };
 
   return (
@@ -45,7 +46,7 @@ export const StartLessonStudentsTab: FC = () => {
       <TableUI
         rowSelection={{
           type: "checkbox",
-          selectedRowKeys: selectedStudentsState,
+          selectedRowKeys: selectedStudentsIds,
           onChange: onRowSelect,
         }}
         loading={studentsForLessonListState.loading}

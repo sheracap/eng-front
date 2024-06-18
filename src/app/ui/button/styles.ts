@@ -31,6 +31,7 @@ export const useStyles = createUseStyles({
     },
 
     "&.ant-btn-dangerous": {
+      color: "#fff",
       backgroundColor: $colors.danger,
 
       "&:hover": {

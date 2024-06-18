@@ -33,6 +33,15 @@ export const $exerciseAnswersBySection = createXHRStore<
   new XHRDataState([])
 );
 
+export const $studentExerciseAnswersBySection = createXHRStore<
+  any,
+  Array<ExerciseAnswerModel>,
+  StoreTypeWithData<Array<ExerciseAnswerModel>>
+>(
+  api.exercise.getStudentExerciseAnswersBySection,
+  new XHRDataState([])
+);
+
 export const $addExerciseAnswer = createXHRStore<ExerciseAnswerCreateModel, number, StoreType>(
   api.exercise.addExerciseAnswer,
   new XHRSuccessState(),

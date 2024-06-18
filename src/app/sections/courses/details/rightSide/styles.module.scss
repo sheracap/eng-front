@@ -25,3 +25,21 @@
   }
 }
 
+.lessonNameWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 0 15px;
+}
+
+.lessonName {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+

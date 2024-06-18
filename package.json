@@ -23,11 +23,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://192.168.201.75/smartpos-supply/admin.git"
+    "url": "http://test.git"
   },
   "author": "",
   "license": "ISC",
-  "proxy": "https://api-devsupply.smartpos.uz",
+  "proxy": "https://api.test.uz",
   "browserslist": [
     "> 0.3%"
   ],

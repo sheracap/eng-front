@@ -35,8 +35,9 @@ import {
   AddEditExercisesFormModalPropTypes
 } from "../components/addExercisesModal/formModal";
 import { $activeLesson } from "#stores/activeLesson";
-import { $activeLessonByNotification } from "#src/app/screens/main/effector";
 import { Exercises } from "#components/exercises";
+import { BackBtn } from "#ui/backBtn";
+import { useHistory } from "react-router";
 
 type PropsType = {
   isMine: boolean;
@@ -47,8 +48,9 @@ type PropsType = {
 export const LessonSection: FC<PropsType> = (props) => {
   const { isMine, lessonData, sectionId } = props;
 
+  const history = useHistory();
+
   const activeLessonState = useStore($activeLesson.store);
-  const activeLessonByNotificationState = useStore($activeLessonByNotification.store);
 
   const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
   const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
@@ -65,10 +67,10 @@ export const LessonSection: FC<PropsType> = (props) => {
   const { isStudent } = useRole();
 
   useEffect(() => {
-    if (activeLessonState.data || activeLessonByNotificationState) {
+    if (activeLessonState.data) {
       setShowHints(false);
     }
-  }, [activeLessonState.data || activeLessonByNotificationState])
+  }, [activeLessonState.data])
 
   const getSectionDetails = () => {
     if (sectionId) {
@@ -138,6 +140,29 @@ export const LessonSection: FC<PropsType> = (props) => {
           <Spinner />
         </div>
       )}
+
+      <div className={styles.lessonNameWrap}>
+        <div className={styles.lessonName}>
+          <BackBtn onBackClick={() => history.goBack()} />
+          <h1>{lessonData.name}</h1>
+        </div>
+        {isMine && (sectionData && sectionData.exercises.length > 0) && (
+          <div className="exercise-hints-actions">
+            <ButtonUI
+              type="primary"
+              withIcon
+              size="small"
+              onClick={changePosition}
+            >
+              <SwapIcon /> Поменять порядок
+            </ButtonUI>
+            <div>
+              Подсказки <Switch checked={showHints} onChange={(val) => setShowHints(val)} />
+            </div>
+          </div>
+        )}
+      </div>
+
       {isMine && !sectionId && (
         <>
           <div className={styles.addSectionWrap} onClick={() => addSectionModalControl.openModal({ lessonId: lessonData.id })}>
@@ -159,47 +184,30 @@ export const LessonSection: FC<PropsType> = (props) => {
       )}
 
       {sectionData && sectionData.exercises.length > 0 && (
-        <>
-          {isMine && (
-            <div className="exercise-hints-actions">
-              <ButtonUI
-                type="primary"
-                withIcon
-                size="small"
-                onClick={changePosition}
-              >
-                <SwapIcon /> Поменять порядок
-              </ButtonUI>
-              <div>
-                Подсказки <Switch checked={showHints} onChange={(val) => setShowHints(val)} />
-              </div>
-            </div>
-          )}
-          <Exercises
-            exercises={sectionData.exercises}
-            onExerciseEdit={onExerciseEdit}
-            isMine={isMine}
-            showHints={showHints}
-            entityId={sectionData.id}
-            isHomework={false}
-            onCreateExerciseAnswerMain={(id, res, prevState) => {
-              $addExerciseAnswer.effect({
-                sectionId: sectionData.id,
-                exerciseId: id,
-                metaData: res
-              }).then((response) => {
-                if (response) {
-                  $exerciseAnswers.update({
-                    [sectionData.id]: {
-                      ...prevState,
-                      [id]: res
-                    }
-                  });
-                }
-              });
-            }}
-          />
-        </>
+        <Exercises
+          exercises={sectionData.exercises}
+          onExerciseEdit={onExerciseEdit}
+          isMine={isMine}
+          showHints={showHints}
+          entityId={sectionData.id}
+          isHomework={false}
+          onCreateExerciseAnswerMain={(id, res, prevState) => {
+            $addExerciseAnswer.effect({
+              sectionId: sectionData.id,
+              exerciseId: id,
+              metaData: res
+            }).then((response) => {
+              if (response) {
+                $exerciseAnswers.update({
+                  [sectionData.id]: {
+                    ...prevState,
+                    [id]: res
+                  }
+                });
+              }
+            });
+          }}
+        />
       )}
 
       {isMine && sectionData && (

@@ -11,9 +11,9 @@ import { StartLessonCoursesTab } from "./courses";
 import "./styles.scss";
 import { StartLessonStudentsTab } from "#src/app/screens/main/header/startLesson/modal/students";
 import { useStore } from "effector-react";
-import { $activeLessonByNotification, $selectedLesson, $selectedStudents } from "#src/app/screens/main/effector";
+import { $selectedLesson, $selectedStudents } from "#src/app/screens/main/effector";
 import { notificationWarning } from "#ui/notifications";
-import { $createActiveLesson } from "#stores/activeLesson";
+import { $activeLesson, $createActiveLesson } from "#stores/activeLesson";
 import { useHistory } from "react-router-dom";
 
 const { Step } = Steps;
@@ -47,9 +47,14 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (createActiveLessonState.success) {
       if (selectedLessonState && selectedLessonState.courseId) {
-        $activeLessonByNotification.update({
-          lessonId: selectedLessonState.lessonId,
-          courseId: selectedLessonState.courseId
+        $activeLesson.update({
+          loading: false,
+          data: {
+            lessonId: selectedLessonState.lessonId,
+            courseId: selectedLessonState.courseId,
+            students: JSON.stringify(selectedStudentsState)
+          },
+          error: null
         });
 
         history.push(`/courses/${selectedLessonState.courseId}/lesson/${selectedLessonState.lessonId}/1`);
@@ -88,7 +93,7 @@ export const StartLessonModal: FC<PropTypes> = (props) => {
         $createActiveLesson.effect({
           courseId: selectedLessonState.courseId,
           lessonId: selectedLessonState.lessonId,
-          studentsIds: selectedStudentsState
+          studentsIds: selectedStudentsState.map((item) => item.id)
         });
       }
     }

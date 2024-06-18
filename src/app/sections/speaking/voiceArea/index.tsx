@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useEffect } from 'react';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import React, { useEffect } from "react";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { MicrophoneIcon, PlayIcon, RefreshSvgIcon, StopIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { $textForReadingDetails } from "#stores/textForReading";
@@ -68,6 +68,8 @@ export const SpeakingVoiceRecorder = () => {
     const { data: textForReadingDetailsData } = $textForReadingDetails.store.getState();
     const selectedTextId = $selectedTextIdForReading.store.getState();
     const myText = $myTextForReading.store.getState();
+
+    stopListening();
 
     let res = undefined;
 

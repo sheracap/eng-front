@@ -15,6 +15,7 @@ import { TemplateFillImages } from "#components/templates/fillImages";
 import { useStore } from "effector-react";
 import { notificationSuccess } from "#ui/notifications";
 import { $exerciseAnswers, $homeWorkExerciseAnswers } from "#src/app/sections/lessons/details/effector";
+import { useRole } from "#hooks/useRole";
 
 type PropsType = {
   exercises: Array<any>;
@@ -38,6 +39,8 @@ export const Exercises: FC<PropsType> = (props) => {
     onCreateExerciseAnswerMain,
     isHomework
   } = props;
+
+  const { isTeacher } = useRole();
 
   const deleteExerciseState = useStore($deleteExercise.store);
   const exerciseAnswersState = useStore($exerciseAnswers.store);
@@ -130,6 +133,12 @@ export const Exercises: FC<PropsType> = (props) => {
               )}
               {item.template === templateTypes.FILL_IMAGES && (
                 <TemplateFillImages data={item} {...commonExerciseItemProps} />
+              )}
+
+              {item.metaData.notes && (item.metaData.notes.showNotes || isTeacher) && (
+                <div className="exercise-item__notes">
+                  {item.metaData.notes.value}
+                </div>
               )}
             </div>
           )}

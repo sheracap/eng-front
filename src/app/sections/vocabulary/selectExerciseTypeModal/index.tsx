@@ -17,7 +17,7 @@ type PropTypes = {
 const wordExerciseTypes = [
   { name: "Test English - Russian", code: "TEST_LANG" },
   { name: "Test Russian - English", code: "TEST_NATIVE" },
-  { name: "Pronunciation", code: "PRONUNCIATION" },
+  { name: "Произношение", code: "PRONUNCIATION" },
 ];
 
 
@@ -69,7 +69,7 @@ export const SelectExerciseTypeModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={onFinish}>
-              Начать
+              Далее
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>
