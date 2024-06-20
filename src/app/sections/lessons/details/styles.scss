@@ -16,6 +16,17 @@
     width: 30%;
     flex-shrink: 0;
     padding: 0 10px;
+
+    &__in {
+      position: sticky;
+      top: 0;
+
+      &__cont {
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0 10px 24px 15px;
+      }
+    }
   }
 
   &__right {
@@ -31,6 +42,64 @@
   &__chapter-head {
     margin-bottom: 10px;
     font-size: 16px;
+  }
+
+  &__students {
+    margin-bottom: 15px;
+
+    &__title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    &__list {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -5px;
+
+      &__item {
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        margin: 0 5px;
+
+        &.active {
+          & > div {
+            border-color: $primaryColor;
+
+            span {
+              color: $primaryColor;
+            }
+          }
+        }
+
+        & > div {
+          color: #97a6ba;
+          width: 100%;
+          border: 1px solid #97a6ba;
+          background-color: #fff;
+          height: 100%;
+          display: flex;
+          overflow: hidden;
+          align-items: center;
+          border-radius: 50%;
+          justify-content: center;
+          transition: border .3s ease-in-out;
+
+          span {
+            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: bold;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
   }
 
   &__chapters {

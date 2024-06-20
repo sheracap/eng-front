@@ -43,10 +43,12 @@ type PropsType = {
   isMine: boolean;
   lessonData: LessonDetailsModel;
   sectionId: number | undefined;
+  selectedStudentId: null | number;
+  getStudentAnswers: (studentId: number, sectionId: number) => void;
 }
 
 export const LessonSection: FC<PropsType> = (props) => {
-  const { isMine, lessonData, sectionId } = props;
+  const { isMine, lessonData, sectionId, selectedStudentId, getStudentAnswers } = props;
 
   const history = useHistory();
 
@@ -98,6 +100,11 @@ export const LessonSection: FC<PropsType> = (props) => {
     if (isStudent) {
       getExerciseAnswers();
     }
+
+    if (selectedStudentId && sectionId) {
+      getStudentAnswers(selectedStudentId, sectionId);
+    }
+
   }, [sectionId]);
 
   useEffect(() => {

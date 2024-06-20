@@ -50,11 +50,15 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
       <div className={styles.testQuestion}>{data.metaData.question}</div>
       <div className={styles.testVariants}>
         {data.metaData.variants && (
-          <Radio.Group value={result ? result.val : userAnswer} onChange={onAnswerChange}>
+          <Radio.Group
+            className={`${(showHints || result) ? "answered" : ""}`}
+            value={result ? result.val : userAnswer}
+            onChange={onAnswerChange}
+          >
             <Space direction="vertical">
               {data.metaData.variants.map((item, index) => (
                 <Radio
-                  className={(showHints || result) && item === data.metaData.answer ? "correct-answer" : ""}
+                  className={(showHints || result) && item === data.metaData.answer ? "correct-answer" : (showHints || result) ? "wrong-answer" : ""}
                   value={item}
                   key={index}
                 >
@@ -68,9 +72,7 @@ export const TemplateTest: FC<PropsTypes> = (props) => {
       {isStudent && (
         <>
           {result ? (
-            <div className={styles.result} datatype={result.type}>
-              {result.text}
-            </div>
+            <></>
           ) : (
             <div className={styles.testTemplateActions}>
               <ButtonUI onClick={onCheck}>Проверить</ButtonUI>

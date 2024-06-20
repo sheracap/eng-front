@@ -75,7 +75,10 @@ export const Exercises: FC<PropsType> = (props) => {
           {!deletedExerciseIds[item.id] && (
             <div className="exercise-item" key={item.id}>
               <div className="exercise-item__title">
-                <div className="exercise-item__title__in">{index + 1}. {item.title}</div>
+                <div className="exercise-item__title__in">
+                  <div className="exercise-item__title__in__number">{index + 1}</div>
+                  <div>{item.title}</div>
+                </div>
                 {isMine && (
                   <div className="exercise-item__title__actions">
                     <ContextPopover
@@ -113,33 +116,35 @@ export const Exercises: FC<PropsType> = (props) => {
                   </div>
                 )}
               </div>
-              {item.template === templateTypes.TEST && (
-                <TemplateTest data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.TEXT_BLOCK && (
-                <TemplateTextBlock data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.BLANK && (
-                <TemplateBlank data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.FILL_TEXT && (
-                <TemplateFillText data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.VIDEO && (
-                <TemplateVideo data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.IMAGES && (
-                <TemplateImages data={item} {...commonExerciseItemProps} />
-              )}
-              {item.template === templateTypes.FILL_IMAGES && (
-                <TemplateFillImages data={item} {...commonExerciseItemProps} />
-              )}
+              <div className="exercise-item__body">
+                {item.template === templateTypes.TEST && (
+                  <TemplateTest data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.TEXT_BLOCK && (
+                  <TemplateTextBlock data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.BLANK && (
+                  <TemplateBlank data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.FILL_TEXT && (
+                  <TemplateFillText data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.VIDEO && (
+                  <TemplateVideo data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.IMAGES && (
+                  <TemplateImages data={item} {...commonExerciseItemProps} />
+                )}
+                {item.template === templateTypes.FILL_IMAGES && (
+                  <TemplateFillImages data={item} {...commonExerciseItemProps} />
+                )}
 
-              {item.metaData.notes && (item.metaData.notes.showNotes || isTeacher) && (
-                <div className="exercise-item__notes">
-                  {item.metaData.notes.value}
-                </div>
-              )}
+                {item.metaData.notes && (item.metaData.notes.showNotes || isTeacher) && (
+                  <div className="exercise-item__notes">
+                    {item.metaData.notes.value}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </React.Fragment>

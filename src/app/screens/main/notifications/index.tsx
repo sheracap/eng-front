@@ -107,8 +107,6 @@ export const Notifications: FC = (props) => {
     eventSource.onmessage = function (event) {
       const message = JSON.parse(event.data);
 
-      console.log("message++", message);
-
       if (message && message.type) {
         if (message.type === "LESSON") {
           $activeLesson.update({

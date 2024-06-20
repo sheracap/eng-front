@@ -8,7 +8,7 @@ export const useStyles = createUseStyles({
       flexDirection: "column",
       height: "100%",
       overflow: "auto",
-      padding: "20px 10px 20px 20px",
+      padding: "20px 10px 0 20px",
     },
 
     ".custom-content-fixed": {},

@@ -185,19 +185,36 @@ input:-webkit-autofill:focus {
 }
 
 .exercise-item {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   &__title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #fafafa;
 
     &__in {
+      display: flex;
+      align-items: flex-start;
       font-weight: bold;
       font-size: 22px;
       margin-right: 10px;
+
+      &__number {
+        margin-right: 10px;
+        padding: 0 10px;
+        line-height: 34px;
+        background-color: #8799d9;
+        color: #fff;
+        border-radius: 4px;
+      }
     }
+  }
+
+  &__body {
+    padding-left: 20px;
   }
 
   &__notes {

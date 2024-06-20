@@ -8,7 +8,6 @@
 
 .testTemplateActions {
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
   background-color: $gray;
   padding: 10px;
@@ -32,8 +31,79 @@
 .testVariants {
   margin-bottom: 10px;
 
+  :global(.ant-radio-group.answered) {
+    :global(.ant-radio-wrapper) {
+      cursor: default;
+    }
+
+    :global(.ant-radio) {
+      cursor: default;
+
+      &:hover {
+        :global(.ant-radio-inner) {
+          border-color: #d0d5dd;
+        }
+      }
+
+      input {
+        cursor: default;
+      }
+    }
+  }
+
   :global(.correct-answer) {
-    color: #009f3c;
+    color: $primaryColor;
     font-weight: bold;
+
+    :global(.ant-radio .ant-radio-inner) {
+      background-color: $primaryColor;
+      border: none;
+
+      &:after {
+        opacity: 1;
+        background: transparent url("src/assets/images/check.svg") no-repeat center center;
+        background-size: 14px 14px;
+        top: 0;
+        left: 0;
+        margin: 0;
+        transform: none;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  :global(.ant-radio-wrapper-checked) {
+
+    &:global(.correct-answer) {
+      color: $success;
+
+      :global(.ant-radio .ant-radio-inner) {
+        background-color: $success;
+      }
+    }
+
+    &:global(.wrong-answer) {
+      color: $danger;
+      font-weight: bold;
+
+      :global(.ant-radio .ant-radio-inner) {
+        background-color: $danger;
+        border: none;
+
+        &:after {
+          opacity: 1;
+          background: transparent url("src/assets/images/close.svg") no-repeat center center;
+          background-size: 10px 10px;
+          top: 0;
+          left: 0;
+          margin: 0;
+          transform: none;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
   }
 }
