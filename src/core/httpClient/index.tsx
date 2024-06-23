@@ -6,7 +6,6 @@ import { history } from "src/app/history";
 
 const httpClient = axios.create({
   withCredentials: true,
-  headers: { "Content-Type": "application/json" },
 });
 
 httpClient.interceptors.response.use(

@@ -1,18 +1,20 @@
 import {
   ExerciseAnswerCreateModel,
   ExerciseAnswerModel,
-  ExerciseCreateModel, ExerciseUpdateModel
+  ExerciseUpdateModel
 } from "#businessLogic/models/exercise";
 import { HandlerType } from "#core/effector/types/handler";
 import { httpDelete, httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
-import { SectionCreateModel } from "#businessLogic/models/section";
 
-export const addExercise: HandlerType<ExerciseCreateModel, number> = ({ isHomework, ...data }) => {
-  return httpPost({ url: isHomework ? "/api/homework/exercise" : "/api/exercise", data });
+export const addExercise: HandlerType<any, number> = (data) => {
+  return httpPost({
+    url: "/api/exercise",
+    data,
+  });
 };
 
-export const updateExercise: HandlerType<ExerciseUpdateModel, number> = ({ isHomework, ...data }) => {
-  return httpPut({ url: isHomework ? `/api/homework/exercise/${data.id}` : `/api/exercise/${data.id}`, data });
+export const updateExercise: HandlerType<ExerciseUpdateModel, number> = ({ id, data }) => {
+  return httpPut({ url: `/api/exercise/${id}`, data });
 };
 
 export const deleteExercise: HandlerType<number, { id: number }> = (id) => {

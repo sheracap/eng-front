@@ -2,7 +2,6 @@ import React, { FC, useEffect } from "react";
 import { Form } from "antd";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise, $updateExercise } from "#stores/exercise";
 
 import { FormUI } from "#ui/form";
 import { ButtonUI } from "#ui/button";
@@ -20,10 +19,12 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
+  create: any;
+  update: any;
 };
 
 export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, entityId, isHomework, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal, create, update } = props;
 
   const [form] = Form.useForm();
 
@@ -37,11 +38,6 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
         showNotes: editableData.metaData.notes?.showNotes || false,
       });
     }
-
-    return () => {
-      $addExercise.reset();
-      $updateExercise.reset();
-    };
   }, []);
 
   const onFinish = (formData) => {
@@ -62,12 +58,13 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
     }
 
     if (editableData) {
-      $updateExercise.effect({
+      update({
         id: editableData.id,
         ...data,
       });
     } else {
-      $addExercise.effect(data);
+      console.log("data", data);
+      create(data);
     }
   };
 

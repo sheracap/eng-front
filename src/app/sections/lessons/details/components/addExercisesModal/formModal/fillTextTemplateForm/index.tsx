@@ -20,10 +20,12 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
+  create: any;
+  update: any;
 };
 
 export const FillTextTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, entityId, isHomework, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal, create, update } = props;
 
   const [form] = Form.useForm();
 
@@ -83,7 +85,11 @@ export const FillTextTemplateForm: FC<PropTypes> = (props) => {
       },
     }
 
-    $addExercise.effect(data);
+    if (editableData) {
+
+    } else {
+      create(data);
+    }
   };
 
   return (

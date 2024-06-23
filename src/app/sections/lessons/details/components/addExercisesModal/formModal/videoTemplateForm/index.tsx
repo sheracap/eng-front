@@ -1,10 +1,8 @@
 import React, { FC, useEffect } from "react";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise, $updateExercise } from "#stores/exercise";
 import { FormUI } from "#ui/form";
 import { Form } from "antd";
-import { useStore } from "effector-react";
 import { ButtonUI } from "#ui/button";
 
 import { ModalUI } from "#ui/modal";
@@ -17,15 +15,14 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
+  create: any;
+  update: any;
 };
 
 export const VideoTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, entityId, isHomework, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal, create, update } = props;
 
   const [form] = Form.useForm();
-
-  const addExerciseState = useStore($addExercise.store);
-  const updateExerciseState = useStore($updateExercise.store);
 
   useEffect(() => {
     if (editableData) {
@@ -34,11 +31,6 @@ export const VideoTemplateForm: FC<PropTypes> = (props) => {
         value: editableData.metaData.url,
       });
     }
-
-    return () => {
-      $addExercise.reset();
-      $updateExercise.reset();
-    };
   }, []);
 
   const onFinish = (formData) => {
@@ -54,12 +46,12 @@ export const VideoTemplateForm: FC<PropTypes> = (props) => {
     }
 
     if (editableData) {
-      $updateExercise.effect({
+      update({
         id: editableData.id,
         ...data,
       });
     } else {
-      $addExercise.effect(data);
+      create(data);
     }
   };
 

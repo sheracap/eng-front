@@ -5,6 +5,7 @@ import { api } from "#businessLogic/api";
 import { XHRDataState, XHRSuccessState } from "#constructors/store";
 import { PaginationListModel } from "#types/apiResponseModels";
 import { PaginationList } from "#constructors/data";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 
 export const $homeworkDetails = createXHRStore<any, any, StoreTypeWithData<any | null>>(
@@ -44,4 +45,14 @@ export const $exerciseAnswersByHomework = createXHRStore<
 >(
   api.homework.getExerciseAnswersByHomework,
   new XHRDataState([])
+);
+
+export const $addHomeworkExercise = createXHRStore<ExerciseCreateModel, number, StoreTypeWithData<number | null>>(
+  api.homework.addHomeworkExercise,
+  new XHRDataState(null),
+);
+
+export const $updateHomeworkExercise = createXHRStore<ExerciseUpdateModel, number, StoreTypeWithData<number | null>>(
+  api.homework.updateHomeworkExercise,
+  new XHRDataState(null),
 );

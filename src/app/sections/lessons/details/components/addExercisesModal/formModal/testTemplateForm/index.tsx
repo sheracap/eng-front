@@ -1,10 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise, $updateExercise } from "#stores/exercise";
 import { FormUI } from "#ui/form";
 import { Form, message } from "antd";
-import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
 import { ButtonUI } from "#ui/button";
 
@@ -19,10 +17,12 @@ type PropTypes = {
   isHomework: boolean;
   closeModal: () => void;
   closeMainModal?: () => void;
+  create: any;
+  update: any;
 };
 
 export const TestTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, entityId, isHomework, closeModal, closeMainModal } = props;
+  const { editableData, entityId, isHomework, closeModal, closeMainModal, create, update } = props;
 
   const [form] = Form.useForm();
 
@@ -73,9 +73,9 @@ export const TestTemplateForm: FC<PropTypes> = (props) => {
     }
 
     if (editableData) {
-      $updateExercise.effect({ id: editableData.id, ...data });
+      update({ id: editableData.id, ...data });
     } else {
-      $addExercise.effect(data);
+      create(data);
     }
   };
 

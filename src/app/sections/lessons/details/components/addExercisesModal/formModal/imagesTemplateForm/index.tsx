@@ -1,9 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
-import { useStore } from "effector-react";
 import { Form, Upload, message } from "antd";
 
 import { requiredRules, templateTypes } from "#constants/index";
-import { $addExercise, $updateExercise } from "#stores/exercise";
 
 import { FormUI } from "#ui/form";
 import { ButtonUI } from "#ui/button";
@@ -16,6 +14,8 @@ import { AddPlusSvgIcon, TrashSvgIcon } from "#svgIcons/index";
 
 import styles from "./styles.module.scss";
 import { getBase64Photo, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
+import { RcFile } from "antd/lib/upload";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 
 type PropTypes = {
@@ -23,19 +23,21 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
+  create: (data: ExerciseCreateModel | any) => void;
+  update: (data: ExerciseUpdateModel["data"]) => void;
 };
 
 const uploadPhotoLimit = 10;
 
 export const ImagesTemplateForm: FC<PropTypes> = (props) => {
-  const { editableData, entityId, isHomework, closeModal } = props;
+  const { editableData, entityId, isHomework, closeModal, create, update } = props;
 
   const [form] = Form.useForm();
 
   const [savedPhotos, setSavedPhotos] = useState<Array<{ id: number; url: string; }>>([]);
   const [removedPhotoIds, setRemovedPhotoIds] = useState<Array<number>>([]);
   const [newPhotos, setNewPhotos] = useState<Array<{ id: number; url: string; }>>([]);
-  const [filesForUpload, setFilesForUpload] = useState<Array<{ id: number; }>>([]);
+  const [filesForUpload, setFilesForUpload] = useState<Array<{ id: number; file: RcFile; }>>([]);
   const [photosError, setPhotosError] = useState("");
 
   useEffect(() => {
@@ -45,14 +47,9 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
         //value: editableData.value,
       });
     }
-
-    return () => {
-      $addExercise.reset();
-      $updateExercise.reset();
-    };
   }, []);
 
-  const beforeUploadPhoto = (file) => {
+  const beforeUploadPhoto = (file: RcFile) => {
     const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);
 
     if (!correspondType) {
@@ -107,23 +104,34 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
   };
 
   const onFinish = (formData) => {
-    const data = {
-      title: formData.title,
-      sectionId: isHomework ? undefined : entityId,
-      homeworkId: isHomework ? entityId : undefined,
-      isHomework,
-      template: templateTypes.VIDEO,
-      metaData: {}
+    const data = new FormData();
+
+    if (filesForUpload.length) {
+      filesForUpload.forEach((photo, index) => {
+        data.append(`img[${index}]`, photo.file);
+      });
+
+      data.append("title", formData.title);
+      data.append("sectionId", isHomework ? "" : String(entityId));
+      data.append("homeworkId", isHomework ? String(entityId) : "");
+      data.append("template", templateTypes.IMAGES);
+
+
+    } else {
+      return;
     }
 
-    // if (editableData) {
-    //   $updateExercise.effect({
-    //     id: editableData.id,
-    //     ...data,
-    //   });
-    // } else {
-    //   $addExercise.effect(data);
-    // }
+    if (editableData) {
+      // $updateExercise.effect({
+      //   id: editableData.id,
+      //   ...data,
+      // }); // check
+    } else {
+
+
+
+      create(data);
+    }
   };
 
   return (
@@ -137,9 +145,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
             <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
           <div className={styles.formPhotos}>
-            <div className={styles.formPhotosTitle}>
-              Фото
-            </div>
             <div className={styles.formPhotosList}>
               <div className={`${styles.formPhotosUploadItem} ${photosError ? "has-error" : ""}`}>
                 <Upload

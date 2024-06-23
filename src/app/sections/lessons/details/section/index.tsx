@@ -219,9 +219,14 @@ export const LessonSection: FC<PropsType> = (props) => {
 
       {isMine && sectionData && (
         <>
-          <div className={styles.addSectionWrap} onClick={() => addExercisesModalControl.openModal({ entityId: sectionData.id, isHomework: false })}>
-            <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
-            <div className={styles.addSectionText}>Добавить упражнение</div>
+          <div className={styles.addSectionWrap}>
+            <ButtonUI
+              type="primary"
+              withIcon
+              onClick={() => addExercisesModalControl.openModal({ entityId: sectionData.id, isHomework: false })}
+            >
+              <AddPlusSvgIcon /> Добавить упражнение
+            </ButtonUI>
           </div>
           <DrawerModalUI
             open={addExercisesModalControl.modalProps.open}

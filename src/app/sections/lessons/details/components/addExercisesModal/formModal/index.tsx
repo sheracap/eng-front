@@ -12,7 +12,9 @@ import { templateTypes } from "#constants/index";
 import { ExerciseItemModel } from "#businessLogic/models/section";
 import { useStore } from "effector-react";
 import { $addExercise, $updateExercise } from "#stores/exercise";
+import { $addHomeworkExercise, $updateHomeworkExercise } from "#stores/homework";
 import { notificationSuccess } from "#ui/notifications";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 export type AddEditExercisesFormModalPropTypes = {
   editableData?: ExerciseItemModel;
@@ -35,6 +37,9 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
   const addExerciseState = useStore($addExercise.store);
   const updateExerciseState = useStore($updateExercise.store);
 
+  const addHomeworkExerciseState = useStore($addHomeworkExercise.store);
+  const updateHomeworkExerciseState = useStore($updateHomeworkExercise.store);
+
   useEffect(() => {
     return () => {
       $addExercise.reset();
@@ -54,25 +59,91 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
     }
   }, [addExerciseState.data, updateExerciseState.data]);
 
+  const create = (data: ExerciseCreateModel) => {
+    if (isHomework) {
+      $addHomeworkExercise.effect(data);
+    } else {
+      $addExercise.effect(data);
+    }
+  }
+
+  const update = (data: ExerciseUpdateModel["data"]) => {
+    if (editableData) {
+      if (isHomework) {
+        $updateHomeworkExercise.effect({
+          id: editableData.id,
+          data
+        });
+      } else {
+        $updateExercise.effect({
+          id: editableData.id,
+          data
+        });
+      }
+    }
+  }
+
   return (
     <>
       {template === templateTypes.TEST && (
-        <TestTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <TestTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
       {template === templateTypes.TEXT_BLOCK && (
-        <TextBlockTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <TextBlockTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
       {template === templateTypes.BLANK && (
-        <BlankTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <BlankTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
       {template === templateTypes.FILL_TEXT && (
-        <FillTextTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <FillTextTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
       {template === templateTypes.VIDEO && (
-        <VideoTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <VideoTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
       {template === templateTypes.IMAGES && (
-        <ImagesTemplateForm editableData={editableData} entityId={entityId} isHomework={isHomework} closeModal={modalControl.closeModal} />
+        <ImagesTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
       )}
     </>
   );

@@ -4,11 +4,11 @@ export type ExerciseCreateModel = {
   homeworkId?: number;
   template: string;
   metaData: any;
-  isHomework: boolean;
-}
+};
 
-export type ExerciseUpdateModel = ExerciseCreateModel & {
+export type ExerciseUpdateModel = {
   id: number;
+  data: ExerciseCreateModel & { id: number; };
 }
 
 export type ExerciseAnswerModel = {

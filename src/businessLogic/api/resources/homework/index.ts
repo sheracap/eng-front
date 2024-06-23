@@ -1,7 +1,7 @@
 import { HandlerType } from "#core/effector/types/handler";
-import { httpGet, httpPost } from "#core/httpClient";
+import { httpGet, httpPost, httpPut } from "#core/httpClient";
 import { PaginationListModel } from "#types/apiResponseModels";
-import { ExerciseAnswerModel } from "#businessLogic/models/exercise";
+import { ExerciseAnswerModel, ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 export const getHomeworkDetails: HandlerType<any, any> = (id) => {
   return httpGet({ url: `/api/homework/details/${id}` });
@@ -34,4 +34,12 @@ export const getExerciseAnswersByHomework: HandlerType<number, Array<ExerciseAns
   return httpGet({
     url: `/api/homework/exercise-answers/${homeworkId}`,
   });
+};
+
+export const addHomeworkExercise: HandlerType<ExerciseCreateModel, number> = (data) => {
+  return httpPost({ url: "/api/homework/exercise", data });
+};
+
+export const updateHomeworkExercise: HandlerType<ExerciseUpdateModel, number> = ({ id, data }) => {
+  return httpPut({ url: `/api/homework/exercise/${id}`, data });
 };

@@ -1,7 +1,9 @@
 import React, { FC } from "react";
-import { Carousel } from "antd";
+import { Carousel } from 'antd';
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
+
+import "./styles.scss";
 
 type PropsTypes = {
   data: ExerciseItemModel;
@@ -10,25 +12,21 @@ type PropsTypes = {
   onCreateExerciseAnswer: (id: any, res: any, prevState: any) => void;
 }
 
+
 export const TemplateImages: FC<PropsTypes> = (props) => {
   const { data } = props;
 
   return (
-    <>
-      <Carousel>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-      </Carousel>
-    </>
+    <div className="images-exercise">
+      {data && data.metaData.images && (
+        <Carousel>
+          {data.metaData.images.map((item) => (
+            <div key={item} className="images-exercise__item">
+              <img src={`http://localhost:5000/${item}`} alt=""/>
+            </div>
+          ))}
+        </Carousel>
+      )}
+    </div>
   )
 };
