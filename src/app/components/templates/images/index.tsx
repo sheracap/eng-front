@@ -18,7 +18,7 @@ export const TemplateImages: FC<PropsTypes> = (props) => {
 
   return (
     <div className="images-exercise">
-      {data && data.metaData.images && (
+      {data.metaData?.images && data.metaData.images.length > 1 && (
         <Carousel>
           {data.metaData.images.map((item) => (
             <div key={item} className="images-exercise__item">
@@ -26,6 +26,11 @@ export const TemplateImages: FC<PropsTypes> = (props) => {
             </div>
           ))}
         </Carousel>
+      )}
+      {data.metaData?.images && data.metaData.images.length === 1 && (
+        <div className="images-exercise__item">
+          <img src={`http://localhost:5000/${data.metaData.images[0]}`} alt=""/>
+        </div>
       )}
     </div>
   )

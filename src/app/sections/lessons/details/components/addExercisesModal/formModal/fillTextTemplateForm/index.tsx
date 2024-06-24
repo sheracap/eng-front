@@ -13,6 +13,7 @@ import { notificationWarning } from "#ui/notifications";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
 import { CheckboxUI } from "#ui/checkbox";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 
 type PropTypes = {
@@ -20,8 +21,8 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
-  create: any;
-  update: any;
+  create: (data: ExerciseCreateModel | any) => void;
+  update: (data: ExerciseUpdateModel["data"]) => void;
 };
 
 export const FillTextTemplateForm: FC<PropTypes> = (props) => {
