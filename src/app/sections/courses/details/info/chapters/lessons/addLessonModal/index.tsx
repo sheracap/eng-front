@@ -15,6 +15,7 @@ import { AddPlusSvgIcon } from "#src/assets/svg";
 
 export type AddLessonModalPropTypes = {
   chapterId?: number;
+  isPrivate?: boolean;
 };
 
 type PropTypes = {
@@ -27,7 +28,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
   const { closeModal, modalProps } = modalControl;
 
-  const { chapterId } = modalProps;
+  const { chapterId, isPrivate } = modalProps;
 
   const [form] = Form.useForm();
 
@@ -96,6 +97,12 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
     data.append("chapterId", String(chapterId));
     data.append("name", formData.name);
 
+    if (chapterId) {
+      data.append("isPrivate", String(isPrivate));
+    } else {
+      data.append("isPrivate", String(formData.isPrivate));
+    }
+
     $addLesson.effect(data);
   };
 
@@ -106,7 +113,12 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
         <ModalUI.Title>Добавить урок</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <FormUI phantomSubmit form={form} onFinish={onFinish}>
+        <FormUI
+          phantomSubmit
+          initialValues={{ isPrivate: true }}
+          form={form}
+          onFinish={onFinish}
+        >
           <Form.Item
             label="Обложка"
           >

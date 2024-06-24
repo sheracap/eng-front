@@ -18,10 +18,11 @@ import { ChapterLessons } from "./lessons";
 type PropsTypes = {
   courseId: number;
   courseAuthorId: number;
+  isPrivate: boolean;
 }
 
 export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
-  const { courseAuthorId, courseId } = props;
+  const { courseAuthorId, courseId, isPrivate } = props;
 
   const { data: currentUserData } = useStore($currentUser.store);
   const courseChaptersState = useStore($courseChapters.store);
@@ -203,7 +204,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                     </div>
                   )}
                 >
-                  <ChapterLessons courseId={courseId} chapterId={item.id} lessonsCount={item.lessonsCount} />
+                  <ChapterLessons courseId={courseId} chapterId={item.id} lessonsCount={item.lessonsCount} isPrivate={isPrivate} />
                 </CollapseUI.Item>
               ))}
             </CollapseUI>

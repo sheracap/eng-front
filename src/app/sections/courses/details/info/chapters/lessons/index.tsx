@@ -17,10 +17,11 @@ type PropsTypes = {
   lessonsCount: string;
   isLessonPage?: boolean;
   activeLessonId?: number;
+  isPrivate: boolean;
 }
 
 export const ChapterLessons: FC<PropsTypes> = (props) => {
-  const { courseId, chapterId, lessonsCount, isLessonPage, activeLessonId } = props;
+  const { courseId, chapterId, lessonsCount, isLessonPage, activeLessonId, isPrivate } = props;
 
   const history = useHistory();
 
@@ -49,7 +50,7 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
             type="primary"
             withIcon
             size="small"
-            onClick={() => addLessonModalControl.openModal({ chapterId })}
+            onClick={() => addLessonModalControl.openModal({ chapterId, isPrivate })}
           >
             <AddPlusSvgIcon /> Добавить урок
           </ButtonUI>
