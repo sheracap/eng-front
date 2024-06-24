@@ -59,6 +59,18 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
     }
   }, [addExerciseState.data, updateExerciseState.data]);
 
+  useEffect(() => {
+    if (addHomeworkExerciseState.data || updateHomeworkExerciseState.data) {
+      notificationSuccess("", addHomeworkExerciseState.data ? "Упражнение добавлено" : "Упражнение обновлено");
+
+      closeMainModal && closeMainModal();
+
+      modalControl.closeModal();
+
+      callback();
+    }
+  }, [addHomeworkExerciseState.data, updateHomeworkExerciseState.data]);
+
   const create = (data: ExerciseCreateModel) => {
     if (isHomework) {
       $addHomeworkExercise.effect(data);

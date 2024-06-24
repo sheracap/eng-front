@@ -9,6 +9,7 @@ import { ButtonUI } from "#ui/button";
 import styles from "./styles.module.scss";
 import { ModalUI } from "#ui/modal";
 import { ExerciseItemModel } from "#businessLogic/models/section";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 
 type PropTypes = {
@@ -17,8 +18,8 @@ type PropTypes = {
   isHomework: boolean;
   closeModal: () => void;
   closeMainModal?: () => void;
-  create: any;
-  update: any;
+  create: (data: ExerciseCreateModel | any) => void;
+  update: (data: ExerciseUpdateModel["data"]) => void;
 };
 
 export const TestTemplateForm: FC<PropTypes> = (props) => {

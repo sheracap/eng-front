@@ -12,6 +12,7 @@ import { CheckboxUI } from "#ui/checkbox";
 import { RichTextEditorWrapper } from "#src/components/richTextEditor/wrapper";
 
 import { ExerciseItemModel } from "#businessLogic/models/section";
+import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
 
 type PropTypes = {
@@ -19,8 +20,8 @@ type PropTypes = {
   entityId: number;
   isHomework: boolean;
   closeModal: () => void;
-  create: any;
-  update: any;
+  create: (data: ExerciseCreateModel | any) => void;
+  update: (data: ExerciseUpdateModel["data"]) => void;
 };
 
 export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
