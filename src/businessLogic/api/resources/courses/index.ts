@@ -53,11 +53,11 @@ export const updateCourse: HandlerType<CourseUpdateModel, any> = ({ id, data }) 
   return httpPut({ url: `/api/course/${id}`, data });
 };
 
-export const getCourseDetails: HandlerType<string, CourseDetailsModel> = (id) => {
+export const getCourseDetails: HandlerType<number, CourseDetailsModel> = (id) => {
   return httpGet({ url: `/api/course/${id}` });
 };
 
-export const getCourseChapters: HandlerType<string, Array<CourseChapterItemModel>> = (courseId) => {
+export const getCourseChapters: HandlerType<number, Array<CourseChapterItemModel>> = (courseId) => {
   return httpGet({ url: `/api/chapter/by-course/${courseId}` });
 };
 

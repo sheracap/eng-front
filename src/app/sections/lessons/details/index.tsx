@@ -5,9 +5,9 @@ import { useStore } from "effector-react";
 
 import "./styles.scss";
 import { ContentUI } from "#ui/content";
-import { $courseChapters } from "#stores/courses";
-import { CollapseUI } from "#ui/collapse";
-import { ChapterLessons } from "#src/app/sections/courses/details/info/chapters/lessons";
+// import { $courseChapters } from "#stores/courses";
+// import { CollapseUI } from "#ui/collapse";
+// import { ChapterLessons } from "#src/app/sections/courses/details/info/chapters/lessons";
 import { LessonSection } from "#src/app/sections/lessons/details/section";
 import { $currentUser } from "#stores/account";
 
@@ -29,7 +29,7 @@ export interface LessonDetailsMatchParams {
 }
 
 type PropsTypes = {
-  isCoursePage?: boolean;
+  courseId?: number;
 }
 
 const getName = (firstLetter: string, secondLetter: string | undefined) => {
@@ -41,7 +41,7 @@ const getName = (firstLetter: string, secondLetter: string | undefined) => {
 }
 
 export const LessonDetails: FC<PropsTypes> = (props) => {
-  const { isCoursePage } = props;
+  const { courseId } = props;
   const match = useRouteMatch<LessonDetailsMatchParams>();
   const lessonId = match.params.id;
   const sectionIndex = match.params.index;
@@ -53,7 +53,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
   const { data: currentUserData } = useStore($currentUser.store);
   const activeLessonState = useStore($activeLesson.store);
   const { data: lessonData } = useStore($lessonDetails.store);
-  const { data: chapters } = useStore($courseChapters.store);
+  //const { data: chapters } = useStore($courseChapters.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
 
   const [selectedStudentId, setSelectedStudentId] = useState<null | number>(null);
@@ -68,15 +68,13 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
     }
   }, [lessonId]);
 
-  useEffect(() => {
-    if (lessonData) {
-      if (!chapters.length && lessonData.chapter) {
-        const courseId = String(lessonData.chapter.course.id);
-
-        $courseChapters.effect(courseId);
-      }
-    }
-  }, [lessonData]);
+  // useEffect(() => {
+  //   if (lessonData) {
+  //     if (!chapters.length && lessonData.chapter && courseId) {
+  //       $courseChapters.effect(courseId);
+  //     }
+  //   }
+  // }, [lessonData]);
 
   if (!lessonData) {
     return <ContentUI loading={true} />
@@ -184,7 +182,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
 
             <div className="content-block">
               <LessonSections
-                courseId={lessonData.chapter?.course.id}
+                courseId={courseId}
                 lessonId={lessonData.id}
                 sections={lessonData.sections}
                 sectionIndex={sectionIndex}

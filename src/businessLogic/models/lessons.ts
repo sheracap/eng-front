@@ -14,10 +14,6 @@ export interface LessonDetailsModel {
   chapter: null | {
     id: number;
     name: string;
-    course: {
-      id: number;
-      name: string;
-    }
   };
   sections: Array<{
     id: number;

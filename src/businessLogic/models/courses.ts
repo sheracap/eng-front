@@ -28,5 +28,4 @@ export interface CourseChapterItemModel {
   id: number;
   name: string;
   img: string | null;
-  lessonsCount: string;
 }

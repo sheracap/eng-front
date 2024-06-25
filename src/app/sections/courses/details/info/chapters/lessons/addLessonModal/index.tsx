@@ -20,7 +20,7 @@ export type AddLessonModalPropTypes = {
 
 type PropTypes = {
   modalControl: ModalControlType<AddLessonModalPropTypes>;
-  callback: () => void;
+  callback: (id: number, name: string) => void;
 };
 
 export const AddLessonModal: FC<PropTypes> = (props) => {
@@ -46,7 +46,10 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (addLessonState.data) {
       closeModal();
-      callback();
+
+      const name = form.getFieldValue("name");
+
+      callback(addLessonState.data, name);
     }
   }, [addLessonState.data]);
 

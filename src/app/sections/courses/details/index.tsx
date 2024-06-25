@@ -14,7 +14,7 @@ export interface CourseDetailsMatchParams {
 
 export const CourseDetails = (props) => {
   const match = useRouteMatch<CourseDetailsMatchParams>();
-  const courseId = match.params.id;
+  const courseId = Number(match.params.id);
 
   const { data, loading } = useStore($courseDetails.store);
 
@@ -52,7 +52,7 @@ export const CourseDetails = (props) => {
         <Route
           path={`${match.path}/lesson/:id/:index`}
           render={() => (
-            <LessonDetails isCoursePage={true} />
+            <LessonDetails courseId={courseId} />
           )}
         />
       </Switch>

@@ -47,7 +47,7 @@ export const LessonSections: FC<PropsTypes> = (props) => {
       history.push(`/courses/${courseId}/lesson/${lessonId}/${index + 1}`);
     } else {
       history.push(`/lesson/${lessonId}/${index + 1}`);
-    }
+    } // todo think
   }
 
   return (

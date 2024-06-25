@@ -65,13 +65,13 @@ export const $updateCourse = createXHRStore<CourseUpdateModel, any, StoreTypeWit
 );
 
 export const $courseDetails = createXHRStore<
-  string,
+  number,
   CourseDetailsModel,
   StoreTypeWithData<CourseDetailsModel | null>
 >(api.courses.getCourseDetails, new XHRDataState(null));
 
 export const $courseChapters = createXHRStore<
-  string,
+  number,
   Array<CourseChapterItemModel>,
   StoreTypeWithData<Array<CourseChapterItemModel>>
 >(api.courses.getCourseChapters, new XHRDataState([]));

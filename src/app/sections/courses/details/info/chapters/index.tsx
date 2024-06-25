@@ -37,7 +37,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
   const addChapterModalControl = useModalControl<AddChapterModalPropTypes>();
 
   const getChapters = () => {
-    $courseChapters.effect(String(courseId));
+    $courseChapters.effect(courseId);
   };
 
   useEffect(() => {
@@ -204,7 +204,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                     </div>
                   )}
                 >
-                  <ChapterLessons courseId={courseId} chapterId={item.id} lessonsCount={item.lessonsCount} isPrivate={isPrivate} />
+                  <ChapterLessons courseId={courseId} chapterId={item.id} isPrivate={isPrivate} />
                 </CollapseUI.Item>
               ))}
             </CollapseUI>
