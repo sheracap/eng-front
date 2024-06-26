@@ -5,34 +5,34 @@ import { CurrentUserModel, LoginPayloadType, LoginResponseType, RegistrationResp
 
 export const getCurrentUser: HandlerType<null, CurrentUserModel> = () => {
   return httpGet({
-    url: "/api/user/current",
+    url: "/api/cabinet/user/current",
   });
 };
 
 export const updateUser: HandlerType<any, any> = (data) => {
   return httpPut({
-    url: "/api/user/update",
+    url: "/api/cabinet/user/update",
     data
   });
 };
 
 export const logIn: HandlerType<LoginPayloadType, LoginResponseType> = (data) => {
   return httpPost({
-    url: "/api/user/login",
+    url: "/api/cabinet/user/login",
     data,
   });
 };
 
 export const registration: HandlerType<RegistrationPayloadType, RegistrationResponseType> = (data) => {
   return httpPost({
-    url: "/api/user/registration",
+    url: "/api/cabinet/user/registration",
     data,
   });
 };
 
 export const verifyRegistration: HandlerType<any, any> = (data) => {
   return httpPost({
-    url: "/api/user/verify",
+    url: "/api/cabinet/user/verify",
     data,
   });
 };

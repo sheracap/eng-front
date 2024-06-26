@@ -9,15 +9,15 @@ import { PaginationListModel } from "#types/apiResponseModels";
 export const getStudentsList: HandlerType<void, PaginationListModel<StudentsListItemModel>> = (
   params,
 ) => {
-  return httpGet({ url: "/api/students", params });
+  return httpGet({ url: "/api/cabinet/students", params });
 };
 
 export const inviteStudent: HandlerType<StudentInviteModel, any> = (
   data,
 ) => {
-  return httpPost({ url: "/api/invitation", data });
+  return httpPost({ url: "/api/cabinet/invitation", data });
 };
 
 export const deleteStudent: HandlerType<number, any> = (id) => {
-  return httpDelete({ url: `/api/students/${id}` });
+  return httpDelete({ url: `/api/cabinet/students/${id}` });
 };

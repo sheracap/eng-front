@@ -5,13 +5,13 @@ import { HandlerType } from "#core/effector/types/handler";
 import { httpDelete, httpGet, httpPost } from "#core/httpClient";
 
 export const createActiveLesson: HandlerType<ActiveLessonCreateModel, any> = (data) => {
-  return httpPost({ url: "/api/active-lesson", data });
+  return httpPost({ url: "/api/cabinet/active-lesson", data });
 };
 
 export const getActiveLesson: HandlerType<ActiveLessonParamsType, any> = (params) => {
-  return httpGet({ url: "/api/active-lesson/current", params });
+  return httpGet({ url: "/api/cabinet/active-lesson/current", params });
 };
 
 export const deleteActiveLesson: HandlerType<void, any> = () => {
-  return httpDelete({ url: "/api/active-lesson" });
+  return httpDelete({ url: "/api/cabinet/active-lesson" });
 };

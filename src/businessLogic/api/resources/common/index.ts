@@ -6,6 +6,6 @@ import { httpGet } from "#core/httpClient";
 
 export const getRoles: HandlerType<null, RegionListType> = () => {
   return httpGet({
-    url: "/api/role",
+    url: "/api/cabinet/role",
   });
 };

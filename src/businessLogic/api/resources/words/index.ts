@@ -11,29 +11,29 @@ import {
 export const getWordsList: HandlerType<WordsParamsType, PaginationListModel<WordItemModel>> = (
   params,
 ) => {
-  return httpGet({ url: "/api/words", params });
+  return httpGet({ url: "/api/cabinet/words", params });
 };
 
 export const getRandomWordsList: HandlerType<void, Array<WordItemModel>> = () => {
-  return httpGet({ url: "/api/words/random" });
+  return httpGet({ url: "/api/cabinet/words/random" });
 };
 
 export const createWord: HandlerType<CreateWordModel, WordItemModel> = (data) => {
-  return httpPost({ url: "/api/words", data })
+  return httpPost({ url: "/api/cabinet/words", data })
 };
 
 export const deleteWord: HandlerType<number, any> = (id) => {
-  return httpDelete({ url: `/api/words/${id}` })
+  return httpDelete({ url: `/api/cabinet/words/${id}` })
 };
 
 export const getWordCategories: HandlerType<void, Array<WordCategoryItemModel>> = () => {
-  return httpGet({ url: "/api/words/category", });
+  return httpGet({ url: "/api/cabinet/words/category", });
 };
 
 export const createWordCategory: HandlerType<any, WordCategoryItemModel> = (data) => {
-  return httpPost({ url: "/api/words/category", data })
+  return httpPost({ url: "/api/cabinet/words/category", data })
 };
 
 export const deleteWordCategory: HandlerType<number, number> = (id) => {
-  return httpDelete({ url: `/api/words/category/${id}` })
+  return httpDelete({ url: `/api/cabinet/words/category/${id}` })
 };

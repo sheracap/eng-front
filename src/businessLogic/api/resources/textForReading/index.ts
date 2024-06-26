@@ -12,13 +12,13 @@ import {
 export const getTextForReadingList: HandlerType<TextForReadingParamsTypes, PaginationListModel<TextForReadingItemModel>> = (
   params,
 ) => {
-  return httpGet({ url: "/api/text-for-reading", params });
+  return httpGet({ url: "/api/cabinet/text-for-reading", params });
 };
 
 export const getTextForReadingDetails: HandlerType<TextForReadingDetailsParamsTypes, TextForReadingDetailsModel> = ({ id, ...params }) => {
-  return httpGet({ url: `/api/text-for-reading/${id}`, params });
+  return httpGet({ url: `/api/cabinet/text-for-reading/${id}`, params });
 };
 
 export const createTextForReading: HandlerType<any, any> = (data) => {
-  return httpPost({ url: "/api/text-for-reading", data })
+  return httpPost({ url: "/api/cabinet/text-for-reading", data })
 };
