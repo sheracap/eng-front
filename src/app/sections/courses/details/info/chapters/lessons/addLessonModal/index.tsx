@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import { requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
-import { $addLesson } from "#stores/lessons";
+import { $addLesson, $updateLesson } from "#stores/lessons";
 import { ButtonUI } from "#ui/button";
 import { FormUI } from "#ui/form";
 import { ModalUI } from "#ui/modal";
@@ -14,6 +14,7 @@ import { AddPlusSvgIcon } from "#src/assets/svg";
 
 
 export type AddLessonModalPropTypes = {
+  lessonId?: number;
   chapterId?: number;
   isPrivate?: boolean;
 };
@@ -28,11 +29,12 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
   const { closeModal, modalProps } = modalControl;
 
-  const { chapterId, isPrivate } = modalProps;
+  const { lessonId, chapterId, isPrivate } = modalProps;
 
   const [form] = Form.useForm();
 
   const addLessonState = useStore($addLesson.store);
+  const updateLessonState = useStore($updateLesson.store);
 
   const [ uploadedPhoto, setUploadedPhoto ] = useState(undefined);
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
@@ -52,6 +54,12 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
       callback(addLessonState.data, name);
     }
   }, [addLessonState.data]);
+
+  useEffect(() => {
+    if (updateLessonState.data) {
+      closeModal();
+    }
+  }, [updateLessonState.data]);
 
   const onCancelClick = () => {
     closeModal();
@@ -106,7 +114,14 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
       data.append("isPrivate", String(formData.isPrivate));
     }
 
-    $addLesson.effect(data);
+    if (lessonId) {
+      $updateLesson.effect({
+        id: lessonId,
+        data
+      });
+    } else {
+      $addLesson.effect(data);
+    }
   };
 
   return (

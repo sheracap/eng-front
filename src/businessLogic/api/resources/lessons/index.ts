@@ -1,4 +1,9 @@
-import { LessonItemModel, LessonCreateModel, LessonDetailsModel } from "#businessLogic/models/lessons";
+import {
+  LessonItemModel,
+  LessonCreateModel,
+  LessonDetailsModel,
+  LessonUpdateModel
+} from "#businessLogic/models/lessons";
 import { HandlerType } from "#core/effector/types/handler";
 import { httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
 
@@ -18,4 +23,8 @@ export const getLessonsByChapter: HandlerType<number, Array<LessonItemModel>> = 
 
 export const addLesson: HandlerType<LessonCreateModel, number> = (data) => {
   return httpPost({ url: "/api/cabinet/lesson", data });
+};
+
+export const updateLesson: HandlerType<LessonUpdateModel, number> = ({ id, data }) => {
+  return httpPost({ url: `/api/cabinet/lesson/${id}`, data });
 };

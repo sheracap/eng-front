@@ -3,7 +3,7 @@ import {
   LessonItemModel,
   LessonsByChapterDataModel,
   LessonCreateModel,
-  LessonDetailsModel
+  LessonDetailsModel, LessonUpdateModel
 } from "#businessLogic/models/lessons";
 import { StoreTypeWithData } from "#core/effector/types/store";
 import { api } from "#businessLogic/api";
@@ -43,5 +43,10 @@ export const $lessonsByChapter = createXHRStore<
 
 export const $addLesson = createXHRStore<LessonCreateModel, number, StoreTypeWithData<number | null>>(
   api.lessons.addLesson,
+  new XHRDataState(null),
+);
+
+export const $updateLesson = createXHRStore<LessonUpdateModel, number, StoreTypeWithData<number | null>>(
+  api.lessons.updateLesson,
   new XHRDataState(null),
 );

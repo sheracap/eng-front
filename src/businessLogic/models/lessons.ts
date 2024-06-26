@@ -31,3 +31,8 @@ export type LessonCreateModel = any | {
   name: string;
   img?: any;
 }
+
+export type LessonUpdateModel = {
+  id: number;
+  data: LessonCreateModel;
+}
