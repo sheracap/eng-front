@@ -14,7 +14,6 @@ import { ExerciseItemModel } from "#businessLogic/models/section";
 import "./styles.scss";
 
 export type ChangeExercisesPositionModalPropTypes = {
-  lessonId: number;
   sectionId: number;
   editableExercises: Array<ExerciseItemModel>;
 };
@@ -29,7 +28,7 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
 
   const { closeModal, modalProps } = modalControl;
 
-  const { lessonId, sectionId, editableExercises } = modalProps;
+  const { sectionId, editableExercises } = modalProps;
 
   const changeExercisesPositionState = useStore($changeExercisesPosition.store);
 
@@ -85,7 +84,6 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
     });
 
     $changeExercisesPosition.effect({
-      lessonId,
       sectionId,
       data
     });

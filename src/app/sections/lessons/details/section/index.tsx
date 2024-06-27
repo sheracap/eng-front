@@ -126,7 +126,6 @@ export const LessonSection: FC<PropsType> = (props) => {
     if (sectionData) {
       editExercisePositionModalControl.openModal({
         sectionId: sectionData.id,
-        lessonId: lessonData.id,
         editableExercises: sectionData.exercises
       })
     }
