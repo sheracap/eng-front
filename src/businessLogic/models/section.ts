@@ -4,7 +4,6 @@ export interface ExerciseItemModel {
   sectionId: number;
   template: string;
   metaData: any;
-  rowPosition: number;
 }
 
 export interface SectionDetailsModel {
