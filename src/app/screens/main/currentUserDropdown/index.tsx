@@ -76,7 +76,7 @@ export const CurrentUserDropdown: FC = memo((props) => {
         open={userEditModalControl.modalProps.open}
         onCancel={userEditModalControl.closeModal}
       >
-        <UserEditModal modalControl={userEditModalControl} callback={() => {}} />
+        <UserEditModal modalControl={userEditModalControl} />
       </ModalUI>
     </div>
   );

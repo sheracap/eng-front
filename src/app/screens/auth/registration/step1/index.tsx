@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 
-import { requiredRules, ROUTES } from "#constants/index";
+import { requiredRules } from "#constants/index";
 import { $registration } from "#stores/account";
 import { ButtonUI } from "#ui/button";
 import { InputUI } from "#ui/input";
@@ -14,7 +14,7 @@ import { useStyles } from "../styles";
 import { RoleSelect } from "#pickers/roleSelect";
 
 type PropsTypes = {
-  setStep: React.Dispatch<React.SetStateAction<{ number: number; email: string; }>>
+  setStep: React.Dispatch<React.SetStateAction<{ number: number; data: null | { name: string; email: string; roleId: number; password: string; } }>>
 }
 
 export const RegistrationStep1: FC<PropsTypes> = (props) => {
@@ -40,9 +40,16 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
 
   useEffect(() => {
     if (registrationState.success) {
+      const data = form.getFieldsValue(true);
+
       setStep({
         number: 2,
-        email: form.getFieldValue("email")
+        data: {
+          name: data.name,
+          email: data.email,
+          roleId: data.roleId,
+          password: data.password
+        },
       });
       $registration.reset();
     }

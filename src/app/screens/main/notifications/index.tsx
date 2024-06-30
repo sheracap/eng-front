@@ -102,7 +102,7 @@ export const Notifications: FC = (props) => {
 
   const subscribe = async () => {
     const token = Cookies.get(ACCESS_TOKEN_KEY_FOR_COOKIE);
-    const eventSource = new EventSource(`http://localhost:5000/api/connect?token=${token}`);
+    const eventSource = new EventSource(`http://localhost:5000/api/cabinet/connect?token=${token}`);
 
     eventSource.onmessage = function (event) {
       const message = JSON.parse(event.data);

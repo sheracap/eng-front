@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStore } from "effector-react";
-import { $coursesList, $tomatoes, $createTomato, $updateTomato, $deleteTomato } from "#stores/courses";
+import { $coursesList } from "#stores/courses";
 import { ROUTES } from "#constants/index";
 
 export const Interesting = () => {
   const history = useHistory();
 
   const coursesListState = useStore($coursesList.store);
-  const tomatoesListState = useStore($tomatoes.store);
-  const createTomatoState = useStore($createTomato.store);
-  const updateTomatoState = useStore($updateTomato.store);
-  const deleteTomatoState = useStore($deleteTomato.store);
+
 
   useEffect(() => {
     $coursesList.effect();
-    $tomatoes.effect({});
+
   }, []);
 
   const onOpenCourse = (id: number) => {
@@ -23,16 +20,11 @@ export const Interesting = () => {
   };
 
   const onCreateTomato = () => {
-    $createTomato.effect({
-      email: "test@gmail.com"
-    });
+
   }
 
   const onUpdateTomato = () => {
-    $updateTomato.effect({
-      id: 2,
-      parentId: 1
-    });
+
   };
 
   return (
@@ -42,9 +34,7 @@ export const Interesting = () => {
       <h1>Интересное</h1>
       <h2>Курсы</h2>
 
-      {tomatoesListState.data.map((item) => (
-        <div key={item.id}>{item.name}</div>
-      ))}
+
 
       <div className="courses">
         {coursesListState.data.rows.map((item) => (

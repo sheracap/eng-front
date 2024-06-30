@@ -37,8 +37,6 @@ export const LessonDetailsLeftColumnScroll: FC<PropsTypes> = (props) => {
   useEffect(() => {
 
     if (columnRef.current && window.innerWidth > 991) {
-      console.log("window.innerHeight", window.innerHeight);
-
       const headerHeight = 78;
       const columnPadding = 20;
       const bodyPadding = 20;

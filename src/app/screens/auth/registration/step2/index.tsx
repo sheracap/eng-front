@@ -13,11 +13,16 @@ import { notificationWarning } from "#ui/notifications";
 import { useHistory } from "react-router-dom";
 
 type PropsTypes = {
-  email: string;
+  data: {
+    name: string;
+    email: string;
+    roleId: number;
+    password: string;
+  }
 }
 
 export const RegistrationStep2: FC<PropsTypes> = (props) => {
-  const { email } = props;
+  const { data } = props;
 
   const history = useHistory();
   const classes = useStyles();
@@ -48,12 +53,15 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
       notificationWarning("Неверное кол-во символов", "");
     }
 
-    const data = {
-      email,
+    const regData = {
+      email: data.email,
+      name: data.name,
+      roleId: data.roleId,
+      password: data.password,
       verificationCode: String(values.verificationCode)
     };
 
-    $verifyRegistration.effect(data);
+    $verifyRegistration.effect(regData);
   };
 
   return (

@@ -16,19 +16,20 @@ import { $currentUser } from "#stores/account";
 
 type PropTypes = {
   modalControl: ModalControlType;
-  callback: () => void;
 };
 
 export const UserEditModal: FC<PropTypes> = (props) => {
-  const { modalControl, callback } = props;
+  const { modalControl } = props;
 
   const [form] = Form.useForm();
 
-  const { data: currentUserData } = useStore($currentUser.store);
+  const currentUserState = useStore($currentUser.store);
   const updateUserState = useStore($updateUser.store);
 
   const [ uploadedPhoto, setUploadedPhoto ] = useState(undefined);
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
+
+  const { data: currentUserData } = currentUserState;
 
   useEffect(() => {
     if (currentUserData) {
@@ -51,7 +52,14 @@ export const UserEditModal: FC<PropTypes> = (props) => {
     if (updateUserState.success) {
       notificationSuccess("Данные обновлены", "");
       modalControl.closeModal();
-      callback();
+
+      $currentUser.update({
+        ...currentUserState,
+        data: {
+          ...currentUserData,
+          name: form.getFieldValue("name")
+        }
+      });
     }
   }, [updateUserState.success]);
 

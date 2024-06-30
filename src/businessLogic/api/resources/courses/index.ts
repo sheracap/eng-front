@@ -15,30 +15,6 @@ export const coursesList: HandlerType<void, PaginationListModel<CoursesListItemM
   return httpGet({ url: "/api/cabinet/course", params });
 };
 
-export const getTomatoes: HandlerType<any, any> = (
-  params,
-) => {
-  return httpGet({ url: "/api/cabinet/tomato", params });
-};
-
-export const createTomato: HandlerType<any, any> = (
-  data,
-) => {
-  return httpPost({ url: "/api/cabinet/invitation", data });
-};
-
-export const updateTomato: HandlerType<any, any> = (
-  data,
-) => {
-  return httpPut({ url: `/api/cabinet/tomato/${data.id}`, data });
-};
-
-export const delteTomato: HandlerType<any, any> = (
-  data,
-) => {
-  return httpDelete({ url: `/api/cabinet/tomato/${data.id}`, });
-};
-
 export const myCoursesList: HandlerType<void, PaginationListModel<CoursesListItemModel>> = (
   params,
 ) => {
