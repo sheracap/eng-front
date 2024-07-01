@@ -8,7 +8,7 @@ export const CourseDetailsLeftSide = (props) => {
   return (
     <div className={styles.courseDetailsLeftSide}>
       <div className={styles.courseDetailsImage}>
-        <img width="200" src={`http://localhost:5000/${data.img}`} alt=""/>
+
       </div>
       <div className={styles.courseDetailsName}>{data.name}</div>
       {data.sections && data.sections.length > 0 && (

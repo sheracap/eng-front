@@ -6,6 +6,7 @@ import { CourseDetailsModel } from "#businessLogic/models/courses";
 import { useModalControl } from "#hooks/useModalControl";
 import { CourseDetailsChapters } from "./chapters";
 import { EditSvgIcon } from "#src/assets/svg";
+import { imagesBaseUrl } from "#constants/index";
 
 type PropsTypes = {
   data: CourseDetailsModel;
@@ -22,7 +23,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
       <div className="course-details">
         <div className="course-details__head content-block">
           <div className="course-details__head__img">
-            <img src={`http://localhost:5000/${data.img}`} alt="" />
+            <img src={`${imagesBaseUrl}/courses/${data.img}`} alt="" />
           </div>
           <div>
             <div className="course-details__head__name">

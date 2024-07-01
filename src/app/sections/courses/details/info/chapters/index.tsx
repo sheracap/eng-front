@@ -14,6 +14,7 @@ import { notificationSuccess } from "#ui/notifications";
 import { AddPlusSvgIcon, BurgerMenuSvgIcon, SwapIcon } from "#src/assets/svg";
 import { CollapseUI } from "#ui/collapse";
 import { ChapterLessons } from "./lessons";
+import { imagesBaseUrl } from "#constants/index";
 
 type PropsTypes = {
   courseId: number;
@@ -157,7 +158,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                                   <div className="course-details__chapters__list__item">
                                     <div className="course-details__chapters__list__item__img">
                                       {item.img ? (
-                                        <img src={`http://localhost:5000/${item.img}`} alt=""/>
+                                        <img src={`${imagesBaseUrl}/chapters/${item.img}`} alt=""/>
                                       ) : (
                                         <>
 
@@ -193,7 +194,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                     <div className="course-details__chapters__list__item">
                       <div className="course-details__chapters__list__item__img">
                         {item.img ? (
-                          <img src={`http://localhost:5000/${item.img}`} alt=""/>
+                          <img src={`${imagesBaseUrl}/chapters/${item.img}`} alt=""/>
                         ) : (
                           <>
 

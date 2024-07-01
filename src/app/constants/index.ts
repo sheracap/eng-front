@@ -52,3 +52,5 @@ export const templateTypes = {
   IMAGES: "IMAGES",
   FILL_IMAGES: "FILL_IMAGES",
 };
+
+export const imagesBaseUrl = "";

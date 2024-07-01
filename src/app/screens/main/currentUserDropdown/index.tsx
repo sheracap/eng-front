@@ -11,6 +11,7 @@ import { $currentUser } from "#stores/account";
 import { UserEditModal } from "./userEditModal";
 import { ModalUI } from "#ui/modal";
 import { useModalControl } from "#hooks/useModalControl";
+import { imagesBaseUrl } from "#constants/index";
 
 export const CurrentUserDropdown: FC = memo((props) => {
 
@@ -63,7 +64,7 @@ export const CurrentUserDropdown: FC = memo((props) => {
           <div className={classes.userPhoto}>
             <div className={classes.userPhotoPlaceholder}>
               {currentUserData?.img ? (
-                <img src={`http://localhost:5000/${currentUserData.img}`} alt="" />
+                <img src={`${imagesBaseUrl}/users/${currentUserData.img}`} alt="" />
               ) : (
                 <UserAvatarSvgIcon />
               )}

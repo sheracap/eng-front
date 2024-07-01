@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStore } from "effector-react";
 import { $coursesList } from "#stores/courses";
-import { ROUTES } from "#constants/index";
+import { imagesBaseUrl, ROUTES } from "#constants/index";
 
 export const Interesting = () => {
   const history = useHistory();
@@ -41,7 +41,7 @@ export const Interesting = () => {
           <div className="courses__item" key={item.id} onClick={() => onOpenCourse(item.id)}>
             <div className="courses__item__image">
               {item.img && (
-                <img src={`http://localhost:5000/${item.img}`} alt=""/>
+                <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>
               )}
             </div>
             <div className="courses__item__name">

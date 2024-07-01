@@ -8,6 +8,7 @@ import { ArrowBackSvgIcon } from "#src/assets/svg";
 import { ButtonUI } from "#ui/button";
 import { LessonItemModel } from "#businessLogic/models/lessons";
 import { $selectedLesson } from "#src/app/screens/main/effector";
+import { imagesBaseUrl } from "#constants/index";
 
 export const StartLessonCoursesTab: FC = () => {
 
@@ -67,7 +68,7 @@ export const StartLessonCoursesTab: FC = () => {
                 onClick={() => onLessonClick(item)}
               >
                 <div className="start-lesson__lessons__list__item__image">
-                  <img src={`http://localhost:5000/${item.img}`} alt="" />
+                  <img src={`${imagesBaseUrl}/lessons/${item.img}`} alt="" />
                 </div>
                 <div className="start-lesson__lessons__list__item__chapter">{item.chapter.name}</div>
                 <div className="start-lesson__lessons__list__item__name">{item.name}</div>
@@ -82,7 +83,7 @@ export const StartLessonCoursesTab: FC = () => {
             <div className="start-lesson__courses__item" key={item.id} onClick={() => onCourseClick(item)}>
               <div className="start-lesson__courses__item__image">
                 {item.img && (
-                  <img src={`http://localhost:5000/${item.img}`} alt=""/>
+                  <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>
                 )}
               </div>
               <div className="start-lesson__courses__item__name">

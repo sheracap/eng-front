@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { requiredRules } from "#constants/index";
+import { imagesBaseUrl, requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
 import { $addCourse, $courseDetails, $updateCourse } from "#stores/courses";
 import { ButtonUI } from "#ui/button";
@@ -49,7 +49,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
       });
 
       if (courseDetails.img) {
-       setPhotoUrl(`http://localhost:5000/${courseDetails.img}`);
+       setPhotoUrl(`${imagesBaseUrl}/courses/${courseDetails.img}`);
       }
     }
 

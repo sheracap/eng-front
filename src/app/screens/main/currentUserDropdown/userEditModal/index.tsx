@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { requiredRules } from "#constants/index";
+import { imagesBaseUrl, requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
 import { $updateUser } from "#stores/account";
 import { ButtonUI } from "#ui/button";
@@ -39,7 +39,7 @@ export const UserEditModal: FC<PropTypes> = (props) => {
       });
 
       if (currentUserData.img) {
-        setPhotoUrl(`http://localhost:5000/${currentUserData.img}`);
+        setPhotoUrl(`${imagesBaseUrl}/users/${currentUserData.img}`);
       }
     }
 
@@ -53,13 +53,15 @@ export const UserEditModal: FC<PropTypes> = (props) => {
       notificationSuccess("Данные обновлены", "");
       modalControl.closeModal();
 
-      $currentUser.update({
-        ...currentUserState,
-        data: {
-          ...currentUserData,
-          name: form.getFieldValue("name")
-        }
-      });
+      if (currentUserData) {
+        $currentUser.update({
+          ...currentUserState,
+          data: {
+            ...currentUserData,
+            name: form.getFieldValue("name")
+          }
+        });
+      }
     }
   }, [updateUserState.success]);
 
