@@ -74,7 +74,7 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
         requiredMark={false}
         form={form}
       >
-        <div>
+        <div style={{ marginBottom: "10px" }}>
           На ваш Email был отправлен 6-значный код. Введите этот код для подтверждения.
         </div>
         <Form.Item

@@ -11,7 +11,7 @@ export const Interesting = () => {
 
 
   useEffect(() => {
-    $coursesList.effect();
+    //$coursesList.effect();
 
   }, []);
 
@@ -29,27 +29,24 @@ export const Interesting = () => {
 
   return (
     <div>
-      <div onClick={onCreateTomato}>Create</div>
-      <div onClick={onUpdateTomato}>Update</div>
-      <h1>Интересное</h1>
-      <h2>Курсы</h2>
 
 
 
-      <div className="courses">
-        {coursesListState.data.rows.map((item) => (
-          <div className="courses__item" key={item.id} onClick={() => onOpenCourse(item.id)}>
-            <div className="courses__item__image">
-              {item.img && (
-                <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>
-              )}
-            </div>
-            <div className="courses__item__name">
-              {item.name}
-            </div>
-          </div>
-        ))}
-      </div>
+
+      {/*<div className="courses">*/}
+      {/*  {coursesListState.data.rows.map((item) => (*/}
+      {/*    <div className="courses__item" key={item.id} onClick={() => onOpenCourse(item.id)}>*/}
+      {/*      <div className="courses__item__image">*/}
+      {/*        {item.img && (*/}
+      {/*          <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>*/}
+      {/*        )}*/}
+      {/*      </div>*/}
+      {/*      <div className="courses__item__name">*/}
+      {/*        {item.name}*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  ))}*/}
+      {/*</div>*/}
     </div>
   )
 };

@@ -119,7 +119,6 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
       <div className="lesson-details__left">
         <div className="lesson-details__left__in">
           <LessonDetailsLeftColumnScroll>
-            <img src={lessonData.img} alt=""/>
             {/*<div className="content-block">*/}
             {/*  {lessonData.chapter && (*/}
             {/*    <>*/}

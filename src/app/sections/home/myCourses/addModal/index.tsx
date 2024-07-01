@@ -151,26 +151,28 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
                 beforeUpload={beforeUploadPhoto}
                 accept="image/png, image/jpg, image/jpeg"
               >
-                {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (
-                  <div className="uploadPhotoEmpty">
-                    <div>
-                      <AddPlusSvgIcon />
+                <div>
+                  {photoUrl ? <img src={photoUrl} alt="category-photo" /> : (
+                    <div className="uploadPhotoEmpty">
+                      <div>
+                        <AddPlusSvgIcon />
+                      </div>
+                      <div>
+                        <span>Фото</span>
+                      </div>
                     </div>
-                    <div>
-                      <span>Фото</span>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </Upload>
-              {!!photoUrl && (
-                <ButtonUI
-                  type="primary"
-                  withIcon
-                  onClick={onRemovePhoto}
-                >
-                  Del
-                </ButtonUI>
-              )}
+              {/*{!!photoUrl && (*/}
+              {/*  <ButtonUI*/}
+              {/*    type="primary"*/}
+              {/*    withIcon*/}
+              {/*    onClick={onRemovePhoto}*/}
+              {/*  >*/}
+              {/*    Del*/}
+              {/*  </ButtonUI>*/}
+              {/*)}*/}
             </div>
           </Form.Item>
           <FormUI.Item label="Название" name="name" rules={requiredRules}>

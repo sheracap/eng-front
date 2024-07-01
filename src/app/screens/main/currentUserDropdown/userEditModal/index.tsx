@@ -39,7 +39,7 @@ export const UserEditModal: FC<PropTypes> = (props) => {
       });
 
       if (currentUserData.img) {
-        setPhotoUrl(`${imagesBaseUrl}/users/${currentUserData.img}`);
+        setPhotoUrl(`${imagesBaseUrl}/avatars/${currentUserData.img}`);
       }
     }
 
@@ -58,7 +58,8 @@ export const UserEditModal: FC<PropTypes> = (props) => {
           ...currentUserState,
           data: {
             ...currentUserData,
-            name: form.getFieldValue("name")
+            name: form.getFieldValue("name"),
+            img: photoUrl || currentUserData.img
           }
         });
       }

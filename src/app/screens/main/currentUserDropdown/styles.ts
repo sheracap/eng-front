@@ -5,7 +5,7 @@ export const useStyles = createUseStyles({
   userBlockWr: {
     display: "flex",
     alignItems: "center",
-    minWidth: "200px",
+    minWidth: "150px",
     height: "100%",
     margin: "0 0 0 10px",
   },

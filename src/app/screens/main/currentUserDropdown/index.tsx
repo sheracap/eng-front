@@ -64,7 +64,7 @@ export const CurrentUserDropdown: FC = memo((props) => {
           <div className={classes.userPhoto}>
             <div className={classes.userPhotoPlaceholder}>
               {currentUserData?.img ? (
-                <img src={`${imagesBaseUrl}/users/${currentUserData.img}`} alt="" />
+                <img src={`${imagesBaseUrl}/avatars/${currentUserData.img}`} alt="" />
               ) : (
                 <UserAvatarSvgIcon />
               )}

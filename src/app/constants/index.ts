@@ -53,4 +53,4 @@ export const templateTypes = {
   FILL_IMAGES: "FILL_IMAGES",
 };
 
-export const imagesBaseUrl = "";
+export const imagesBaseUrl = "https://english-lab.s3.eu-north-1.amazonaws.com";
