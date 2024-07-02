@@ -8,7 +8,7 @@ export type ExerciseCreateModel = {
 
 export type ExerciseUpdateModel = {
   id: number;
-  data: ExerciseCreateModel & { id: number; };
+  data: ExerciseCreateModel;
 }
 
 export type ExerciseAnswerModel = {

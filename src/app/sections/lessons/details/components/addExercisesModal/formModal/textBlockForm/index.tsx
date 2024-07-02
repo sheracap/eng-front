@@ -59,10 +59,7 @@ export const TextBlockTemplateForm: FC<PropTypes> = (props) => {
     }
 
     if (editableData) {
-      update({
-        id: editableData.id,
-        ...data,
-      });
+      update(data);
     } else {
       console.log("data", data);
       create(data);

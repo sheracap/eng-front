@@ -79,10 +79,7 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
     }
 
     if (editableData) {
-      update({
-        id: editableData.id,
-        ...data
-      });
+      update(data);
     } else {
       create(data);
     }

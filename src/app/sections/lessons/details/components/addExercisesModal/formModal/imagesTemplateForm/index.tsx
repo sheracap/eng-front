@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Form, Upload, message } from "antd";
 
-import { requiredRules, templateTypes } from "#constants/index";
+import { imagesBaseUrl, requiredRules, templateTypes } from "#constants/index";
 
 import { FormUI } from "#ui/form";
 import { ButtonUI } from "#ui/button";
@@ -24,7 +24,7 @@ type PropTypes = {
   isHomework: boolean;
   closeModal: () => void;
   create: (data: ExerciseCreateModel | any) => void;
-  update: (data: ExerciseUpdateModel["data"]) => void;
+  update: (data: ExerciseUpdateModel["data"] | any) => void;
 };
 
 const uploadPhotoLimit = 10;
@@ -34,8 +34,8 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
 
   const [form] = Form.useForm();
 
-  const [savedPhotos, setSavedPhotos] = useState<Array<{ id: number; url: string; }>>([]);
-  const [removedPhotoIds, setRemovedPhotoIds] = useState<Array<number>>([]);
+  const [savedPhotos, setSavedPhotos] = useState<Array<string>>([]);
+  const [removedPhotos, setRemovedPhotos] = useState<Array<string>>([]);
   const [newPhotos, setNewPhotos] = useState<Array<{ id: number; url: string; }>>([]);
   const [filesForUpload, setFilesForUpload] = useState<Array<{ id: number; file: RcFile; }>>([]);
   const [photosError, setPhotosError] = useState("");
@@ -44,8 +44,15 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
     if (editableData) {
       form.setFieldsValue({
         title: editableData.title,
-        //value: editableData.value,
       });
+
+      if (editableData.metaData.images) {
+        const images = editableData.metaData.images.reduce((prevState, item) => {
+          return [ ...prevState, item ];
+        }, [])
+
+        setSavedPhotos(images);
+      }
     }
   }, []);
 
@@ -82,12 +89,12 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
     setNewPhotos(val);
   };
 
-  const onRemoveSavedPhoto = (photoId, index) => {
+  const onRemoveSavedPhoto = (index) => {
     const photos = [...savedPhotos];
 
     const splicedItem = photos.splice(index, 1)[0];
 
-    setRemovedPhotoIds([ ...removedPhotoIds, splicedItem.id ]);
+    setRemovedPhotos([ ...removedPhotos, splicedItem ]);
 
     setSavedPhotos(photos);
   };
@@ -116,20 +123,21 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
       data.append("homeworkId", isHomework ? String(entityId) : "");
       data.append("template", templateTypes.IMAGES);
 
+      if (removedPhotos && removedPhotos.length) {
+        const removedPhotosObj = removedPhotos.reduce((prevState, item) => {
+          return { ...prevState, [item]: true };
+        }, {});
 
-    } else {
+        data.append("removedPhotos", JSON.stringify(removedPhotosObj));
+      }
+
+    } else if (!savedPhotos.length) {
       return;
     }
 
     if (editableData) {
-      // $updateExercise.effect({
-      //   id: editableData.id,
-      //   ...data,
-      // }); // check
+      update(data);
     } else {
-
-
-
       create(data);
     }
   };
@@ -164,15 +172,15 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
                 </Upload>
               </div>
               {savedPhotos.map((item, index) => (
-                <div className={styles.formPhotosItem} key={item.id}>
+                <div className={styles.formPhotosItem} key={index}>
                   <div className={styles.formPhotoItemDelete}>
                     <ButtonUI
-                      onClick={() => onRemoveSavedPhoto(item.id, index)}
+                      onClick={() => onRemoveSavedPhoto(index)}
                     >
                       <TrashSvgIcon />
                     </ButtonUI>
                   </div>
-                  <img src={item.url} alt="photo" />
+                  <img src={`${imagesBaseUrl}/exercises/${item}`} alt="photo" />
                 </div>
               ))}
               {newPhotos.map((item, index) => (
