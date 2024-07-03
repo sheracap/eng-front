@@ -24,7 +24,7 @@ httpClient.interceptors.response.use(
         notificationError("Ошибка", "У вас нет необходимого разрешения. Пожалуйста, свяжитесь с вашим администратором");
       } else if (status >= 400) {
         if (error.response) {
-          notificationError("Ошибка", error.response.data.title);
+          notificationError("Ошибка", error.response.data.title || error.response.data.message);
         }
       }
     }

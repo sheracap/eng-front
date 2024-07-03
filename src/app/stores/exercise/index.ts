@@ -19,7 +19,11 @@ export const $updateExercise = createXHRStore<ExerciseUpdateModel, number, Store
   new XHRDataState(null),
 );
 
-export const $deleteExercise = createXHRStore<number, any, StoreTypeWithData<any>>(
+export const $deleteExercise = createXHRStore<
+  number,
+  any,
+  StoreTypeWithData<any>
+>(
   api.exercise.deleteExercise,
   new XHRDataState(null),
 );

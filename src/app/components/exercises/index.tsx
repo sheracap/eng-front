@@ -56,8 +56,11 @@ export const Exercises: FC<PropsType> = (props) => {
     };
   }, [homeWorkExerciseAnswersState, exerciseAnswersState, showHints]);
 
+  console.log("deleteExerciseState", deleteExerciseState);
+
   // todo deleteCommon
   useEffect(() => {
+
     if (deleteExerciseState.data) {
       notificationSuccess("", "Упражнение удалено");
 
@@ -72,6 +75,7 @@ export const Exercises: FC<PropsType> = (props) => {
     <>
       {exercises.map((item, index) => (
         <React.Fragment key={item.id}>
+          {/* after delete you need to remove from exercises array */}
           {!deletedExerciseIds[item.id] && (
             <div className="exercise-item" key={item.id}>
               <div className="exercise-item__title">
@@ -97,7 +101,9 @@ export const Exercises: FC<PropsType> = (props) => {
                           <div className="custom__popover__item">
                             <Popconfirm
                               title="Вы уверены, что хотите удалить упражнение ?"
-                              onConfirm={() => $deleteExercise.effect(item.id)}
+                              onConfirm={() => {
+                                $deleteExercise.effect(item.id)
+                              }}
                               okText="Да"
                               cancelText="Нет"
                             >

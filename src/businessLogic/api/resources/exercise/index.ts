@@ -17,7 +17,7 @@ export const updateExercise: HandlerType<ExerciseUpdateModel, number> = ({ id, d
   return httpPut({ url: `/api/cabinet/exercise/${id}`, data });
 };
 
-export const deleteExercise: HandlerType<number, { id: number }> = (id) => {
+export const deleteExercise: HandlerType<number, any> = (id) => {
   return httpDelete({ url: `/api/cabinet/exercise/${id}` });
 };
 

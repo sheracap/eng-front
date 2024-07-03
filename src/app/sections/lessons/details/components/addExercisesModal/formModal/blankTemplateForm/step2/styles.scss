@@ -1,0 +1,27 @@
+.blank-text-step2 {
+  font-size: 16px;
+
+  span {
+    display: inline-block;
+    cursor: pointer;
+    padding: 1px 0px 1px 4px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    transition: all .3s ease;
+
+    &.point-sym {
+      padding-left: 0;
+      cursor: default;
+      background-color: transparent;
+    }
+
+    &.active {
+      background-color: #5a77df;
+      color: #fff;
+    }
+
+    &:hover:not(.active, .point-sym) {
+      background-color: #ccc;
+    }
+  }
+}
