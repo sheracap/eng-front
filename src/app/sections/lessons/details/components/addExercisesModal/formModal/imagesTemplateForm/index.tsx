@@ -38,7 +38,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
   const [removedPhotos, setRemovedPhotos] = useState<Array<string>>([]);
   const [newPhotos, setNewPhotos] = useState<Array<{ id: number; url: string; }>>([]);
   const [filesForUpload, setFilesForUpload] = useState<Array<{ id: number; file: RcFile; }>>([]);
-  const [photosError, setPhotosError] = useState("");
 
   useEffect(() => {
     if (editableData) {
@@ -68,8 +67,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
       const lastFileItem = filesForUpload[filesForUpload.length - 1];
       const id = lastFileItem ? lastFileItem.id + 1 : 1;
       const val = [...filesForUpload, { file, id }];
-
-      setPhotosError("");
 
       setFilesForUpload(val);
 
@@ -154,7 +151,7 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
           </FormUI.Item>
           <div className={styles.formPhotos}>
             <div className={styles.formPhotosList}>
-              <div className={`${styles.formPhotosUploadItem} ${photosError ? "has-error" : ""}`}>
+              <div className={`${styles.formPhotosUploadItem}`}>
                 <Upload
                   name="avatar"
                   listType="picture-card"
@@ -196,9 +193,6 @@ export const ImagesTemplateForm: FC<PropTypes> = (props) => {
                 </div>
               ))}
             </div>
-            {photosError && (
-              <div className={`${styles.dangerMessage} ${styles.photosError}`}>{photosError}</div>
-            )}
           </div>
         </FormUI>
       </ModalUI.Middle>

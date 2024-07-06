@@ -7,6 +7,7 @@ import { BlankTemplateForm } from "./blankTemplateForm";
 import { FillTextTemplateForm } from "./fillTextTemplateForm";
 import { VideoTemplateForm } from "./videoTemplateForm";
 import { ImagesTemplateForm } from "./imagesTemplateForm";
+import { AudioTemplateForm } from "./audioTemplateForm";
 
 import { templateTypes } from "#constants/index";
 import { ExerciseItemModel } from "#businessLogic/models/section";
@@ -149,6 +150,16 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
       )}
       {template === templateTypes.IMAGES && (
         <ImagesTemplateForm
+          editableData={editableData}
+          entityId={entityId}
+          isHomework={isHomework}
+          closeModal={modalControl.closeModal}
+          create={create}
+          update={update}
+        />
+      )}
+      {template === templateTypes.AUDIO && (
+        <AudioTemplateForm
           editableData={editableData}
           entityId={entityId}
           isHomework={isHomework}

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { Switch, Popconfirm } from "antd";
+import { Switch } from "antd";
 
 import { $sectionDetails } from "#stores/section";
 import { $addExerciseAnswer, $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
@@ -38,6 +38,7 @@ import { $activeLesson } from "#stores/activeLesson";
 import { Exercises } from "#components/exercises";
 import { BackBtn } from "#ui/backBtn";
 import { useHistory } from "react-router";
+import { notificationSuccess } from "#ui/notifications";
 
 type PropsType = {
   isMine: boolean;
@@ -54,9 +55,10 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   const activeLessonState = useStore($activeLesson.store);
 
-  const { data: sectionData, loading: sectionLoading } = useStore($sectionDetails.store);
+  const sectionDetailsState = useStore($sectionDetails.store);
   const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
   const lessonSectionsState: any = useStore($lessonSections.store);
+  const deleteExerciseState = useStore($deleteExercise.store);
 
 
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
@@ -68,11 +70,27 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   const { isStudent } = useRole();
 
+  const { data: sectionData, loading: sectionLoading } = sectionDetailsState;
+
   useEffect(() => {
     if (activeLessonState.data) {
       setShowHints(false);
     }
-  }, [activeLessonState.data])
+  }, [activeLessonState.data]);
+
+  useEffect(() => {
+    if (deleteExerciseState.data && sectionData) {
+      notificationSuccess("", "Упражнение удалено");
+
+      $sectionDetails.update({
+        ...sectionDetailsState,
+        data: {
+          ...sectionData,
+          exercises: sectionData.exercises.filter((item) => String(item.id) !== String(deleteExerciseState.data.id))
+        }
+      });
+    }
+  }, [deleteExerciseState.data]);
 
   const getSectionDetails = () => {
     if (sectionId) {
@@ -139,6 +157,10 @@ export const LessonSection: FC<PropsType> = (props) => {
     }
   }
 
+  const onExerciseDelete = (id) => {
+    $deleteExercise.effect(id)
+  }
+
   return (
     <div>
       {sectionLoading && (
@@ -181,9 +203,6 @@ export const LessonSection: FC<PropsType> = (props) => {
           >
             <AddSectionModal
               modalControl={addSectionModalControl}
-              callback={(elem) => {
-                $lessonSections.update([ ...lessonSectionsState, elem ]);
-              }}
             />
           </ModalUI>
         </>
@@ -197,6 +216,8 @@ export const LessonSection: FC<PropsType> = (props) => {
           showHints={showHints}
           entityId={sectionData.id}
           isHomework={false}
+          deleteLoading={deleteExerciseState.loading}
+          onDelete={onExerciseDelete}
           onCreateExerciseAnswerMain={(id, res, prevState) => {
             $addExerciseAnswer.effect({
               sectionId: sectionData.id,

@@ -89,6 +89,10 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
 
   }
 
+  const onExerciseDelete = () => {
+
+  }
+
   return (
     <div>
       {homeworkDetailsState.loading && (
@@ -133,6 +137,8 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
             showHints={showHints}
             entityId={homeworkId}
             isHomework={true}
+            onDelete={onExerciseDelete}
+            deleteLoading={false}
             onCreateExerciseAnswerMain={(id, res, prevState) => {
               $addHomeworkExerciseAnswer.effect({
                 homeworkId,

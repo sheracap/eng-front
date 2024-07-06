@@ -134,11 +134,13 @@
   &__sections {
     &__title {
       font-size: 17px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     &__list {
       &__item {
+        display: flex;
+        justify-content: space-between;
         cursor: pointer;
         font-size: 15px;
 

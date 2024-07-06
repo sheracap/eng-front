@@ -43,7 +43,8 @@ export const useStyles = createUseStyles({
     "&.ant-btn-sm": {
       fontSize: "14px",
       lineHeight: 1,
-      padding: "5px 14px",
+      padding: "8px 14px",
+      height: "auto"
     },
     "&.ant-btn-icon-only": {
       padding: "5px",

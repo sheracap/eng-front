@@ -41,6 +41,7 @@ export const AddExercisesModal: FC<TProps> = (props) => {
       { id: 4, name: "Заполнить текст", code: templateTypes.FILL_TEXT },
       { id: 5, name: "Видео", code: templateTypes.VIDEO },
       { id: 6, name: "Изображение", code: templateTypes.IMAGES },
+      { id: 7, name: "Аудио", code: templateTypes.AUDIO },
     ]
   }, []);
 

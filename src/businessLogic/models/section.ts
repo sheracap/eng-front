@@ -16,3 +16,7 @@ export type SectionCreateModel = {
   lessonId: number;
   name: string;
 }
+
+export type SectionUpdateModel = {
+  id: number;
+} & SectionCreateModel;

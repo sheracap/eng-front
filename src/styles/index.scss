@@ -257,6 +257,7 @@ input:-webkit-autofill:focus {
 
     &__desc {
       font-size: 18px;
+      white-space: pre-wrap;
     }
 
     &__actions {

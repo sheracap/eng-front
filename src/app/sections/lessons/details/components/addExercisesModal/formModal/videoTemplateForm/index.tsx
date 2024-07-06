@@ -63,8 +63,8 @@ export const VideoTemplateForm: FC<PropTypes> = (props) => {
           <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
             <InputUI placeholder="Введите заголовок" />
           </FormUI.Item>
-          <FormUI.Item label="Ссылка на видео" name="value" rules={requiredRules}>
-            <InputUI placeholder="Введите заголовок" />
+          <FormUI.Item label="Ссылка на видео YouTube" name="value" rules={requiredRules}>
+            <InputUI placeholder="Введите ссылку" />
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>

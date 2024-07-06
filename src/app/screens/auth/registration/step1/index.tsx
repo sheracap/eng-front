@@ -75,7 +75,7 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
         <Form.Item label="Email" name="email" rules={requiredRules}>
           <InputUI placeholder="Введите email" />
         </Form.Item>
-        <Form.Item label="Пароль" name="password" rules={requiredRules}>
+        <Form.Item label="Придумайте пароль" name="password" rules={requiredRules}>
           <InputUI.Password placeholder="Введите пароль" variant="auth" autoComplete="new-password" />
         </Form.Item>
         <div className={classes.buttonCont}>

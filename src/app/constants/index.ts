@@ -51,6 +51,7 @@ export const templateTypes = {
   VIDEO: "VIDEO",
   IMAGES: "IMAGES",
   FILL_IMAGES: "FILL_IMAGES",
+  AUDIO: "AUDIO"
 };
 
 export const imagesBaseUrl = "https://english-lab.s3.eu-north-1.amazonaws.com";

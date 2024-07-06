@@ -2,51 +2,82 @@ import React, { FC, useEffect } from "react";
 
 import { requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
-import { $addSection } from "#stores/section";
+import { $addSection, $updateSection } from "#stores/section";
 import { ButtonUI } from "#ui/button";
 import { FormUI } from "#ui/form";
 import { ModalUI } from "#ui/modal";
 import { Form } from "antd";
 import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
+import { $lessonSections } from "#src/app/sections/lessons/details/effector";
+import { notificationSuccess } from "#ui/notifications";
 
 
 export type AddSectionModalPropTypes = {
+  sectionDetails?: { id: number; name: string; };
   lessonId: number;
 };
 
 type PropTypes = {
   modalControl: ModalControlType<AddSectionModalPropTypes>;
-  callback: ({ id, name }: { id: number; name: string }) => void;
 };
 
 export const AddSectionModal: FC<PropTypes> = (props) => {
-  const { modalControl, callback } = props;
+  const { modalControl } = props;
 
   const { closeModal, modalProps } = modalControl;
 
-  const { lessonId } = modalProps;
+  const { sectionDetails, lessonId } = modalProps;
 
   const [form] = Form.useForm();
 
   const addSectionState = useStore($addSection.store);
+  const updateSectionState = useStore($updateSection.store);
 
   useEffect(() => {
+    if (sectionDetails) {
+      form.setFieldValue("name", sectionDetails.name);
+    }
+
     return () => {
       $addSection.reset();
+      $updateSection.reset();
     };
   }, []);
 
   useEffect(() => {
     if (addSectionState.data) {
+      notificationSuccess("Раздел создан", "");
+
       const createdElemId = addSectionState.data;
       closeModal();
-      callback({
-        id: createdElemId,
-        name: form.getFieldValue("name")
-      });
+
+      const lessonSectionsState = $lessonSections.store.getState();
+
+      $lessonSections.update([
+        ...lessonSectionsState,
+        {
+          id: createdElemId,
+          name: form.getFieldValue("name")
+        }
+      ]);
     }
   }, [addSectionState.data]);
+
+  useEffect(() => {
+    if (updateSectionState.data) {
+      notificationSuccess("Данные обновлены", "");
+
+      closeModal();
+
+      const lessonSectionsState = $lessonSections.store.getState();
+
+      $lessonSections.update(lessonSectionsState.map((item) => ({
+        ...item,
+        name: item.id === updateSectionState.data ? form.getFieldValue("name") : item.name
+      })));
+    }
+  }, [updateSectionState.data]);
 
   const onCancelClick = () => {
     closeModal();
@@ -58,14 +89,21 @@ export const AddSectionModal: FC<PropTypes> = (props) => {
       name: formData.name
     }
 
-    $addSection.effect(data);
+    if (sectionDetails) {
+      $updateSection.effect({
+        id: sectionDetails.id,
+        ...data
+      });
+    } else {
+      $addSection.effect(data);
+    }
   };
 
   return (
     <>
       <ModalUI.Loading show={addSectionState.loading} />
       <ModalUI.Header>
-        <ModalUI.Title>Добавить раздел</ModalUI.Title>
+        <ModalUI.Title>{sectionDetails ? "Редактировать раздел" : "Добавить раздел"}</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
@@ -83,7 +121,7 @@ export const AddSectionModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()}>
-              Добавить
+              {sectionDetails ? "Сохранить" : "Добавить"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

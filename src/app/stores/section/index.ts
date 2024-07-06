@@ -1,6 +1,6 @@
 import {
   SectionDetailsModel,
-  SectionCreateModel
+  SectionCreateModel, SectionUpdateModel
 } from "#businessLogic/models/section";
 import { XHRDataState, XHRSuccessState } from "#constructors/store";
 import { createXHRStore } from "#core/effector";
@@ -18,7 +18,17 @@ export const $addSection = createXHRStore<SectionCreateModel, number, StoreTypeW
   new XHRDataState(null),
 );
 
+export const $updateSection = createXHRStore<SectionUpdateModel, number, StoreTypeWithData<number | null>>(
+  api.section.updateSection,
+  new XHRDataState(null),
+);
+
 export const $changeExercisesPosition = createXHRStore<any, number, StoreType>(
   api.exercise.changeExercisesPosition,
   new XHRSuccessState(),
+);
+
+export const $deleteSection = createXHRStore<number, number, StoreTypeWithData<number | null>>(
+  api.section.deleteSection,
+  new XHRDataState(null),
 );

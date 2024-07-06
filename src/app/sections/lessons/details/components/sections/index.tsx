@@ -10,7 +10,12 @@ import { LessonDetailsModel } from "#businessLogic/models/lessons";
 import { $lessonSections } from "#src/app/sections/lessons/details/effector";
 import { useStore } from "effector-react";
 import { useHistory } from "react-router-dom";
-import { AddPlusSvgIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
+import { $deleteSection, $sectionDetails } from "#stores/section";
+
+import { Popconfirm } from "antd";
+import { ContextPopover } from "#ui/contextPopover";
+import { notificationSuccess } from "#ui/notifications";
 
 type PropsTypes = {
   courseId: number | undefined;
@@ -27,6 +32,7 @@ export const LessonSections: FC<PropsTypes> = (props) => {
   const history = useHistory();
 
   const lessonSectionsState: any = useStore($lessonSections.store);
+  const deleteSectionState = useStore($deleteSection.store);
 
   const addSectionModalControl = useModalControl<AddSectionModalPropTypes>();
 
@@ -42,12 +48,38 @@ export const LessonSections: FC<PropsTypes> = (props) => {
     }
   }, [sections]);
 
+  useEffect(() => {
+    if (deleteSectionState.data) {
+      notificationSuccess("Раздел удален", "");
+
+      const currentSectionIndex = Number(sectionIndex) - 1;
+
+      if (String(lessonSectionsState[currentSectionIndex].id) === String(deleteSectionState.data)) {
+        if (lessonSectionsState[currentSectionIndex + 1]) {
+          onSectionClick(currentSectionIndex + 1);
+        } else if (lessonSectionsState[currentSectionIndex - 1]) {
+          onSectionClick(currentSectionIndex - 1);
+        } else {
+          $sectionDetails.reset();
+        }
+      }
+
+      $lessonSections.update(lessonSectionsState.filter((item) => String(item.id) !== String(deleteSectionState.data)));
+
+      $deleteSection.reset();
+    }
+  }, [deleteSectionState.data]);
+
   const onSectionClick = (index) => {
     if (courseId) {
       history.push(`/courses/${courseId}/lesson/${lessonId}/${index + 1}`);
     } else {
       history.push(`/lesson/${lessonId}/${index + 1}`);
     } // todo think
+  }
+
+  const onDelete = (id: number) => {
+    $deleteSection.effect(id);
   }
 
   return (
@@ -70,9 +102,6 @@ export const LessonSections: FC<PropsTypes> = (props) => {
             >
               <AddSectionModal
                 modalControl={addSectionModalControl}
-                callback={(elem) => {
-                  $lessonSections.update([ ...lessonSectionsState, elem ]);
-                }}
               />
             </ModalUI>
           </>
@@ -85,7 +114,43 @@ export const LessonSections: FC<PropsTypes> = (props) => {
             key={item.id}
             onClick={() => onSectionClick(index)}
           >
-            {item.name}
+            <div>{item.name}</div>
+            {isMine && (
+              <ContextPopover
+                content={(
+                  <>
+                    <div className="custom__popover__item">
+                      <ButtonUI
+                        withIcon
+                        onClick={() => {
+                          addSectionModalControl.openModal({ lessonId, sectionDetails: { id: item.id, name: item.name } });
+                        }}
+                      >
+                        <EditSvgIcon /> Редактировать
+                      </ButtonUI>
+                    </div>
+                    <div className="custom__popover__item">
+                      <Popconfirm
+                        title="Вы уверены, что хотите удалить упражнение ?"
+                        onConfirm={() => {
+                          onDelete(item.id)
+                        }}
+                        okText="Да"
+                        cancelText="Нет"
+                      >
+                        <ButtonUI
+                          danger
+                          withIcon
+                          loading={deleteSectionState.loading}
+                        >
+                          <DeleteIcon /> Удалить
+                        </ButtonUI>
+                      </Popconfirm>
+                    </div>
+                  </>
+                )}
+              />
+            )}
           </div>
         ))}
       </div>
