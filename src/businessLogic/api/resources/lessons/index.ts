@@ -5,7 +5,7 @@ import {
   LessonUpdateModel
 } from "#businessLogic/models/lessons";
 import { HandlerType } from "#core/effector/types/handler";
-import { httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
+import { httpDelete, httpGet, httpPatch, httpPost, httpPut } from "#core/httpClient";
 
 export const getLessonDetails: HandlerType<string, LessonDetailsModel> = (id) => {
   return httpGet({ url: `/api/cabinet/lesson/${id}` });
@@ -21,10 +21,14 @@ export const getLessonsByChapter: HandlerType<number, Array<LessonItemModel>> = 
   return httpGet({ url: `/api/cabinet/lesson/chapter/${chapterId}` });
 };
 
-export const addLesson: HandlerType<LessonCreateModel, number> = (data) => {
+export const addLesson: HandlerType<LessonCreateModel, any> = (data) => {
   return httpPost({ url: "/api/cabinet/lesson", data });
 };
 
 export const updateLesson: HandlerType<LessonUpdateModel, number> = ({ id, data }) => {
   return httpPost({ url: `/api/cabinet/lesson/${id}`, data });
+};
+
+export const deleteLesson: HandlerType<number, number> = (id) => {
+  return httpDelete({ url: `/api/cabinet/lesson/${id}` });
 };

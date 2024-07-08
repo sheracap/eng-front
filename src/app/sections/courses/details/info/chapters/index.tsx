@@ -192,20 +192,11 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                   key={item.id}
                   header={(
                     <div className="course-details__chapters__list__item">
-                      <div className="course-details__chapters__list__item__img">
-                        {item.img ? (
-                          <img src={`${imagesBaseUrl}/chapters/${item.img}`} alt=""/>
-                        ) : (
-                          <>
-
-                          </>
-                        )}
-                      </div>
                       <div className="course-details__chapters__list__item__name">{item.name}</div>
                     </div>
                   )}
                 >
-                  <ChapterLessons courseId={courseId} chapterId={item.id} isPrivate={isPrivate} />
+                  <ChapterLessons courseId={courseId} chapterId={item.id} isPrivate={isPrivate} isMine={isMine} />
                 </CollapseUI.Item>
               ))}
             </CollapseUI>

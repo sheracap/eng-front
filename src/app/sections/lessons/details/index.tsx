@@ -119,42 +119,6 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
       <div className="lesson-details__left">
         <div className="lesson-details__left__in">
           <LessonDetailsLeftColumnScroll>
-            {/*<div className="content-block">*/}
-            {/*  {lessonData.chapter && (*/}
-            {/*    <>*/}
-            {/*      <div className="lesson-details__course-name">*/}
-            {/*        Курс: <strong>{lessonData.chapter.course.name}</strong>*/}
-            {/*      </div>*/}
-            {/*      <div>*/}
-            {/*        <div className="lesson-details__chapters">*/}
-            {/*          <CollapseUI defaultActiveKey={[lessonData.chapter.id]}>*/}
-            {/*            {chapters.map((item) => (*/}
-            {/*              <CollapseUI.Item*/}
-            {/*                key={item.id}*/}
-            {/*                header={(*/}
-            {/*                  <div className="lesson-details__chapters-item">*/}
-            {/*                    <div>{item.name}</div>*/}
-            {/*                  </div>*/}
-            {/*                )}*/}
-            {/*              >*/}
-            {/*                {lessonData.chapter && (*/}
-            {/*                  <ChapterLessons*/}
-            {/*                    courseId={lessonData.chapter.course.id}*/}
-            {/*                    chapterId={item.id}*/}
-            {/*                    lessonsCount={item.lessonsCount}*/}
-            {/*                    isLessonPage={true}*/}
-            {/*                    activeLessonId={lessonData.id}*/}
-            {/*                  />*/}
-            {/*                )}*/}
-            {/*              </CollapseUI.Item>*/}
-            {/*            ))}*/}
-            {/*          </CollapseUI>*/}
-            {/*        </div>*/}
-            {/*      </div>*/}
-            {/*    </>*/}
-            {/*  )}*/}
-            {/*</div>*/}
-
             {activeLessonState.data && isTeacher && (
               <div className="lesson-details__students">
                 <div className="lesson-details__students__title">Ученики:</div>

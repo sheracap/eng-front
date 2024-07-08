@@ -41,12 +41,17 @@ export const $lessonsByChapter = createXHRStore<
   }
 );
 
-export const $addLesson = createXHRStore<LessonCreateModel, number, StoreTypeWithData<number | null>>(
+export const $addLesson = createXHRStore<LessonCreateModel, any, StoreTypeWithData<any>>(
   api.lessons.addLesson,
   new XHRDataState(null),
 );
 
 export const $updateLesson = createXHRStore<LessonUpdateModel, number, StoreTypeWithData<number | null>>(
   api.lessons.updateLesson,
+  new XHRDataState(null),
+);
+
+export const $deleteLesson = createXHRStore<number, number, StoreTypeWithData<number | null>>(
+  api.lessons.deleteLesson,
   new XHRDataState(null),
 );

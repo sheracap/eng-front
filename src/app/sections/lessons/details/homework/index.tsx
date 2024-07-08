@@ -103,7 +103,6 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
 
       <h1>{homeworkDetailsState.data?.name}</h1>
 
-
       {homeworkDetailsState.data && homeworkDetailsState.data.homeworkExercises.length > 0 && (
         <>
           {isMine && (

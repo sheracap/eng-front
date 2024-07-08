@@ -11,17 +11,18 @@ import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { AddPlusSvgIcon } from "#src/assets/svg";
+import { LessonItemModel } from "#businessLogic/models/lessons";
 
 
 export type AddLessonModalPropTypes = {
-  lessonId?: number;
+  lessonDetails?: LessonItemModel;
   chapterId?: number;
   isPrivate?: boolean;
 };
 
 type PropTypes = {
   modalControl: ModalControlType<AddLessonModalPropTypes>;
-  callback: (id: number, name: string) => void;
+  callback: (item: LessonItemModel) => void;
 };
 
 export const AddLessonModal: FC<PropTypes> = (props) => {
@@ -29,7 +30,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
   const { closeModal, modalProps } = modalControl;
 
-  const { lessonId, chapterId, isPrivate } = modalProps;
+  const { lessonDetails, chapterId, isPrivate } = modalProps;
 
   const [form] = Form.useForm();
 
@@ -51,7 +52,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
       const name = form.getFieldValue("name");
 
-      callback(addLessonState.data, name);
+      callback(addLessonState.data);
     }
   }, [addLessonState.data]);
 
@@ -114,9 +115,9 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
       data.append("isPrivate", String(formData.isPrivate));
     }
 
-    if (lessonId) {
+    if (lessonDetails) {
       $updateLesson.effect({
-        id: lessonId,
+        id: lessonDetails.id,
         data
       });
     } else {

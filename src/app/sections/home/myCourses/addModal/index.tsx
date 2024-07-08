@@ -164,15 +164,6 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
                   )}
                 </div>
               </Upload>
-              {/*{!!photoUrl && (*/}
-              {/*  <ButtonUI*/}
-              {/*    type="primary"*/}
-              {/*    withIcon*/}
-              {/*    onClick={onRemovePhoto}*/}
-              {/*  >*/}
-              {/*    Del*/}
-              {/*  </ButtonUI>*/}
-              {/*)}*/}
             </div>
           </Form.Item>
           <FormUI.Item label="Название" name="name" rules={requiredRules}>
@@ -181,9 +172,9 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
           <FormUI.Item label="Описание" name="description">
             <InputUI.TextArea placeholder="Введите описание" />
           </FormUI.Item>
-          <FormUI.Item name="isPrivate" valuePropName="checked">
-            <CheckboxUI>Приватный (виден только мне)</CheckboxUI>
-          </FormUI.Item>
+          {/*<FormUI.Item name="isPrivate" valuePropName="checked">*/}
+          {/*  <CheckboxUI>Приватный (виден только мне)</CheckboxUI>*/}
+          {/*</FormUI.Item>*/}
         </FormUI>
       </ModalUI.Middle>
       <ModalUI.Footer>

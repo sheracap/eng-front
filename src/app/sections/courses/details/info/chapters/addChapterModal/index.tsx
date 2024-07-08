@@ -89,9 +89,9 @@ export const AddChapterModal: FC<PropTypes> = (props) => {
   const onFinish = (formData) => {
     const data = new FormData();
 
-    if (uploadedPhoto) {
-      data.append("img", uploadedPhoto);
-    }
+    // if (uploadedPhoto) {
+    //   data.append("img", uploadedPhoto);
+    // }
 
     data.append("courseId", String(courseId));
     data.append("name", formData.name);
@@ -107,40 +107,40 @@ export const AddChapterModal: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
-          <Form.Item
-            label="Обложка"
-          >
-            <div className="uploadPhoto">
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                beforeUpload={beforeUploadPhoto}
-                onChange={onPhotoChange}
-              >
-                {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (
-                  <div className="uploadPhotoEmpty">
-                    <div>
-                      <AddPlusSvgIcon />
-                    </div>
-                    <div>
-                      <span>Выбрать фото</span>
-                    </div>
-                  </div>
-                )}
-              </Upload>
-              {!!photoUrl && (
-                <ButtonUI
-                  type="primary"
-                  withIcon
-                  onClick={onRemovePhoto}
-                >
-                  Del
-                </ButtonUI>
-              )}
-            </div>
-          </Form.Item>
+          {/*<Form.Item*/}
+          {/*  label="Обложка"*/}
+          {/*>*/}
+          {/*  <div className="uploadPhoto">*/}
+          {/*    <Upload*/}
+          {/*      name="avatar"*/}
+          {/*      listType="picture-card"*/}
+          {/*      className="avatar-uploader"*/}
+          {/*      showUploadList={false}*/}
+          {/*      beforeUpload={beforeUploadPhoto}*/}
+          {/*      onChange={onPhotoChange}*/}
+          {/*    >*/}
+          {/*      {photoUrl ? <img src={photoUrl} alt="category-photo" style={{ width: '100%' }} /> : (*/}
+          {/*        <div className="uploadPhotoEmpty">*/}
+          {/*          <div>*/}
+          {/*            <AddPlusSvgIcon />*/}
+          {/*          </div>*/}
+          {/*          <div>*/}
+          {/*            <span>Выбрать фото</span>*/}
+          {/*          </div>*/}
+          {/*        </div>*/}
+          {/*      )}*/}
+          {/*    </Upload>*/}
+          {/*    {!!photoUrl && (*/}
+          {/*      <ButtonUI*/}
+          {/*        type="primary"*/}
+          {/*        withIcon*/}
+          {/*        onClick={onRemovePhoto}*/}
+          {/*      >*/}
+          {/*        Del*/}
+          {/*      </ButtonUI>*/}
+          {/*    )}*/}
+          {/*  </div>*/}
+          {/*</Form.Item>*/}
           <FormUI.Item label="Название" name="name" rules={requiredRules}>
             <InputUI placeholder="Введите название главы" />
           </FormUI.Item>
