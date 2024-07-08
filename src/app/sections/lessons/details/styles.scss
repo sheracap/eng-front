@@ -2,6 +2,7 @@
 
 .lesson-details {
   display: flex;
+  height: 100%;
   margin: 0 -10px;
 
   .content-block {
@@ -30,9 +31,15 @@
   }
 
   &__right {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     width: 50%;
     padding: 0 10px;
+
+    & > .content-block {
+      flex-grow: 1;
+    }
   }
 
   &__course-name {
@@ -141,8 +148,12 @@
       &__item {
         display: flex;
         justify-content: space-between;
-        cursor: pointer;
         font-size: 15px;
+
+        &__name {
+          cursor: pointer;
+          flex-grow: 1;
+        }
 
         &.active {
           color: $primaryColor;

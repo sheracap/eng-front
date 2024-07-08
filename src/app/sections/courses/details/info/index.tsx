@@ -7,6 +7,8 @@ import { useModalControl } from "#hooks/useModalControl";
 import { CourseDetailsChapters } from "./chapters";
 import { EditSvgIcon } from "#src/assets/svg";
 import { imagesBaseUrl } from "#constants/index";
+import { BackBtn } from "#ui/backBtn";
+import { useHistory } from "react-router-dom";
 
 type PropsTypes = {
   data: CourseDetailsModel;
@@ -16,21 +18,26 @@ type PropsTypes = {
 export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
   const { data, getDetails } = props;
 
+  const history = useHistory();
+
   const updateCourseModalControl = useModalControl<AddCourseModalType>();
 
   return (
     <div className="main-content">
       <div className="course-details">
         <div className="course-details__head content-block">
-          <div className="course-details__head__img">
-            <img src={`${imagesBaseUrl}/courses/${data.img}`} alt="" />
-          </div>
           <div>
             <div className="course-details__head__name">
+              <BackBtn onBackClick={() => history.goBack()} />
               {data.name}
             </div>
             <div className="course-details__head__desc">
-              {data.description}
+              {data.img && (
+                <div className="course-details__head__img">
+                  <img src={`${imagesBaseUrl}/courses/${data.img}`} alt="" />
+                </div>
+              )}
+              <div>{data.description}</div>
             </div>
           </div>
           <div className="course-details__head__actions">

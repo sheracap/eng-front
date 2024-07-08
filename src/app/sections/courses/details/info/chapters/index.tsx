@@ -156,15 +156,6 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                                   ref={provided.innerRef}
                                 >
                                   <div className="course-details__chapters__list__item">
-                                    <div className="course-details__chapters__list__item__img">
-                                      {item.img ? (
-                                        <img src={`${imagesBaseUrl}/chapters/${item.img}`} alt=""/>
-                                      ) : (
-                                        <>
-
-                                        </>
-                                      )}
-                                    </div>
                                     <div className="course-details__chapters__list__item__name">{item.name}</div>
                                     <div className="course-details__chapters__list__item__drag">
                                       <BurgerMenuSvgIcon />
@@ -200,15 +191,6 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                 </CollapseUI.Item>
               ))}
             </CollapseUI>
-          </div>
-        )}
-        {isMine && (
-          <div
-            className="add-entity-block"
-            onClick={() => addChapterModalControl.openModal({ courseId })}
-          >
-            <div className="add-entity-block__icon"><AddPlusSvgIcon /></div>
-            <div className="add-entity-block__text">Добавить главу</div>
           </div>
         )}
       </div>

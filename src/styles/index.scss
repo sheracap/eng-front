@@ -243,6 +243,7 @@ input:-webkit-autofill:focus {
     &__img {
       line-height: 0;
       width: 150px;
+      margin-right: 15px;
 
       img {
         max-width: 100%;
@@ -251,11 +252,15 @@ input:-webkit-autofill:focus {
     }
 
     &__name {
-      font-size: 35px;
+      display: flex;
+      align-items: center;
+      font-size: 30px;
       font-weight: 600;
+      margin-bottom: 15px;
     }
 
     &__desc {
+      display: flex;
       font-size: 18px;
       white-space: pre-wrap;
     }
@@ -271,7 +276,7 @@ input:-webkit-autofill:focus {
     &__name {
       display: flex;
       justify-content: space-between;
-      font-size: 32px;
+      font-size: 26px;
       font-weight: 600;
       margin-bottom: 20px;
 
@@ -295,6 +300,10 @@ input:-webkit-autofill:focus {
 
     &__list {
       margin-bottom: 20px;
+
+      .ant-collapse-content-box {
+        padding: 0;
+      }
 
       & > div > div {
         margin-bottom: 10px;
@@ -320,9 +329,9 @@ input:-webkit-autofill:focus {
         display: flex;
         align-items: center;
         gap: 16px;
-        padding: 10px;
+        padding: 10px 20px;
         border: 1px solid $gray;
-        border-radius: 20px;
+        border-radius: 6px;
         transition: background-color .3s ease-in-out;
         background-color: #fff;
 
@@ -362,6 +371,12 @@ input:-webkit-autofill:focus {
   }
 }
 
+.chapter-lessons-wrap {
+  padding: 10px 20px;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+}
+
 .chapter-lessons {
   margin-top: 8px;
 
@@ -372,11 +387,15 @@ input:-webkit-autofill:focus {
     font-size: 18px;
     font-weight: bold;
     padding-top: 8px;
-    cursor: pointer;
-    transition: color .3s ease-in-out;
 
-    &:hover, &.active {
-      color: $primaryColor;
+    &__name {
+      flex-grow: 1;
+      cursor: pointer;
+      transition: color .3s ease-in-out;
+
+      &:hover, &.active {
+        color: $primaryColor;
+      }
     }
 
     & + div {
@@ -431,33 +450,35 @@ input:-webkit-autofill:focus {
     overflow: hidden;
   }
 
-  .ant-upload {
-
+  &.has-photo {
     .ant-upload {
-      position: relative;
 
-      &:hover {
-        &:after {
-          opacity: 0.3;
+      .ant-upload {
+        position: relative;
+
+        &:hover {
+          &:after {
+            opacity: 0.3;
+          }
         }
-      }
 
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-color: #000;
-        opacity: 0;
-        transition: opacity .2s ease-in-out;
-      }
+        &:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background-color: #000;
+          opacity: 0;
+          transition: opacity .2s ease-in-out;
+        }
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }

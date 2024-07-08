@@ -139,10 +139,8 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish} initialValues={{ isPrivate: true }}>
-          <Form.Item
-            label="Обложка"
-          >
-            <div className="uploadPhoto">
+          <Form.Item>
+            <div className={`uploadPhoto ${photoUrl ? "has-photo" : ""}`}>
               <Upload
                 name="avatar"
                 listType="picture-card"

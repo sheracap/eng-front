@@ -72,7 +72,7 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
   };
 
   return (
-    <div>
+    <div className="chapter-lessons-wrap">
       {!isLessonPage && (
         <div className="flex-justify">
           <h2>Уроки</h2>
@@ -92,12 +92,24 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
               >
                 <AddLessonModal
                   modalControl={addLessonModalControl}
-                  callback={(item) => {
+                  afterAdd={(item) => {
                     $lessonsByChapter.update({
                       ...lessonsByChapterState,
                       data: {
                         ...lessonsByChapterState.data,
                         [chapterId]: [ ...lessonsByChapterState.data[chapterId], item ]
+                      }
+                    });
+                  }}
+                  afterUpdate={(id, name) => {
+                    $lessonsByChapter.update({
+                      ...lessonsByChapterState,
+                      data: {
+                        ...lessonsByChapterState.data,
+                        [chapterId]: lessonsByChapterState.data[chapterId].map((item) => ({
+                          ...item,
+                          name: item.id === id ? name : item.name
+                        }))
                       }
                     });
                   }}
@@ -110,13 +122,17 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
       <div className="chapter-lessons">
         {lessonsByChapterState.data[chapterId] && (
           <>
-            {lessonsByChapterState.data[chapterId].map((item) => (
+            {lessonsByChapterState.data[chapterId].map((item, index) => (
               <div
                 className={`chapter-lessons__item ${activeLessonId === item.id ? "active": ""}`}
                 key={item.id}
-                onClick={() => onLessonClick(item.id)}
               >
-                <div>{item.name}</div>
+                <div
+                  className="chapter-lessons__item__name"
+                  onClick={() => onLessonClick(item.id)}
+                >
+                  {index + 1}.&nbsp; {item.name}
+                </div>
                 <div>
                   {isMine && (
                     <ContextPopover

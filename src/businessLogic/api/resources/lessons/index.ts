@@ -26,7 +26,7 @@ export const addLesson: HandlerType<LessonCreateModel, any> = (data) => {
 };
 
 export const updateLesson: HandlerType<LessonUpdateModel, number> = ({ id, data }) => {
-  return httpPost({ url: `/api/cabinet/lesson/${id}`, data });
+  return httpPut({ url: `/api/cabinet/lesson/${id}`, data });
 };
 
 export const deleteLesson: HandlerType<number, number> = (id) => {

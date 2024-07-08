@@ -82,8 +82,10 @@ export const StartLessonCoursesTab: FC = () => {
           {myCoursesListState.data.rows.map((item) => (
             <div className="start-lesson__courses__item" key={item.id} onClick={() => onCourseClick(item)}>
               <div className="start-lesson__courses__item__image">
-                {item.img && (
+                {item.img ? (
                   <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>
+                ) : (
+                  <div className="start-lesson__courses__item__image__empty"></div>
                 )}
               </div>
               <div className="start-lesson__courses__item__name">

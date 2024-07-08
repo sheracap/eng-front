@@ -112,9 +112,13 @@ export const LessonSections: FC<PropsTypes> = (props) => {
           <div
             className={`lesson-details__sections__list__item ${Number(sectionIndex) - 1 === index && !selectedHomeworkId ? "active" : ""}`}
             key={item.id}
-            onClick={() => onSectionClick(index)}
           >
-            <div>{item.name}</div>
+            <div
+              className="lesson-details__sections__list__item__name"
+              onClick={() => onSectionClick(index)}
+            >
+              {item.name}
+            </div>
             {isMine && (
               <ContextPopover
                 content={(

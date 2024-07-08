@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { requiredRules } from "#constants/index";
+import { imagesBaseUrl, requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
 import { $addLesson, $updateLesson } from "#stores/lessons";
 import { ButtonUI } from "#ui/button";
@@ -12,6 +12,7 @@ import { InputUI } from "#ui/input";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { AddPlusSvgIcon } from "#src/assets/svg";
 import { LessonItemModel } from "#businessLogic/models/lessons";
+import { notificationSuccess } from "#ui/notifications";
 
 
 export type AddLessonModalPropTypes = {
@@ -22,11 +23,12 @@ export type AddLessonModalPropTypes = {
 
 type PropTypes = {
   modalControl: ModalControlType<AddLessonModalPropTypes>;
-  callback: (item: LessonItemModel) => void;
+  afterAdd: (item: LessonItemModel) => void;
+  afterUpdate: (id: number, name: string) => void;
 };
 
 export const AddLessonModal: FC<PropTypes> = (props) => {
-  const { modalControl, callback } = props;
+  const { modalControl, afterAdd, afterUpdate } = props;
 
   const { closeModal, modalProps } = modalControl;
 
@@ -41,6 +43,16 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
 
   useEffect(() => {
+    if (lessonDetails) {
+      form.setFieldsValue({
+        name: lessonDetails.name
+      });
+
+      if (lessonDetails.img) {
+        setPhotoUrl(`${imagesBaseUrl}/lessons/${lessonDetails.img}`);
+      }
+    }
+
     return () => {
       $addLesson.reset();
     };
@@ -48,17 +60,21 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (addLessonState.data) {
+      notificationSuccess("Урок добавлен", "");
+
       closeModal();
 
-      const name = form.getFieldValue("name");
-
-      callback(addLessonState.data);
+      afterAdd(addLessonState.data);
     }
   }, [addLessonState.data]);
 
   useEffect(() => {
     if (updateLessonState.data) {
+      notificationSuccess("Данные обновлены", "");
+
       closeModal();
+
+      afterUpdate(updateLessonState.data, form.getFieldValue("name"));
     }
   }, [updateLessonState.data]);
 
@@ -138,10 +154,8 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
           form={form}
           onFinish={onFinish}
         >
-          <Form.Item
-            label="Обложка"
-          >
-            <div className="uploadPhoto">
+          <Form.Item>
+            <div className={`uploadPhoto ${photoUrl ? "has-photo" : ""}`}>
               <Upload
                 name="avatar"
                 listType="picture-card"
@@ -156,7 +170,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
                       <AddPlusSvgIcon />
                     </div>
                     <div>
-                      <span>Выбрать фото</span>
+                      <span>Фото</span>
                     </div>
                   </div>
                 )}
