@@ -68,7 +68,7 @@ export const UserEditModal: FC<PropTypes> = (props) => {
 
   const beforeUploadPhoto = (file: any) => {
     const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);
-    const correspondSize = isFileCorrespondSize(file, 1);
+    const correspondSize = isFileCorrespondSize(file, 10);
 
     if (!correspondType) {
       message.warning("Можно загрузить только JPG/PNG файлы")
@@ -76,7 +76,7 @@ export const UserEditModal: FC<PropTypes> = (props) => {
     }
 
     if (!correspondSize) {
-      message.warning("Размер не более 1 мб");
+      message.warning("Размер не более 10 мб");
 
       return false;
     }

@@ -9,9 +9,8 @@ import { Route, Switch, useLocation } from "react-router-dom";
 
 import { useRole } from "#hooks/useRole";
 
-import { Home } from "../../sections/home";
-
 import { Courses } from "#src/app/sections/courses";
+import { Lessons } from "#src/app/sections/lessons";
 import { Vocabulary } from "#src/app/sections/vocabulary";
 import { Homework } from "#src/app/sections/homework";
 import { Speaking } from "#src/app/sections/speaking";
@@ -33,7 +32,7 @@ export const Main: FC = () => {
 
   const [siderOpened, setSiderOpened] = useState(false);
 
-  const { isStudent } = useRole();
+  const { isStudent, isTeacher } = useRole();
 
   useEffect(() => {
     $currentUser.effect();
@@ -66,8 +65,8 @@ export const Main: FC = () => {
           <Content>
             <div className="site-wrapper__content-main">
               <Switch>
-                <Route path={ROUTES.HOME} component={Home} />
                 <Route path={ROUTES.COURSES} component={Courses} />
+                <Route path={ROUTES.LESSONS} component={Lessons} />
                 <Route path={ROUTES.SPEAKING} component={Speaking} />
                 {isStudent && (
                   <>

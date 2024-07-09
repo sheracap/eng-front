@@ -7,7 +7,7 @@ import { ModalUI } from "#ui/modal";
 import {
   AddLessonModal,
   AddLessonModalPropTypes
-} from "#src/app/sections/courses/details/info/chapters/lessons/addLessonModal";
+} from "#src/app/sections/lessons/my/addModal";
 import { useHistory } from "react-router-dom";
 import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
 import { notificationSuccess, notificationWarning } from "#ui/notifications";

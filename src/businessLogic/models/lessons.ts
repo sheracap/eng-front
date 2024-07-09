@@ -36,3 +36,9 @@ export type LessonUpdateModel = {
   id: number;
   data: LessonCreateModel;
 }
+
+export type LessonsListItemModel = {
+  id: number;
+  img: null | string;
+  name: string;
+}

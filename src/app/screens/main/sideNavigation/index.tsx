@@ -103,12 +103,17 @@ export const SideNavigation: FC<PropTypes> = (props) => {
       ...(isTeacher ? [
         {
           name: "Мои курсы",
-          path: `${ROUTES.HOME}/my-courses`,
+          path: `${ROUTES.COURSES}/my`,
+          icon: <CoursesIcon />,
+        },
+        {
+          name: "Мои уроки",
+          path: `${ROUTES.LESSONS}/my`,
           icon: <CoursesIcon />,
         },
         {
           name: "Мои ученики",
-          path: `${ROUTES.HOME}/students`,
+          path: `${ROUTES.STUDENTS}`,
           icon: <StudentsIcon />,
         }
       ] : []),

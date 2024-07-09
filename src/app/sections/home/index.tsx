@@ -2,9 +2,7 @@ import React, { FC, useEffect, useMemo } from "react";
 
 import { ContentUI } from "#ui/content";
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
-import { MainUserBar } from "#src/app/sections/home/userBar";
 import { Interesting } from "./interesting";
-import { MyCourses } from "./myCourses";
 import { MyStudents } from "./myStudents";
 
 import "./styles.scss";
@@ -29,7 +27,7 @@ export const Home: FC<PropTypes> = (props) => {
   const folders = useMemo(() => {
     return [
       { name: "Интересное", path: `${match.url}/interesting`, component: Interesting },
-      { name: "Мои курсы", path: `${match.url}/my-courses`, component: MyCourses },
+
       { name: "Мои ученики", path: `${match.url}/students`, component: MyStudents },
     ];
   }, []);

@@ -8,6 +8,9 @@ import {
 import { StoreTypeWithData } from "#core/effector/types/store";
 import { api } from "#businessLogic/api";
 import { XHRDataState } from "#constructors/store";
+import { PaginationListModel } from "#types/apiResponseModels";
+import { LessonsListItemModel } from "#businessLogic/models/lessons";
+import { PaginationList } from "#constructors/data";
 
 export const $lessonDetails = createXHRStore<string, LessonDetailsModel, StoreTypeWithData<LessonDetailsModel | null>>(
   api.lessons.getLessonDetails,
@@ -55,3 +58,9 @@ export const $deleteLesson = createXHRStore<number, number, StoreTypeWithData<nu
   api.lessons.deleteLesson,
   new XHRDataState(null),
 );
+
+export const $myLessonsList = createXHRStore<
+  void,
+  PaginationListModel<LessonsListItemModel>,
+  StoreTypeWithData<PaginationListModel<LessonsListItemModel>>
+>(api.lessons.myLessonsList, new XHRDataState(new PaginationList()));
