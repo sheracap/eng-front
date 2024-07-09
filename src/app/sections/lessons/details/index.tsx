@@ -115,71 +115,73 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
   }
 
   return (
-    <div className="lesson-details">
-      <div className="lesson-details__left">
-        <div className="lesson-details__left__in">
-          <LessonDetailsLeftColumnScroll>
-            {activeLessonState.data && isTeacher && (
-              <div className="lesson-details__students">
-                <div className="lesson-details__students__title">Ученики:</div>
-                <div className="lesson-details__students__list">
-                  {JSON.parse(activeLessonState.data.students).map((item) => (
-                    <div
-                      className={`lesson-details__students__list__item ${selectedStudentId === item.id ? "active" : ""}`}
-                      key={item.id}
-                      onClick={() => onStudentClick(item.id)}
-                    >
-                      <Tooltip color={"#000000"} title={item.name}>
-                        <div>
-                          {item.img ? (
-                            <img src={item.img} alt={item.name} />
-                          ) : (
-                            <span>{getName(item.name[0], item.name[1])}</span>
-                          )}
-                        </div>
-                      </Tooltip>
-                    </div>
-                  ))}
+    <ContentUI>
+      <div className="lesson-details">
+        <div className="lesson-details__left">
+          <div className="lesson-details__left__in">
+            <LessonDetailsLeftColumnScroll>
+              {activeLessonState.data && isTeacher && (
+                <div className="lesson-details__students">
+                  <div className="lesson-details__students__title">Ученики:</div>
+                  <div className="lesson-details__students__list">
+                    {JSON.parse(activeLessonState.data.students).map((item) => (
+                      <div
+                        className={`lesson-details__students__list__item ${selectedStudentId === item.id ? "active" : ""}`}
+                        key={item.id}
+                        onClick={() => onStudentClick(item.id)}
+                      >
+                        <Tooltip color={"#000000"} title={item.name}>
+                          <div>
+                            {item.img ? (
+                              <img src={item.img} alt={item.name} />
+                            ) : (
+                              <span>{getName(item.name[0], item.name[1])}</span>
+                            )}
+                          </div>
+                        </Tooltip>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <div className="content-block">
-              <LessonSections
-                courseId={courseId}
-                lessonId={lessonData.id}
-                sections={lessonData.sections}
-                sectionIndex={sectionIndex}
-                isMine={isMine}
-                selectedHomeworkId={queryParams.homeworkId}
-              />
-            </div>
-            {isMine && (
               <div className="content-block">
-                <LessonHomework
+                <LessonSections
+                  courseId={courseId}
                   lessonId={lessonData.id}
+                  sections={lessonData.sections}
+                  sectionIndex={sectionIndex}
+                  isMine={isMine}
                   selectedHomeworkId={queryParams.homeworkId}
                 />
               </div>
+              {isMine && (
+                <div className="content-block">
+                  <LessonHomework
+                    lessonId={lessonData.id}
+                    selectedHomeworkId={queryParams.homeworkId}
+                  />
+                </div>
+              )}
+            </LessonDetailsLeftColumnScroll>
+          </div>
+        </div>
+        <div className="lesson-details__right">
+          <div className="content-block">
+            {isMine && queryParams.homeworkId ? (
+              <HomeworkDetails homeworkId={Number(queryParams.homeworkId)} isMine={isMine} />
+            ) : (
+              <LessonSection
+                isMine={isMine}
+                lessonData={lessonData}
+                sectionId={lessonSectionsState[Number(sectionIndex) - 1]?.id}
+                selectedStudentId={selectedStudentId}
+                getStudentAnswers={getStudentAnswers}
+              />
             )}
-          </LessonDetailsLeftColumnScroll>
+          </div>
         </div>
       </div>
-      <div className="lesson-details__right">
-        <div className="content-block">
-          {isMine && queryParams.homeworkId ? (
-            <HomeworkDetails homeworkId={Number(queryParams.homeworkId)} isMine={isMine} />
-          ) : (
-            <LessonSection
-              isMine={isMine}
-              lessonData={lessonData}
-              sectionId={lessonSectionsState[Number(sectionIndex) - 1]?.id}
-              selectedStudentId={selectedStudentId}
-              getStudentAnswers={getStudentAnswers}
-            />
-          )}
-        </div>
-      </div>
-    </div>
+    </ContentUI>
   )
 };

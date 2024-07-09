@@ -7,7 +7,8 @@ import {
   VocabularyIcon,
   StudentsIcon,
   HomeworkIcon,
-  SpeakingIcon
+  SpeakingIcon,
+  LessonsIcon
 } from "#svgIcons/menuIcons";
 import { Layout, Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
@@ -109,7 +110,7 @@ export const SideNavigation: FC<PropTypes> = (props) => {
         {
           name: "Мои уроки",
           path: `${ROUTES.LESSONS}/my`,
-          icon: <CoursesIcon />,
+          icon: <LessonsIcon />,
         },
         {
           name: "Мои ученики",

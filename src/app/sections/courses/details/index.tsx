@@ -40,22 +40,20 @@ export const CourseDetails = (props) => {
 
 
   return (
-    <ContentUI>
-      <Switch>
-        <Route
-          exact
-          path={match.path}
-          render={() => (
-            <CourseDetailsInfo data={data} getDetails={getDetails} />
-          )}
-        />
-        <Route
-          path={`${match.path}/lesson/:id/:index`}
-          render={() => (
-            <LessonDetails courseId={courseId} />
-          )}
-        />
-      </Switch>
-    </ContentUI>
+    <Switch>
+      <Route
+        exact
+        path={match.path}
+        render={() => (
+          <CourseDetailsInfo data={data} getDetails={getDetails} />
+        )}
+      />
+      <Route
+        path={`${match.path}/lesson/:id/:index`}
+        render={() => (
+          <LessonDetails courseId={courseId} />
+        )}
+      />
+    </Switch>
   )
 };

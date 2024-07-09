@@ -10,7 +10,7 @@ export const Lessons = () => {
   return (
     <Switch>
       <Route exact path={`${ROUTES.LESSONS}/my`} component={MyLessons} />
-      <Route path={`${ROUTES.LESSONS}/:id`} component={LessonDetails} />
+      <Route path={`${ROUTES.LESSONS}/:id/:index`} component={LessonDetails} />
     </Switch>
   );
 };

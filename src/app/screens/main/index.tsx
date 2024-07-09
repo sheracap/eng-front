@@ -11,6 +11,7 @@ import { useRole } from "#hooks/useRole";
 
 import { Courses } from "#src/app/sections/courses";
 import { Lessons } from "#src/app/sections/lessons";
+import { Students } from "#src/app/sections/students";
 import { Vocabulary } from "#src/app/sections/vocabulary";
 import { Homework } from "#src/app/sections/homework";
 import { Speaking } from "#src/app/sections/speaking";
@@ -67,6 +68,7 @@ export const Main: FC = () => {
               <Switch>
                 <Route path={ROUTES.COURSES} component={Courses} />
                 <Route path={ROUTES.LESSONS} component={Lessons} />
+                <Route path={ROUTES.STUDENTS} component={Students} />
                 <Route path={ROUTES.SPEAKING} component={Speaking} />
                 {isStudent && (
                   <>

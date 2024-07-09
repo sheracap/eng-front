@@ -483,3 +483,24 @@ input:-webkit-autofill:focus {
     }
   }
 }
+
+.folder-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 15px;
+
+  &__right {
+    display: flex;
+
+    .custom-btn {
+      margin-left: 10px;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 22px;
+  }
+}

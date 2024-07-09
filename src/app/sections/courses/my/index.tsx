@@ -11,6 +11,8 @@ import { AddPlusSvgIcon } from "#src/assets/svg";
 import { ContentUI } from "#ui/content";
 import { useRole } from "#hooks/useRole";
 
+import "./styles.scss";
+
 export const MyCourses = () => {
 
   const history = useHistory();

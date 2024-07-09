@@ -3,9 +3,9 @@ import React, { FC, useEffect, useMemo } from "react";
 import { ContentUI } from "#ui/content";
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { Interesting } from "./interesting";
-import { MyStudents } from "./myStudents";
+import { MyStudents } from "../students/list";
 
-import "./styles.scss";
+
 
 type PropTypes = {
   matchUrl: string;

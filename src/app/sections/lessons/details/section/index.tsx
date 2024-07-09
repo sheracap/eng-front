@@ -57,7 +57,6 @@ export const LessonSection: FC<PropsType> = (props) => {
 
   const sectionDetailsState = useStore($sectionDetails.store);
   const exerciseAnswersBySectionState = useStore($exerciseAnswersBySection.store);
-  const lessonSectionsState: any = useStore($lessonSections.store);
   const deleteExerciseState = useStore($deleteExercise.store);
 
 
@@ -193,10 +192,13 @@ export const LessonSection: FC<PropsType> = (props) => {
 
       {isMine && !sectionId && (
         <>
-          <div className={styles.addSectionWrap} onClick={() => addSectionModalControl.openModal({ lessonId: lessonData.id })}>
-            <div className={styles.addSectionIcon}><AddPlusSvgIcon /></div>
-            <div className={styles.addSectionText}>Добавить раздел</div>
-          </div>
+          <ButtonUI
+            type="primary"
+            withIcon
+            onClick={() => addSectionModalControl.openModal({ lessonId: lessonData.id })}
+          >
+            <AddPlusSvgIcon /> Добавить раздел
+          </ButtonUI>
           <ModalUI
             open={addSectionModalControl.modalProps.open}
             onCancel={addSectionModalControl.closeModal}

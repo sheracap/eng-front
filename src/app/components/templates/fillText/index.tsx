@@ -44,10 +44,10 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
   }, [answersState]);
 
   const onChange = (e) => {
-    withDebounce(() => {
-      const { index, item } = JSON.parse(e.currentTarget.getAttribute("data-val"));
-      const value = e.currentTarget.textContent;
+    const { index, item } = JSON.parse(e.currentTarget.getAttribute("data-val"));
+    const value = e.currentTarget.textContent;
 
+    withDebounce(() => {
       filledAnswers.current = {
         ...filledAnswers.current,
         [index]: {
@@ -118,7 +118,9 @@ export const TemplateFillText: FC<PropsTypes> = (props) => {
             )}
 
             {item[0] !== "[" && (
-              <span dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />")}}></span>
+              <>
+                {item === "&separator" ? <br /> : <span> {item} </span>}
+              </>
             )}
           </React.Fragment>
         ))}

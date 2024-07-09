@@ -30,7 +30,7 @@ export const MyLessons = () => {
   }, []);
 
   const onOpenLesson = (id: number) => {
-    history.push(`${ROUTES.LESSONS}/${id}`);
+    history.push(`${ROUTES.LESSONS}/${id}/1`);
   };
 
   return (
@@ -50,17 +50,17 @@ export const MyLessons = () => {
               </ButtonUI>
             )}
           </div>
-          <div className="lessons">
+          <div className="courses">
             {myLessonsListState.data.rows.map((item) => (
-              <div className="lessons__item" key={item.id} onClick={() => onOpenLesson(item.id)}>
-                <div className="lessons__item__image">
+              <div className="courses__item" key={item.id} onClick={() => onOpenLesson(item.id)}>
+                <div className="courses__item__image">
                   {item.img ? (
                     <img src={`${imagesBaseUrl}/lessons/${item.img}`} alt=""/>
                   ) : (
-                    <div className="lessons__item__image__empty"></div>
+                    <div className="courses__item__image__empty"></div>
                   )}
                 </div>
-                <div className="lessons__item__name">
+                <div className="courses__item__name">
                   {item.name}
                 </div>
               </div>

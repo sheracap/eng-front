@@ -9,6 +9,7 @@ import { EditSvgIcon } from "#src/assets/svg";
 import { imagesBaseUrl } from "#constants/index";
 import { BackBtn } from "#ui/backBtn";
 import { useHistory } from "react-router-dom";
+import { ContentUI } from "#ui/content";
 
 type PropsTypes = {
   data: CourseDetailsModel;
@@ -23,44 +24,46 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
   const updateCourseModalControl = useModalControl<AddCourseModalType>();
 
   return (
-    <div className="main-content">
-      <div className="course-details">
-        <div className="course-details__head content-block">
-          <div>
-            <div className="course-details__head__name">
-              <BackBtn onBackClick={() => history.goBack()} />
-              {data.name}
+    <ContentUI>
+      <div className="main-content">
+        <div className="course-details">
+          <div className="course-details__head content-block">
+            <div>
+              <div className="course-details__head__name">
+                <BackBtn onBackClick={() => history.goBack()} />
+                {data.name}
+              </div>
+              <div className="course-details__head__desc">
+                {data.img && (
+                  <div className="course-details__head__img">
+                    <img src={`${imagesBaseUrl}/courses/${data.img}`} alt="" />
+                  </div>
+                )}
+                <div>{data.description}</div>
+              </div>
             </div>
-            <div className="course-details__head__desc">
-              {data.img && (
-                <div className="course-details__head__img">
-                  <img src={`${imagesBaseUrl}/courses/${data.img}`} alt="" />
-                </div>
-              )}
-              <div>{data.description}</div>
+            <div className="course-details__head__actions">
+              <ButtonUI
+                type="primary"
+                withIcon
+                onClick={() => updateCourseModalControl.openModal({ id: data.id })}
+              >
+                <EditSvgIcon /> Редактировать
+              </ButtonUI>
             </div>
           </div>
-          <div className="course-details__head__actions">
-            <ButtonUI
-              type="primary"
-              withIcon
-              onClick={() => updateCourseModalControl.openModal({ id: data.id })}
-            >
-              <EditSvgIcon /> Редактировать
-            </ButtonUI>
-          </div>
+
+          <CourseDetailsChapters courseId={data.id} courseAuthorId={data.userId} isPrivate={data.isPrivate} />
+
         </div>
 
-        <CourseDetailsChapters courseId={data.id} courseAuthorId={data.userId} isPrivate={data.isPrivate} />
-
+        <ModalUI
+          open={updateCourseModalControl.modalProps.open}
+          onCancel={updateCourseModalControl.closeModal}
+        >
+          <AddCourseModal modalControl={updateCourseModalControl} callback={getDetails} />
+        </ModalUI>
       </div>
-
-      <ModalUI
-        open={updateCourseModalControl.modalProps.open}
-        onCancel={updateCourseModalControl.closeModal}
-      >
-        <AddCourseModal modalControl={updateCourseModalControl} callback={getDetails} />
-      </ModalUI>
-    </div>
+    </ContentUI>
   )
 };

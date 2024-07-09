@@ -73,8 +73,6 @@ export const BlankTemplateForm: FC<PropTypes> = (props) => {
       return;
     }
 
-    console.log("resultArray", resultArray);
-
     const data = {
       title: formData.title,
       sectionId: isHomework ? undefined : entityId,
