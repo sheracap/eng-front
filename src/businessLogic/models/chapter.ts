@@ -1,7 +1,10 @@
 
 
-export type ChapterCreateModel = any | {
+export type ChapterCreateModel = {
   courseId: number;
   name: string;
-  img?: any;
+}
+
+export type ChapterUpdateModel = ChapterCreateModel & {
+  id: number;
 }
