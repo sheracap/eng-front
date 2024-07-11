@@ -36,6 +36,11 @@ export const $addCourse = createXHRStore<CourseCreateModel, any, StoreTypeWithDa
   new XHRDataState(null),
 );
 
+export const $deleteCourse = createXHRStore<number, any, StoreTypeWithData<any>>(
+  api.courses.deleteCourse,
+  new XHRDataState(null),
+);
+
 export const $updateCourse = createXHRStore<CourseUpdateModel, any, StoreTypeWithData<any>>(
   api.courses.updateCourse,
   new XHRDataState(null),

@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-import { $currentUser } from "#stores/account";
 import { $courseChapters, $updateChaptersOrder } from "#stores/courses";
 import { CourseChapterItemModel } from "#businessLogic/models/courses";
 import { useModalControl } from "#hooks/useModalControl";
@@ -11,29 +10,29 @@ import { ModalUI } from "#ui/modal";
 import { AddChapterModal, AddChapterModalPropTypes } from "./addChapterModal";
 import { ButtonUI } from "#ui/button";
 import { notificationSuccess } from "#ui/notifications";
-import { AddPlusSvgIcon, BurgerMenuSvgIcon, SwapIcon } from "#src/assets/svg";
+import { AddPlusSvgIcon, BurgerMenuSvgIcon, DeleteIcon, EditSvgIcon, SwapIcon } from "#src/assets/svg";
 import { CollapseUI } from "#ui/collapse";
 import { ChapterLessons } from "./lessons";
-import { imagesBaseUrl } from "#constants/index";
+import { Popconfirm } from "antd";
+import { ContextPopover } from "#ui/contextPopover";
+import { $deleteChapter } from "#stores/chapter";
 
 type PropsTypes = {
   courseId: number;
-  courseAuthorId: number;
   isPrivate: boolean;
+  isMine: boolean;
 }
 
 export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
-  const { courseAuthorId, courseId, isPrivate } = props;
+  const { courseId, isPrivate, isMine } = props;
 
-  const { data: currentUserData } = useStore($currentUser.store);
   const courseChaptersState = useStore($courseChapters.store);
   const updateChaptersOrderState = useStore($updateChaptersOrder.store);
+  const deleteChapterState = useStore($deleteChapter.store);
 
   const [chapters, setChapters] = useState<Array<CourseChapterItemModel>>([]);
   const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [chapterOrderChangeMode, setChapterOrderChangeMode] = useState(false);
-
-  const isMine = currentUserData?.id === courseAuthorId;
 
   const addChapterModalControl = useModalControl<AddChapterModalPropTypes>();
 
@@ -56,6 +55,18 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
       getChapters();
     }
   }, [updateChaptersOrderState.success]);
+
+  useEffect(() => {
+    if (deleteChapterState.data) {
+      notificationSuccess("Глава удалена", "");
+      $deleteChapter.reset();
+      getChapters();
+    }
+  }, [deleteChapterState.data]);
+
+  const onDelete = (id: number) => {
+    $deleteChapter.effect(id);
+  }
 
   const handleDragAndDrop = (results) => {
     const { source, destination } = results;
@@ -184,6 +195,44 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                   header={(
                     <div className="course-details__chapters__list__item">
                       <div className="course-details__chapters__list__item__name">{item.name}</div>
+                      {isMine && (
+                        <div className="course-details__chapters__list__item__actions">
+                          <ContextPopover
+                            content={(
+                              <>
+                                <div className="custom__popover__item">
+                                  <ButtonUI
+                                    withIcon
+                                    onClick={() => {
+                                      addChapterModalControl.openModal({ chapterDetails: item, courseId });
+                                    }}
+                                  >
+                                    <EditSvgIcon /> Редактировать
+                                  </ButtonUI>
+                                </div>
+                                <div className="custom__popover__item">
+                                  <Popconfirm
+                                    title="Вы уверены, что хотите удалить урок ?"
+                                    onConfirm={() => {
+                                      onDelete(item.id)
+                                    }}
+                                    okText="Да"
+                                    cancelText="Нет"
+                                  >
+                                    <ButtonUI
+                                      danger
+                                      withIcon
+                                      loading={deleteChapterState.loading}
+                                    >
+                                      <DeleteIcon /> Удалить
+                                    </ButtonUI>
+                                  </Popconfirm>
+                                </div>
+                              </>
+                            )}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
                 >

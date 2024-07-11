@@ -25,6 +25,10 @@ export const addCourse: HandlerType<CourseCreateModel, any> = (data) => {
   return httpPost({ url: "/api/cabinet/course", data });
 };
 
+export const deleteCourse: HandlerType<number, any> = (id) => {
+  return httpDelete({ url: `/api/cabinet/course/${id}` });
+};
+
 export const updateCourse: HandlerType<CourseUpdateModel, any> = ({ id, data }) => {
   return httpPut({ url: `/api/cabinet/course/${id}`, data });
 };
