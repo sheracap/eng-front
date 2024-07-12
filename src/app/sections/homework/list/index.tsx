@@ -12,14 +12,26 @@ import { StatusUI } from "#ui/status";
 import { ContentUI } from "#ui/content";
 import { ROUTES } from "#constants/index";
 import { Link } from "react-router-dom";
+import { useRole } from "#hooks/useRole";
+import { parseParams } from "#hooks/useQueryParams";
 
 
 export const HomeworkList: FC = () => {
 
+  const queryParams = parseParams(location.search, false);
+
   const homeworkAssignmentsState = useStore($homeworkAssignments.store);
 
+  const { isTeacher } = useRole();
+
   const getList = () => {
-    $homeworkAssignments.effect({});
+    const params = {};
+
+    if (isTeacher && queryParams.studentId) {
+      params["studentId"] = queryParams.studentId;
+    }
+
+    $homeworkAssignments.effect(params);
   };
 
   useEffect(() => {
@@ -33,7 +45,11 @@ export const HomeworkList: FC = () => {
         title: "Название",
         dataIndex: "homework",
         render: (_, item) => (
-          <Link to={`${ROUTES.HOMEWORK}/${item.homework.id}`}>{item.homework.name}</Link>
+          <Link
+            to={isTeacher && queryParams.studentId ? `${ROUTES.HOMEWORK}/${item.homework.id}?studentId=${queryParams.studentId}` : `${ROUTES.HOMEWORK}/${item.homework.id}`}
+          >
+            {item.homework.name}
+          </Link>
         ),
       },
       {

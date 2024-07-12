@@ -169,7 +169,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
         <div className="lesson-details__right">
           <div className="content-block">
             {isMine && queryParams.homeworkId ? (
-              <HomeworkDetails homeworkId={Number(queryParams.homeworkId)} isMine={isMine} />
+              <HomeworkDetails homeworkId={Number(queryParams.homeworkId)} isMine={isMine} studentId={undefined} />
             ) : (
               <LessonSection
                 isMine={isMine}

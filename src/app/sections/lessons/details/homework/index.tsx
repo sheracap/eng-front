@@ -28,10 +28,11 @@ import { useRole } from "#hooks/useRole";
 type PropsTypes = {
   homeworkId: number;
   isMine: boolean;
+  studentId: number | undefined;
 };
 
 export const HomeworkDetails: FC<PropsTypes> = (props) => {
-  const { homeworkId, isMine } = props;
+  const { homeworkId, isMine, studentId } = props;
 
   const homeworkDetailsState = useStore($homeworkDetails.store);
   const exerciseAnswersByHomeworkState = useStore($exerciseAnswersByHomework.store);
@@ -62,7 +63,10 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
     const exerciseAnswers = $homeWorkExerciseAnswers.store.getState();
 
     if (homeworkId && !exerciseAnswers[homeworkId]) {
-      $exerciseAnswersByHomework.effect(homeworkId);
+      $exerciseAnswersByHomework.effect({
+        homeworkId,
+        studentId
+      });
     }
   }
 

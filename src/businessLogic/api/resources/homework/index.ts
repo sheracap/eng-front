@@ -30,9 +30,10 @@ export const addHomeworkExerciseAnswer: HandlerType<any, any> = (data) => {
   });
 };
 
-export const getExerciseAnswersByHomework: HandlerType<number, Array<ExerciseAnswerModel>> = (homeworkId) => {
+export const getExerciseAnswersByHomework: HandlerType<any, Array<ExerciseAnswerModel>> = ({ homeworkId, ...params }) => {
   return httpGet({
     url: `/api/cabinet/homework/exercise-answers/${homeworkId}`,
+    params
   });
 };
 

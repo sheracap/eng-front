@@ -39,7 +39,7 @@ export const $addHomeworkExerciseAnswer = createXHRStore<any, number, StoreType>
 );
 
 export const $exerciseAnswersByHomework = createXHRStore<
-  number,
+  any,
   Array<any>,
   StoreTypeWithData<Array<any>>
 >(

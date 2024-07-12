@@ -19,6 +19,8 @@ import { notificationSuccess } from "#ui/notifications";
 
 import "./styles.scss";
 import { ContentUI } from "#ui/content";
+import { ROUTES } from "#constants/index";
+import { Link } from "react-router-dom";
 
 export const MyStudents: FC = () => {
 
@@ -54,6 +56,11 @@ export const MyStudents: FC = () => {
         title: "Email",
         dataIndex: "email",
         render: (_, item) => item.email,
+      },
+      {
+        title: "Домашнее задание",
+        dataIndex: "homework",
+        render: (_, item) => <Link to={`${ROUTES.HOMEWORK}?studentId=${item.id}`}>Посмотреть</Link>,
       },
       {
         title: "",
