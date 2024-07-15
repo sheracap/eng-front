@@ -39,17 +39,26 @@ export const getBase64 = (file: any) => {
 export const UPLOAD_FILE_TYPES = {
   DOC: "DOC",
   PIC: "PIC",
+  AUDIO: "AUDIO"
 };
 
 const isPic = (file: any) : boolean => {
   return file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png";
 };
 
+const isAudio = (file: any) : boolean => {
+  console.log("file type", file.type);
+
+  return file.type === "audio/mpeg" || file.type === "audio/x-m4a";
+};
+
 export const isFileCorrespondType = (file: any, type: string) => {
   if (type === UPLOAD_FILE_TYPES.DOC) {
-    return isPic || file.type === "application/pdf";
+    return isPic(file) || file.type === "application/pdf";
   } else if (type === UPLOAD_FILE_TYPES.PIC) {
-    return isPic;
+    return isPic(file);
+  } else if (type === UPLOAD_FILE_TYPES.AUDIO) {
+    return isAudio(file);
   }
 
   return true;

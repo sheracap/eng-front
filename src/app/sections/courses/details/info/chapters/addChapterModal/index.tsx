@@ -88,7 +88,7 @@ export const AddChapterModal: FC<PropTypes> = (props) => {
     <>
       <ModalUI.Loading show={addChapterState.loading || updateChapterState.loading} />
       <ModalUI.Header>
-        <ModalUI.Title>Добавить главу</ModalUI.Title>
+        <ModalUI.Title>{chapterDetails ? "Редактировать главу" : "Добавить главу"}</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
@@ -106,7 +106,7 @@ export const AddChapterModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()}>
-              Сохранить
+              {chapterDetails ? "Сохранить" : "Добавить"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

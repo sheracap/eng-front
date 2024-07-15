@@ -8,7 +8,7 @@ import {
   AddLessonModal,
   AddLessonModalPropTypes
 } from "#src/app/sections/lessons/my/addModal";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AddPlusSvgIcon, DeleteIcon, EditSvgIcon } from "#src/assets/svg";
 import { notificationSuccess, notificationWarning } from "#ui/notifications";
 import { ContextPopover } from "#ui/contextPopover";
@@ -67,10 +67,6 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
     $deleteLesson.effect(id);
   }
 
-  const onLessonClick = (lessonId: number) => {
-    history.push(`/courses/${courseId}/lesson/${lessonId}/1`);
-  };
-
   return (
     <div className="chapter-lessons-wrap">
       {!isLessonPage && (
@@ -127,12 +123,12 @@ export const ChapterLessons: FC<PropsTypes> = (props) => {
                 className={`chapter-lessons__item ${activeLessonId === item.id ? "active": ""}`}
                 key={item.id}
               >
-                <div
+                <Link
                   className="chapter-lessons__item__name"
-                  onClick={() => onLessonClick(item.id)}
+                  to={`/courses/${courseId}/lesson/${item.id}/1`}
                 >
                   {index + 1}.&nbsp; {item.name}
-                </div>
+                </Link>
                 <div>
                   {isMine && (
                     <ContextPopover

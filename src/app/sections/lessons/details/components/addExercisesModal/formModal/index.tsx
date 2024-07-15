@@ -16,6 +16,7 @@ import { $addExercise, $updateExercise } from "#stores/exercise";
 import { $addHomeworkExercise, $updateHomeworkExercise } from "#stores/homework";
 import { notificationSuccess } from "#ui/notifications";
 import { ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
+import { Spinner } from "#ui/spinner";
 
 export type AddEditExercisesFormModalPropTypes = {
   editableData?: ExerciseItemModel;
@@ -45,6 +46,9 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
     return () => {
       $addExercise.reset();
       $updateExercise.reset();
+
+      $addHomeworkExercise.reset();
+      $updateHomeworkExercise.reset();
     };
   }, []);
 
@@ -98,6 +102,11 @@ export const AddEditExercisesFormModal: FC<TProps> = (props) => {
 
   return (
     <>
+      {(addExerciseState.loading || updateExerciseState.loading || addHomeworkExerciseState.loading || updateHomeworkExerciseState.loading) && (
+        <div className="abs-loader">
+          <Spinner />
+        </div>
+      )}
       {template === templateTypes.TEST && (
         <TestTemplateForm
           editableData={editableData}

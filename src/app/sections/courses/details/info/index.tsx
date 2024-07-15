@@ -68,6 +68,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
               <div className="course-details__head__actions">
                 <ButtonUI
                   type="primary"
+                  size="small"
                   withIcon
                   onClick={() => updateCourseModalControl.openModal({ id: data.id })}
                 >
@@ -85,6 +86,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
                     danger
                     withIcon
                     loading={deleteCourseState.loading}
+                    size="small"
                   >
                     <DeleteIcon /> Удалить
                   </ButtonUI>

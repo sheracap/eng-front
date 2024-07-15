@@ -15,7 +15,7 @@ export const TemplateAudio: FC<PropsTypes> = (props) => {
 
   return (
     <div>
-      <audio controls style={{ width: "100%" }}>
+      <audio key={data.metaData.audio} controls style={{ width: "100%" }}>
         <source src={`${imagesBaseUrl}/audio/${data.metaData.audio}`} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>

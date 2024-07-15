@@ -38,7 +38,7 @@ export const MyLessons = () => {
       <div className="main-content">
         <div>
           <div className="folder-head content-block">
-            <h1>Мои курсы</h1>
+            <h1>Мои уроки</h1>
             {isTeacher && (
               <ButtonUI
                 type="primary"
@@ -46,7 +46,7 @@ export const MyLessons = () => {
                 onClick={() => addLessonModalControl.openModal()}
               >
                 <AddPlusSvgIcon />
-                Добавить курс
+                Добавить урок
               </ButtonUI>
             )}
           </div>

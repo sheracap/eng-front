@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Form, Upload, message } from "antd";
 
-import { imagesBaseUrl, requiredRules, templateTypes } from "#constants/index";
+import { requiredRules, templateTypes } from "#constants/index";
 
 import { FormUI } from "#ui/form";
 import { ButtonUI } from "#ui/button";
@@ -18,6 +18,7 @@ import styles
 import { AddPlusSvgIcon } from "#src/assets/svg";
 import { RcFile } from "antd/lib/upload";
 import { isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
+import { notificationWarning } from "#ui/notifications";
 
 
 type PropTypes = {
@@ -42,30 +43,35 @@ export const AudioTemplateForm: FC<PropTypes> = (props) => {
       form.setFieldsValue({
         title: editableData.title,
       });
-
-
     }
   }, []);
 
   const beforeUploadPhoto = (file: RcFile) => {
-    const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);
+    const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.AUDIO);
 
     if (!correspondType) {
-      message.error("Можно загрузить только JPEG/PNG файлы!");
+      message.error("Можно загрузить только аудио файлы!");
       return false;
     }
 
     if (correspondType) {
       setFileForUpload(file);
-
-      //onPhotoChange(file);
     }
 
     return false;
   };
 
+  const onRemove = () => {
+    setFileForUpload(null);
+  }
+
   const onFinish = (formData) => {
     const data = new FormData();
+
+    if (!editableData && !fileForUpload) {
+      notificationWarning("Выберите файл", "");
+      return;
+    }
 
     data.append("title", formData.title);
     data.append("sectionId", isHomework ? "" : String(entityId));
@@ -90,14 +96,18 @@ export const AudioTemplateForm: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
-          <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
-            <InputUI placeholder="Введите заголовок" />
-          </FormUI.Item>
+          <div style={{ marginBottom: "23px" }}>
+            <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
+              <InputUI placeholder="Введите заголовок" />
+            </FormUI.Item>
+          </div>
           <Upload
             listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={true}
+            className="audio-uploader"
+            showUploadList={fileForUpload ? true : false}
             beforeUpload={beforeUploadPhoto}
+            onRemove={onRemove}
+            fileList={fileForUpload ? [fileForUpload] : undefined}
             accept=".mp3,audio/*"
           >
             <div className={styles.formPhotosUploadItemPlaceholder}>
