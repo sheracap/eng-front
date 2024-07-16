@@ -13,10 +13,10 @@ export const $eventsList = createXHRStore<
   {
     doneReducer: (state, response) => {
       const data = {};
-      // возможно дата будет полная тогда форматируем
+
       response.result.data.forEach((item) => {
         data[item.date] = [
-          ...data[item.date],
+          ...(data[item.date] ? data[item.date] : []),
           item
         ];
       });

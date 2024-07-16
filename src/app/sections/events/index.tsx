@@ -11,6 +11,9 @@ import type { Moment } from 'moment';
 import { RANGE_DATE_FORMAT } from "#constants/index";
 import { useModalControl } from "#hooks/useModalControl";
 import { AddEditEventModalPropTypes, AddEditEventModal } from "./addEditModal";
+import "./styles.scss";
+import { ButtonUI } from "#ui/button";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 
 
@@ -50,23 +53,48 @@ export const Events = () => {
   }
 
   const dateCellRender = (value: Moment) => {
-    const listData = eventsData[value.format(RANGE_DATE_FORMAT)];
+    const date = value.format("YYYY-MM-DD");
+
+    const listData = eventsData[date];
 
     return (
-      <ul className="events">
-        {listData.map(item => (
-          <li key={item.content}>
-            {item.name}
-          </li>
-        ))}
-      </ul>
+      <div className="calendar-day-item">
+        <ButtonUI
+          size="small"
+          type="primary"
+          onClick={() => {
+            addEditEventModalControl.openModal({ date });
+          }}
+        >
+          +
+        </ButtonUI>
+        {listData && (
+          <ul className="events-list">
+            {listData.sort((a, b) => {
+              const timeA = new Date(`1970-01-01T${a.time}Z`);
+              const timeB = new Date(`1970-01-01T${b.time}Z`);
+              // @ts-ignore
+              return timeA - timeB;
+            }).map((item) => (
+              <li key={item.id}>
+                {item.name} - {item.time.substring(0, 5)}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     );
   };
 
   return (
     <ContentUI>
       <div className="main-content">
-        <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+        <div className="folder-head content-block">
+          <h1>Расписание</h1>
+        </div>
+        <div className="events-calendar-wrap content-block">
+          <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+        </div>
       </div>
 
       <ModalUI

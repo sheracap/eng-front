@@ -1,0 +1,52 @@
+@import "src/styles/variables.scss";
+
+.events-calendar-wrap {
+  padding: 20px;
+}
+
+.ant-form-item {
+  .ant-picker {
+    width: 100%;
+  }
+}
+
+.ant-picker-calendar-date {
+  .calendar-day-item {
+    .custom-btn.ant-btn-sm {
+      position: absolute;
+      top: 5px;
+      left: 7px;
+      padding: 3px 7px;
+      font-size: 20px;
+      opacity: 0;
+    }
+  }
+
+  &:hover {
+    .calendar-day-item {
+      .custom-btn.ant-btn-sm {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.events-list {
+  padding: 10px 0 0;
+
+  li {
+    position: relative;
+    padding-left: 12px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: $primaryColor;
+    }
+  }
+}
