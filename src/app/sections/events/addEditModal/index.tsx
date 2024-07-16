@@ -1,4 +1,6 @@
 import React, { FC, useEffect } from "react";
+import { Form, TimePicker } from "antd";
+import moment from "moment";
 
 import { requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
@@ -6,7 +8,6 @@ import { $addEvent, $updateEvent } from "#stores/events";
 import { ButtonUI } from "#ui/button";
 import { FormUI } from "#ui/form";
 import { ModalUI } from "#ui/modal";
-import { Form } from "antd";
 import { useStore } from "effector-react";
 import { InputUI } from "#ui/input";
 import { notificationSuccess } from "#ui/notifications";
@@ -35,7 +36,10 @@ export const AddEditEventModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (eventDetails) {
-
+      form.setFieldsValue({
+        name: eventDetails.name,
+        time: moment(eventDetails.time, 'HH:mm')
+      });
     }
 
     return () => {
@@ -67,7 +71,7 @@ export const AddEditEventModal: FC<PropTypes> = (props) => {
   const onFinish = (formData) => {
     const data = {
       name: formData.name,
-      time: formData.time,
+      time: `${formData.time.format("HH:ss")}:00`,
       date
     }
 
@@ -93,7 +97,7 @@ export const AddEditEventModal: FC<PropTypes> = (props) => {
             <InputUI placeholder="Введите название" />
           </FormUI.Item>
           <FormUI.Item label="Время" name="time" rules={requiredRules}>
-
+            <TimePicker format={"HH:mm"} />
           </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>
