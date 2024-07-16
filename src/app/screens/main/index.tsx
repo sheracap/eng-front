@@ -9,6 +9,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 
 import { useRole } from "#hooks/useRole";
 
+import { Events } from "#src/app/sections/events";
 import { Courses } from "#src/app/sections/courses";
 import { Lessons } from "#src/app/sections/lessons";
 import { Students } from "#src/app/sections/students";
@@ -66,6 +67,7 @@ export const Main: FC = () => {
           <Content>
             <div className="site-wrapper__content-main">
               <Switch>
+                <Route path={ROUTES.EVENTS} component={Events} />
                 <Route path={ROUTES.COURSES} component={Courses} />
                 <Route path={ROUTES.LESSONS} component={Lessons} />
                 <Route path={ROUTES.STUDENTS} component={Students} />

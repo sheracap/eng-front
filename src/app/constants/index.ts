@@ -1,6 +1,7 @@
 const MAIN = "/",
   HOME = "/home",
   COURSES = "/courses",
+  EVENTS = "/events",
   LESSONS = "/lessons",
   STUDENTS = "/students",
   MONITORING = "/monitoring",
@@ -20,6 +21,8 @@ export const ROUTES = {
   HOME,
 
   COURSES,
+
+  EVENTS,
 
   LESSONS,
 

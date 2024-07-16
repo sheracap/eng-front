@@ -1,4 +1,5 @@
 import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { Layout, Menu } from "antd";
 
 import { ROUTES } from "#constants/index";
 import {
@@ -10,11 +11,14 @@ import {
   SpeakingIcon,
   LessonsIcon
 } from "#svgIcons/menuIcons";
-import { Layout, Menu } from "antd";
+import { CalendarIcon } from "#src/assets/svg";
+
 import { NavLink, useLocation } from "react-router-dom";
 
 import "./styles.scss";
+
 import { useRole } from "#hooks/useRole";
+
 
 const { Sider } = Layout;
 
@@ -102,6 +106,11 @@ export const SideNavigation: FC<PropTypes> = (props) => {
       },
 
       ...(isTeacher ? [
+        {
+          name: "Расписание",
+          path: `${ROUTES.EVENTS}`,
+          icon: <CalendarIcon />,
+        },
         {
           name: "Мои курсы",
           path: `${ROUTES.COURSES}/my`,
