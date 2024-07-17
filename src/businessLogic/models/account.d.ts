@@ -6,6 +6,7 @@ export interface CurrentUserModel {
   img: null | string;
   role: { code: "TEACHER" | "STUDENT"; name: string; };
   teacherId: number | null;
+  language: "ENGLISH" | "KOREAN";
 }
 
 export interface LoginPayloadType {

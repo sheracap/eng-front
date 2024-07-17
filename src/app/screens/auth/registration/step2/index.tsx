@@ -18,6 +18,7 @@ type PropsTypes = {
     email: string;
     roleId: number;
     password: string;
+    language: string;
   }
 }
 
@@ -33,6 +34,7 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
   useEffect(() => {
     if (verifyRegistrationState.success) {
       $verifyRegistration.reset();
+      // todo enter app
       history.push(ROUTES.USER_SIGN_IN);
     }
   }, [verifyRegistrationState]);
@@ -58,6 +60,7 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
       name: data.name,
       roleId: data.roleId,
       password: data.password,
+      language: data.language,
       verificationCode: String(values.verificationCode)
     };
 

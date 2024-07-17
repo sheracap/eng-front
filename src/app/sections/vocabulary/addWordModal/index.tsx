@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { useStore } from "effector-react";
 import { Form } from "antd";
 import axios from "axios";
@@ -16,6 +16,7 @@ import { notificationSuccess } from "#ui/notifications";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 import { requiredRules } from "#constants/index";
 import { debounce } from "#utils/debounceLodash";
+import { $currentUser } from "#stores/account";
 
 type PropTypes = {
   modalControl: ModalControlType;
@@ -24,7 +25,7 @@ type PropTypes = {
 
 let abortController: undefined | AbortController = undefined;
 
-async function translate(text, targetLanguage) {
+async function translate(text, targetLanguage, sourceLang) {
   const apiKey = 'AIzaSyBCg5tXL5toVZLX63VuuUlFHvoV5ZlloLk'; // todo TEST KEY WITH LIMIT in future make key for your domain
   const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
@@ -38,6 +39,7 @@ async function translate(text, targetLanguage) {
       {
         q: text,
         target: targetLanguage,
+        source: sourceLang
       },
       {
         signal: abortController.signal
@@ -89,11 +91,21 @@ export const AddWordModal: FC<PropTypes> = (props) => {
     }
   }, [createWordState.data]);
 
+  const sourceLang = useMemo(() => {
+    const currentUserState = $currentUser.store.getState();
+
+    if (currentUserState.data!.language === "KOREAN") {
+      return "ko";
+    } else {
+      return "en";
+    }
+  }, []);
+
   const onWordChange = (e) => {
     const text = e.target.value;
 
     withDebounce(() => {
-      translate(text, "ru")
+      translate(text, "ru", sourceLang)
         .then(translatedText => {
           //console.log('Translated text:', translatedText);
 

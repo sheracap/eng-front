@@ -13,6 +13,7 @@ import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPE
 import { AddPlusSvgIcon } from "#src/assets/svg";
 import { LessonItemModel } from "#businessLogic/models/lessons";
 import { notificationSuccess } from "#ui/notifications";
+import { $currentUser } from "#stores/account";
 
 
 export type AddLessonModalPropTypes = {
@@ -117,6 +118,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = new FormData();
+    const currentUserState = $currentUser.store.getState();
 
     if (uploadedPhoto) {
       data.append("img", uploadedPhoto);
@@ -124,6 +126,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
     data.append("chapterId", String(chapterId));
     data.append("name", formData.name);
+    data.append("language", currentUserState.data!.language);
 
     if (chapterId) {
       data.append("isPrivate", String(isPrivate));

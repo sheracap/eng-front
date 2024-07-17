@@ -9,7 +9,7 @@ export const Registration: FC = () => {
 
   const classes = useStyles();
 
-  const [step, setStep] = useState<{ number: number; data: null | { name: string; email: string; roleId: number; password: string; } }>({
+  const [step, setStep] = useState<{ number: number; data: null | { name: string; email: string; roleId: number; password: string; language: string; } }>({
     number: 1,
     data: null
   });

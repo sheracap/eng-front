@@ -30,6 +30,7 @@ export type LessonCreateModel = any | {
   chapterId?: number;
   name: string;
   img?: any;
+  language: string;
 }
 
 export type LessonUpdateModel = {

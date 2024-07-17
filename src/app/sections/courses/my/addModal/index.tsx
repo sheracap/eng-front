@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
 
+import { $addCourse, $courseDetails, $updateCourse } from "#stores/courses";
+import { $currentUser } from "#stores/account";
+
 import { imagesBaseUrl, requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
-import { $addCourse, $courseDetails, $updateCourse } from "#stores/courses";
+
 import { ButtonUI } from "#ui/button";
 import { FormUI } from "#ui/form";
 import { ModalUI } from "#ui/modal";
@@ -10,10 +13,10 @@ import { Form, message, Upload } from "antd";
 import { useStore } from "effector-react";
 import { useHistory } from "react-router-dom";
 import { InputUI } from "#ui/input";
-import { CheckboxUI } from "#ui/checkbox";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { notificationSuccess } from "#ui/notifications";
 import { AddPlusSvgIcon } from "#src/assets/svg";
+
 
 export type AddCourseModalType = {
   id?: number;
@@ -115,6 +118,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = new FormData();
+    const currentUserState = $currentUser.store.getState();
 
     if (uploadedPhoto) {
       data.append("img", uploadedPhoto);
@@ -123,6 +127,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
     data.append("name", formData.name);
     data.append("isPrivate", formData.isPrivate);
     data.append("description", formData.description);
+    data.append("language", currentUserState.data!.language);
 
     if (courseId) {
       $updateCourse.effect({ id: courseId, data });
