@@ -7,7 +7,7 @@ import { ButtonUI } from "#ui/button";
 import { InputUI } from "#ui/input";
 import { Alert, Form } from "antd";
 import { useStore } from "effector-react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { AuthTitle } from "../components/title";
 import { initialValuesSignIn } from "../constants";
@@ -59,7 +59,6 @@ export const SignIn: FC = () => {
         layout="vertical"
         initialValues={initialValuesSignIn}
         onFinish={onFinish}
-        requiredMark={false}
         form={form}
       >
         <Form.Item label="Логин" name="email" rules={requiredRules}>
@@ -68,24 +67,20 @@ export const SignIn: FC = () => {
         <Form.Item label="Пароль" name="password" rules={requiredRules}>
           <InputUI.Password placeholder="Введите пароль" variant="auth" />
         </Form.Item>
-        <div className={classes.buttonCont}>
+        <div className={classes.forgotPasswordLink}>
+          <div></div>
           <div>
-            <ButtonUI loading={logInState.loading} fullWidth htmlType="submit" type="auth">
-              Вход
-            </ButtonUI>
+            <Link to={ROUTES.USER_FORGOT_PASSWORD}>Забыли пароль ?</Link>
           </div>
-          <div className={classes.questionLine}>
-            <div>Нет аккаунта ?</div>
-            <ButtonUI type="auth" onClick={() => history.push(ROUTES.USER_REGISTRATION)}>
-              Создать аккаунт
-            </ButtonUI>
-          </div>
-          <div className={classes.questionLine}>
-            <div>Забыли пароль ?</div>
-            <ButtonUI type="auth" onClick={() => history.push(ROUTES.USER_FORGOT_PASSWORD)}>
-              Восстановить аккаунт
-            </ButtonUI>
-          </div>
+        </div>
+        <div className={classes.buttonCont}>
+          <ButtonUI loading={logInState.loading} fullWidth htmlType="submit" type="primary">
+            Вход
+          </ButtonUI>
+        </div>
+        <div className={classes.questionLine}>
+          Нет аккаунта ?&nbsp;
+          <Link to={ROUTES.USER_REGISTRATION}>Регистрация</Link>
         </div>
       </Form>
     </div>

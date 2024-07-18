@@ -70,7 +70,6 @@ export const ForgotPasswordStep2: FC<PropsTypes> = (props) => {
         className={classes.form}
         layout="vertical"
         onFinish={onFinish}
-        requiredMark={false}
         form={form}
       >
         <div style={{ marginBottom: "10px" }}>
@@ -86,8 +85,8 @@ export const ForgotPasswordStep2: FC<PropsTypes> = (props) => {
             type="tel"
           />
         </Form.Item>
-        <div className={classes.buttonCont}>
-          <ButtonUI loading={verifyNewPasswordState.loading} htmlType="submit" type="auth">
+        <div className={classes.regButtonCont}>
+          <ButtonUI loading={verifyNewPasswordState.loading} fullWidth htmlType="submit" type="primary">
             Подтвердить
           </ButtonUI>
         </div>

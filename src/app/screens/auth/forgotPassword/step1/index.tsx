@@ -60,23 +60,22 @@ export const ForgotPasswordStep1: FC<PropsTypes> = (props) => {
 
   return (
     <div className={classes.signIn}>
-      <AuthTitle>Восстановление пароля</AuthTitle>
+      <AuthTitle>Сброс пароля</AuthTitle>
       <Form
         className={classes.form}
         layout="vertical"
         initialValues={initialValuesSignIn}
         onFinish={onFinish}
-        requiredMark={false}
         form={form}
       >
         <Form.Item label="Email" name="email" rules={requiredRules}>
           <InputUI placeholder="Введите email" />
         </Form.Item>
-        <Form.Item label="Придумайте пароль" name="password" rules={requiredRules}>
+        <Form.Item label="Придумайте новый пароль" name="password" rules={requiredRules}>
           <InputUI.Password placeholder="Введите пароль" variant="auth" autoComplete="new-password" />
         </Form.Item>
-        <div className={classes.buttonCont}>
-          <ButtonUI loading={forgotPasswordState.loading} htmlType="submit" type="auth">
+        <div className={classes.regButtonCont}>
+          <ButtonUI loading={forgotPasswordState.loading} fullWidth htmlType="submit" type="primary">
             Продолжить
           </ButtonUI>
         </div>

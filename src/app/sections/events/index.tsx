@@ -71,7 +71,7 @@ export const Events = () => {
           type="primary"
           onClick={() => {
             const nowDate = moment().format("YYYY-MM-DD");
-            const dateDifference = getDateDifference(currentDate, nowDate);
+            const dateDifference = getDateDifference(nowDate, date);
 
             if (dateDifference >= 0) {
               addEditEventModalControl.openModal({ date });

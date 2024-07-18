@@ -8,7 +8,8 @@ export const useStyles = createUseStyles({
     margin: "0 0 20px",
   },
   primary: {
-    fontSize: 36,
+    fontSize: "36px",
+    lineHeight: "40px",
     fontWeight: 700,
   },
   secondary: {

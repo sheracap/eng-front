@@ -74,7 +74,6 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
         className={classes.form}
         layout="vertical"
         onFinish={onFinish}
-        requiredMark={false}
         form={form}
       >
         <div style={{ marginBottom: "10px" }}>
@@ -90,8 +89,8 @@ export const RegistrationStep2: FC<PropsTypes> = (props) => {
             type="tel"
           />
         </Form.Item>
-        <div className={classes.buttonCont}>
-          <ButtonUI loading={verifyRegistrationState.loading} htmlType="submit" type="auth">
+        <div className={classes.regButtonCont}>
+          <ButtonUI loading={verifyRegistrationState.loading} fullWidth htmlType="submit" type="primary">
             Подтвердить
           </ButtonUI>
         </div>

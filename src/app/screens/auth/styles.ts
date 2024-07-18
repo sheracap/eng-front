@@ -95,9 +95,13 @@ export const useStyles = createUseStyles({
     margin: "16px 0 0",
   },
   buttonCont: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "center",
-    marginTop: 56,
+    marginTop: "20px",
   },
+  regButtonCont: {
+    marginTop: "40px",
+  },
+  forgotPasswordLink: {
+    display: "flex",
+    justifyContent: "space-between"
+  }
 });

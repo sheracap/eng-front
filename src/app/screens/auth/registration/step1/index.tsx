@@ -69,7 +69,6 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
         layout="vertical"
         initialValues={initialValuesSignIn}
         onFinish={onFinish}
-        requiredMark={false}
         form={form}
       >
         <Form.Item label="Роль" name="roleId" rules={requiredRules}>
@@ -87,8 +86,8 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
         <Form.Item label="Придумайте пароль" name="password" rules={requiredRules}>
           <InputUI.Password placeholder="Введите пароль" variant="auth" autoComplete="new-password" />
         </Form.Item>
-        <div className={classes.buttonCont}>
-          <ButtonUI loading={registrationState.loading} htmlType="submit" type="auth">
+        <div className={classes.regButtonCont}>
+          <ButtonUI loading={registrationState.loading} fullWidth htmlType="submit" type="primary">
             Продолжить
           </ButtonUI>
         </div>

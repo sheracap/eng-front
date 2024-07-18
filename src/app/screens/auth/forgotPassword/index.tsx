@@ -4,6 +4,8 @@ import { ForgotPasswordStep1 } from "./step1";
 import { ForgotPasswordStep2 } from "./step2";
 
 import { useStyles } from "../styles";
+import { Link } from "react-router-dom";
+import { ROUTES } from "#constants/index";
 
 export const ForgotPassword: FC = () => {
 
@@ -22,6 +24,9 @@ export const ForgotPassword: FC = () => {
       {step.number === 2 && step.data && (
         <ForgotPasswordStep2 data={step.data} />
       )}
+      <div className={classes.questionLine}>
+        <Link to={ROUTES.USER_SIGN_IN}>Авторизация</Link>
+      </div>
     </div>
   );
 };

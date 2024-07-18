@@ -12,7 +12,7 @@ const FormUI = (props: any) => {
   const classes = useStyles();
 
   return (
-    <Form className={classes.form} layout={"vertical"} requiredMark={false} autoComplete="off" {...restProps}>
+    <Form className={classes.form} layout={"vertical"} autoComplete="off" {...restProps}>
       {children}
       {phantomSubmit && (
         <div style={{ width: 0, height: 0, overflow: "hidden" }}>

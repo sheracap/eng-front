@@ -128,28 +128,6 @@ export const useStyles = createUseStyles({
       background: numpadColorActive,
     },
   },
-  auth: {
-    background: $colors.gradientAuth,
-    border: "none",
-    boxShadow: "none",
-    color: "#fff",
-    minWidth: "200px !important",
-    "&:focus": {
-      background: $colors.gradientAuth,
-      color: "#fff",
-    },
-
-    "&:hover": {
-      opacity: 0.8,
-      background: $colors.gradientAuth,
-      color: "#fff",
-    },
-
-    "&:active": {
-      opacity: 0.6,
-      background: $colors.gradientAuth,
-    },
-  },
   noBorder: {
     border: "none",
   },
