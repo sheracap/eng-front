@@ -38,7 +38,7 @@ export const AddEditEventModal: FC<PropTypes> = (props) => {
     if (eventDetails) {
       form.setFieldsValue({
         name: eventDetails.name,
-        time: moment(eventDetails.time, 'HH:mm')
+        time: moment(eventDetails.time, "HH:mm")
       });
     }
 
@@ -76,10 +76,16 @@ export const AddEditEventModal: FC<PropTypes> = (props) => {
     }
 
     if (eventDetails) {
-      $updateEvent.effect({
-        id: eventDetails.id,
-        ...data
-      });
+      if (data.name === eventDetails.name && data.time === eventDetails.time) {
+        notificationSuccess("Данные обновлены", "");
+
+        closeModal();
+      } else {
+        $updateEvent.effect({
+          id: eventDetails.id,
+          ...data
+        });
+      }
     } else {
       $addEvent.effect(data);
     }

@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { Calendar } from "antd";
+import { Calendar, Popconfirm, Popover } from "antd";
+import moment from "moment";
+import type { Moment } from "moment";
 
 import { ContentUI } from "#ui/content";
 import { ModalUI } from "#ui/modal";
 
-import { $eventsList } from "#stores/events";
+import { $deleteEvent, $eventsList } from "#stores/events";
 
-import type { Moment } from 'moment';
-import { RANGE_DATE_FORMAT } from "#constants/index";
+
 import { useModalControl } from "#hooks/useModalControl";
 import { AddEditEventModalPropTypes, AddEditEventModal } from "./addEditModal";
 import "./styles.scss";
 import { ButtonUI } from "#ui/button";
-import { AddPlusSvgIcon } from "#src/assets/svg";
+import { DeleteIcon, EditSvgIcon } from "#src/assets/svg";
+import { getDateDifference } from "#utils/index";
+import { notificationWarning } from "#ui/notifications";
 
 
 
@@ -28,6 +31,7 @@ const currentDate = new Date();
 export const Events = () => {
 
   const { data: eventsData, loading } = useStore($eventsList.store);
+  const deleteEventState = useStore($deleteEvent.store);
 
   const addEditEventModalControl = useModalControl<AddEditEventModalPropTypes>();
 
@@ -40,6 +44,9 @@ export const Events = () => {
     $eventsList.effect(params);
   }, [params]);
 
+  const onDelete = (id: number) => {
+    $deleteEvent.effect(id);
+  }
 
   const monthCellRender = (value: Moment) => {
     const num = getMonthData(value);
@@ -63,7 +70,14 @@ export const Events = () => {
           size="small"
           type="primary"
           onClick={() => {
-            addEditEventModalControl.openModal({ date });
+            const nowDate = moment().format("YYYY-MM-DD");
+            const dateDifference = getDateDifference(currentDate, nowDate);
+
+            if (dateDifference >= 0) {
+              addEditEventModalControl.openModal({ date });
+            } else {
+              notificationWarning("Дата уже прошла", "");
+            }
           }}
         >
           +
@@ -77,7 +91,51 @@ export const Events = () => {
               return timeA - timeB;
             }).map((item) => (
               <li key={item.id}>
-                {item.name} - {item.time.substring(0, 5)}
+                <Popover
+                  overlayClassName="custom-popover"
+                  placement="left"
+                  trigger="click"
+                  content={(
+                    <div>
+                      <div className="custom__popover__item">
+                        <ButtonUI
+                          withIcon
+                          onClick={() => {
+                            const nowDate = moment().format("YYYY-MM-DD");
+                            const dateDifference = getDateDifference(currentDate, nowDate);
+
+                            if (dateDifference >= 0) {
+                              addEditEventModalControl.openModal({ date, eventDetails: item });
+                            } else {
+                              notificationWarning("Дата уже прошла", "");
+                            }
+                          }}
+                        >
+                          <EditSvgIcon /> Редактировать
+                        </ButtonUI>
+                      </div>
+                      <div className="custom__popover__item">
+                        <Popconfirm
+                          title="Вы уверены, что хотите удалить ?"
+                          onConfirm={() => {
+                            onDelete(item.id)
+                          }}
+                          okText="Да"
+                          cancelText="Нет"
+                        >
+                          <ButtonUI
+                            danger
+                            withIcon
+                          >
+                            <DeleteIcon /> Удалить
+                          </ButtonUI>
+                        </Popconfirm>
+                      </div>
+                    </div>
+                  )}
+                >
+                  <div>{item.name} - {item.time.substring(0, 5)}</div>
+                </Popover>
               </li>
             ))}
           </ul>
@@ -87,7 +145,7 @@ export const Events = () => {
   };
 
   return (
-    <ContentUI>
+    <ContentUI loading={loading || deleteEventState.loading}>
       <div className="main-content">
         <div className="folder-head content-block">
           <h1>Расписание</h1>
