@@ -6,6 +6,8 @@ import { Route, Switch } from "react-router-dom";
 import { HeaderAuthUI } from "./components/header";
 import { SignIn } from "./signIn";
 import { Registration } from "./registration";
+import { ForgotPassword } from "./forgotPassword";
+
 import { useStyles } from "./styles";
 
 export const UserAuth: FC = () => {
@@ -18,6 +20,7 @@ export const UserAuth: FC = () => {
         <Switch>
           <Route path={ROUTES.USER_SIGN_IN} component={SignIn} />
           <Route path={ROUTES.USER_REGISTRATION} component={Registration} />
+          <Route path={ROUTES.USER_FORGOT_PASSWORD} component={ForgotPassword} />
         </Switch>
       </div>
       <span className={classes.compInfo}>© 2023-2024 Platform</span>

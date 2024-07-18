@@ -36,3 +36,17 @@ export const verifyRegistration: HandlerType<any, any> = (data) => {
     data,
   });
 };
+
+export const forgotPassword: HandlerType<any, any> = (data) => {
+  return httpPost({
+    url: "/api/cabinet/user/forgot-password",
+    data,
+  });
+};
+
+export const verifyNewPassword: HandlerType<any, any> = (data) => {
+  return httpPost({
+    url: "/api/cabinet/user/verify-password",
+    data,
+  });
+};

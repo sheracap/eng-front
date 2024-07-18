@@ -48,3 +48,13 @@ export const $verifyRegistration = createXHRStore<any, any, StoreType>(
   api.account.verifyRegistration,
   new XHRSuccessState(),
 );
+
+export const $forgotPassword = createXHRStore<any, any, StoreType>(
+  api.account.forgotPassword,
+  new XHRSuccessState(),
+);
+
+export const $verifyNewPassword = createXHRStore<any, any, StoreType>(
+  api.account.verifyNewPassword,
+  new XHRSuccessState(),
+);

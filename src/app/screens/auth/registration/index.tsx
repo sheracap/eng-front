@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import { RegistrationStep1 } from "./step1";
 import { RegistrationStep2 } from "./step2";
 
-import { useStyles } from "./styles";
+import { useStyles } from "../styles";
 
 export const Registration: FC = () => {
 

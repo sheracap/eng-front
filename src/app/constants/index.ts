@@ -11,6 +11,7 @@ const MAIN = "/",
   USER = "/user",
   SIGN_IN = "/sign-in",
   REGISTRATION = "/registration",
+  FORGOT_PASSWORD = "/forgot-password",
   SETTINGS = "/settings",
   ADMIN = "/admin",
   CABINET = "/cabinet";
@@ -42,6 +43,8 @@ export const ROUTES = {
   USER_SIGN_IN: USER + SIGN_IN,
 
   USER_REGISTRATION: USER + REGISTRATION,
+
+  USER_FORGOT_PASSWORD: USER + FORGOT_PASSWORD,
 };
 
 export const ACCESS_TOKEN_KEY_FOR_COOKIE = "access_token";

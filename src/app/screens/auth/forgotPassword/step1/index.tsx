@@ -1,69 +1,66 @@
 import React, { FC, useEffect } from "react";
-
-import { requiredRules } from "#constants/index";
-import { $registration } from "#stores/account";
-import { ButtonUI } from "#ui/button";
-import { InputUI } from "#ui/input";
 import { Form } from "antd";
 import { useStore } from "effector-react";
 
+import { $forgotPassword } from "#stores/account";
+
+import { requiredRules } from "#constants/index";
+
+import { ButtonUI } from "#ui/button";
+import { InputUI } from "#ui/input";
+
+
 import { AuthTitle } from "../../components/title";
+
 import { initialValuesSignIn } from "../../constants";
 
 import { useStyles } from "../../styles";
-import { RoleSelect } from "#pickers/roleSelect";
-import { LanguageSelect } from "#pickers/languageSelect";
 
 type PropsTypes = {
   setStep: React.Dispatch<React.SetStateAction<{
-    number: number; data: null | { name: string; email: string; roleId: number; password: string; language: string; }
+    number: number; data: null | { email: string; password: string; }
   }>>;
 }
 
-export const RegistrationStep1: FC<PropsTypes> = (props) => {
+// todo confirm password field
+
+export const ForgotPasswordStep1: FC<PropsTypes> = (props) => {
   const { setStep } = props;
 
   const classes = useStyles();
   const [form] = Form.useForm();
 
-  const registrationState = useStore($registration.store);
+  const forgotPasswordState = useStore($forgotPassword.store);
 
   useEffect(() => {
-    if (registrationState.success) {
+    if (forgotPasswordState.success) {
       const data = form.getFieldsValue(true);
 
       setStep({
         number: 2,
         data: {
-          name: data.name,
           email: data.email,
-          roleId: data.roleId,
           password: data.password,
-          language: data.language
         },
       });
-      $registration.reset();
+      $forgotPassword.reset();
     }
-  }, [registrationState]);
+  }, [forgotPasswordState]);
 
 
   const onFinish = (values) => {
     // check is correct email validation
 
     const data = {
-      roleId: values.roleId,
-      name: values.name,
       email: values.email,
-      password: values.password,
-      language: values.language
     };
 
-    $registration.effect(data);
+    $forgotPassword.effect(data);
   };
 
   return (
     <div className={classes.signIn}>
-      <AuthTitle>Регистрация</AuthTitle>
+      <AuthTitle>Восстановление пароля</AuthTitle>
       <Form
         className={classes.form}
         layout="vertical"
@@ -72,15 +69,6 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
         requiredMark={false}
         form={form}
       >
-        <Form.Item label="Роль" name="roleId" rules={requiredRules}>
-          <RoleSelect />
-        </Form.Item>
-        <Form.Item label="Язык обучения" name="language" rules={requiredRules}>
-          <LanguageSelect />
-        </Form.Item>
-        <Form.Item label="Имя" name="name" rules={requiredRules}>
-          <InputUI placeholder="Введите имя" />
-        </Form.Item>
         <Form.Item label="Email" name="email" rules={requiredRules}>
           <InputUI placeholder="Введите email" />
         </Form.Item>
@@ -88,7 +76,7 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
           <InputUI.Password placeholder="Введите пароль" variant="auth" autoComplete="new-password" />
         </Form.Item>
         <div className={classes.buttonCont}>
-          <ButtonUI loading={registrationState.loading} htmlType="submit" type="auth">
+          <ButtonUI loading={forgotPasswordState.loading} htmlType="submit" type="auth">
             Продолжить
           </ButtonUI>
         </div>

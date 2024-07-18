@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import { AuthTitle } from "../components/title";
 import { initialValuesSignIn } from "../constants";
 
-import { useStyles } from "./styles";
+import { useStyles } from "../styles";
 
 type InitialValuesSignInType = typeof initialValuesSignIn;
 
@@ -78,6 +78,12 @@ export const SignIn: FC = () => {
             <div>Нет аккаунта ?</div>
             <ButtonUI type="auth" onClick={() => history.push(ROUTES.USER_REGISTRATION)}>
               Создать аккаунт
+            </ButtonUI>
+          </div>
+          <div className={classes.questionLine}>
+            <div>Забыли пароль ?</div>
+            <ButtonUI type="auth" onClick={() => history.push(ROUTES.USER_FORGOT_PASSWORD)}>
+              Восстановить аккаунт
             </ButtonUI>
           </div>
         </div>
