@@ -19,7 +19,7 @@ import { $currentUser } from "#stores/account";
 export type AddLessonModalPropTypes = {
   lessonDetails?: LessonItemModel;
   chapterId?: number;
-  isPrivate?: boolean;
+  isPrivate: boolean;
 };
 
 type PropTypes = {
@@ -56,6 +56,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
 
     return () => {
       $addLesson.reset();
+      $updateLesson.reset();
     };
   }, []);
 
@@ -128,11 +129,7 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
     data.append("name", formData.name);
     data.append("language", currentUserState.data!.language);
 
-    if (chapterId) {
-      data.append("isPrivate", String(isPrivate));
-    } else {
-      data.append("isPrivate", String(formData.isPrivate));
-    }
+    data.append("isPrivate", String(isPrivate));
 
     if (lessonDetails) {
       $updateLesson.effect({
@@ -153,7 +150,6 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
       <ModalUI.Middle>
         <FormUI
           phantomSubmit
-          initialValues={{ isPrivate: true }}
           form={form}
           onFinish={onFinish}
         >

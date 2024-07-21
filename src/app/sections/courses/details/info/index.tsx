@@ -70,7 +70,7 @@ export const CourseDetailsInfo: FC<PropsTypes> = (props) => {
                   type="primary"
                   size="small"
                   withIcon
-                  onClick={() => updateCourseModalControl.openModal({ id: data.id })}
+                  onClick={() => updateCourseModalControl.openModal({ id: data.id, isPrivate: true })}
                 >
                   <EditSvgIcon /> Редактировать
                 </ButtonUI>

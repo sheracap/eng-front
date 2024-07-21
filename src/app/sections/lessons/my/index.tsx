@@ -43,7 +43,7 @@ export const MyLessons = () => {
               <ButtonUI
                 type="primary"
                 withIcon
-                onClick={() => addLessonModalControl.openModal()}
+                onClick={() => addLessonModalControl.openModal({ isPrivate: true })}
               >
                 <AddPlusSvgIcon />
                 Добавить урок

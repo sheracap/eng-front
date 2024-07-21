@@ -122,31 +122,31 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
   return (
     <>
       <div className="course-details__chapters content-block">
+        <div className="course-details__chapters__name">
+          <div>Главы</div>
+          <div>
+            {(isMine && !chapterOrderChangeMode && chapters.length > 1) && (
+              <ButtonUI
+                type="primary"
+                withIcon
+                size="small"
+                onClick={() => setChapterOrderChangeMode(!chapterOrderChangeMode)}
+              >
+                <SwapIcon /> Поменять порядок
+              </ButtonUI>
+            )}
+            <ButtonUI
+              type="primary"
+              withIcon
+              size="small"
+              onClick={() => addChapterModalControl.openModal({ courseId })}
+            >
+              <AddPlusSvgIcon /> Добавить главу
+            </ButtonUI>
+          </div>
+        </div>
         {chapters.length > 0 && (
           <>
-            <div className="course-details__chapters__name">
-              <div>Главы</div>
-              <div>
-                {(isMine && !chapterOrderChangeMode && chapters.length > 1) && (
-                  <ButtonUI
-                    type="primary"
-                    withIcon
-                    size="small"
-                    onClick={() => setChapterOrderChangeMode(!chapterOrderChangeMode)}
-                  >
-                    <SwapIcon /> Поменять порядок
-                  </ButtonUI>
-                )}
-                <ButtonUI
-                  type="primary"
-                  withIcon
-                  size="small"
-                  onClick={() => addChapterModalControl.openModal({ courseId })}
-                >
-                  <AddPlusSvgIcon /> Добавить главу
-                </ButtonUI>
-              </div>
-            </div>
             {chapterOrderChangeMode && (
               <div className="course-details__chapters__order-mode">
                 <div className="course-details__chapters__list">

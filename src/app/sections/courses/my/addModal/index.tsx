@@ -20,6 +20,7 @@ import { AddPlusSvgIcon } from "#src/assets/svg";
 
 export type AddCourseModalType = {
   id?: number;
+  isPrivate: boolean;
 }
 
 type PropTypes = {
@@ -30,7 +31,7 @@ type PropTypes = {
 export const AddCourseModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
 
-  const { id: courseId } = modalControl.modalProps;
+  const { id: courseId, isPrivate } = modalControl.modalProps;
 
   const history = useHistory();
 
@@ -125,7 +126,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
     }
 
     data.append("name", formData.name);
-    data.append("isPrivate", formData.isPrivate);
+    data.append("isPrivate", String(isPrivate));
     data.append("description", formData.description);
     data.append("language", currentUserState.data!.language);
 
@@ -143,7 +144,7 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
         <ModalUI.Title>{courseId ? "Редактирование" : "Добавить курс"}</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
-        <FormUI phantomSubmit form={form} onFinish={onFinish} initialValues={{ isPrivate: true }}>
+        <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <Form.Item>
             <div className={`uploadPhoto ${photoUrl ? "has-photo" : ""}`}>
               <Upload
