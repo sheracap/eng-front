@@ -4,6 +4,7 @@ export interface LessonItemModel {
   id: number;
   name: string;
   img: string;
+  level: string;
   chapter: { id: number; name: string; }
 }
 

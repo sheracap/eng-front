@@ -34,7 +34,7 @@ export const $textForReadingDetails = createXHRStore<
   }
 );
 
-export const $createTextForReading = createXHRStore<any, any, StoreType>(
+export const $addTextForReading = createXHRStore<any, any, StoreType>(
   api.textForReading.createTextForReading,
   new XHRSuccessState(),
 );

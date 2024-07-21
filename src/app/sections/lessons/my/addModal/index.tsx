@@ -14,6 +14,8 @@ import { AddPlusSvgIcon } from "#src/assets/svg";
 import { LessonItemModel } from "#businessLogic/models/lessons";
 import { notificationSuccess } from "#ui/notifications";
 import { $currentUser } from "#stores/account";
+import { LevelSelect } from "#pickers/levelSelect";
+import { LanguageSelect } from "#pickers/languageSelect";
 
 
 export type AddLessonModalPropTypes = {
@@ -26,10 +28,11 @@ type PropTypes = {
   modalControl: ModalControlType<AddLessonModalPropTypes>;
   afterAdd: (item: LessonItemModel) => void;
   afterUpdate: (id: number, name: string) => void;
+  isAdmin?: boolean;
 };
 
 export const AddLessonModal: FC<PropTypes> = (props) => {
-  const { modalControl, afterAdd, afterUpdate } = props;
+  const { modalControl, afterAdd, afterUpdate, isAdmin } = props;
 
   const { closeModal, modalProps } = modalControl;
 
@@ -46,7 +49,8 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
   useEffect(() => {
     if (lessonDetails) {
       form.setFieldsValue({
-        name: lessonDetails.name
+        name: lessonDetails.name,
+        level: lessonDetails.level
       });
 
       if (lessonDetails.img) {
@@ -125,9 +129,13 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
       data.append("img", uploadedPhoto);
     }
 
-    data.append("chapterId", String(chapterId));
+    if (chapterId) {
+      data.append("chapterId", String(chapterId));
+    }
+
     data.append("name", formData.name);
-    data.append("language", currentUserState.data!.language);
+    data.append("language", formData.language || currentUserState.data!.language);
+    data.append("level", formData.level);
 
     data.append("isPrivate", String(isPrivate));
 
@@ -188,6 +196,15 @@ export const AddLessonModal: FC<PropTypes> = (props) => {
           <FormUI.Item label="Название" name="name" rules={requiredRules}>
             <InputUI placeholder="Введите название урока" />
           </FormUI.Item>
+          <Form.Item label="Уровень" name="level" rules={requiredRules}>
+            <LevelSelect />
+          </Form.Item>
+
+          {isAdmin && (
+            <Form.Item label="Язык" name="language" rules={requiredRules}>
+              <LanguageSelect />
+            </Form.Item>
+          )}
         </FormUI>
       </ModalUI.Middle>
       <ModalUI.Footer>

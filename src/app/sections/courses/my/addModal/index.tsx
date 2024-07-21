@@ -16,6 +16,8 @@ import { InputUI } from "#ui/input";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
 import { notificationSuccess } from "#ui/notifications";
 import { AddPlusSvgIcon } from "#src/assets/svg";
+import { LanguageSelect } from "#pickers/languageSelect";
+import { LevelSelect } from "#pickers/levelSelect";
 
 
 export type AddCourseModalType = {
@@ -26,10 +28,11 @@ export type AddCourseModalType = {
 type PropTypes = {
   modalControl: ModalControlType<AddCourseModalType>;
   callback?: () => void;
+  isAdmin?: boolean;
 };
 
 export const AddCourseModal: FC<PropTypes> = (props) => {
-  const { modalControl, callback } = props;
+  const { modalControl, callback, isAdmin } = props;
 
   const { id: courseId, isPrivate } = modalControl.modalProps;
 
@@ -49,7 +52,8 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
       form.setFieldsValue({
         name: courseDetails.name,
         description: courseDetails.description,
-        isPrivate: courseDetails.isPrivate
+        isPrivate: courseDetails.isPrivate,
+        level: courseDetails.level
       });
 
       if (courseDetails.img) {
@@ -128,7 +132,8 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
     data.append("name", formData.name);
     data.append("isPrivate", String(isPrivate));
     data.append("description", formData.description);
-    data.append("language", currentUserState.data!.language);
+    data.append("language", formData.language || currentUserState.data!.language);
+    data.append("level", formData.level);
 
     if (courseId) {
       $updateCourse.effect({ id: courseId, data });
@@ -176,9 +181,16 @@ export const AddCourseModal: FC<PropTypes> = (props) => {
           <FormUI.Item label="Описание" name="description">
             <InputUI.TextArea placeholder="Введите описание" />
           </FormUI.Item>
-          {/*<FormUI.Item name="isPrivate" valuePropName="checked">*/}
-          {/*  <CheckboxUI>Приватный (виден только мне)</CheckboxUI>*/}
-          {/*</FormUI.Item>*/}
+          <Form.Item label="Уровень" name="level" rules={requiredRules}>
+            <LevelSelect />
+          </Form.Item>
+
+          {isAdmin && (
+            <Form.Item label="Язык" name="language" rules={requiredRules}>
+              <LanguageSelect />
+            </Form.Item>
+          )}
+
         </FormUI>
       </ModalUI.Middle>
       <ModalUI.Footer>

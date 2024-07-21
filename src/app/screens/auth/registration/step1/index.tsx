@@ -13,6 +13,7 @@ import { initialValuesSignIn } from "../../constants";
 import { useStyles } from "../../styles";
 import { RoleSelect } from "#pickers/roleSelect";
 import { LanguageSelect } from "#pickers/languageSelect";
+import { LevelSelect } from "#pickers/levelSelect";
 
 type PropsTypes = {
   setStep: React.Dispatch<React.SetStateAction<{
@@ -76,6 +77,9 @@ export const RegistrationStep1: FC<PropsTypes> = (props) => {
         </Form.Item>
         <Form.Item label="Язык обучения" name="language" rules={requiredRules}>
           <LanguageSelect />
+        </Form.Item>
+        <Form.Item label="Уровень" name="level" rules={requiredRules}>
+          <LevelSelect />
         </Form.Item>
         <Form.Item label="Имя" name="name" rules={requiredRules}>
           <InputUI placeholder="Введите имя" />

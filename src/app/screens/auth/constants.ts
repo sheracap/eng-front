@@ -1,5 +1,6 @@
 export const initialValuesSignIn = {
   email: "",
   password: "",
-  language: "ENGLISH"
+  language: "ENGLISH",
+  level: "a1"
 };

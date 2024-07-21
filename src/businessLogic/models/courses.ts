@@ -11,6 +11,7 @@ export interface CourseDetailsModel {
   description: string;
   isPrivate: boolean;
   userId: number;
+  level: string;
 }
 
 export type CourseCreateModel = any | {

@@ -11,6 +11,7 @@ import { useModalControl } from "#hooks/useModalControl";
 import { AddLessonModal, AddLessonModalPropTypes } from "#src/app/sections/lessons/my/addModal";
 import { ROUTES } from "#constants/index";
 import { useHistory } from "react-router-dom";
+import { AddTextForReadingModal, AddTextForReadingModalType } from "#src/app/screens/admin/addTextForReading";
 
 export const AdminPage = () => {
 
@@ -22,6 +23,7 @@ export const AdminPage = () => {
 
   const addCourseModalControl = useModalControl<AddCourseModalType>();
   const addLessonModalControl = useModalControl<AddLessonModalPropTypes>();
+  const addTextForReadingModalControl = useModalControl<AddTextForReadingModalType>();
 
   useEffect(() => {
     $currentUser.effect();
@@ -49,15 +51,21 @@ export const AdminPage = () => {
 
   return (
     <div className="admin-wrap">
-      <ButtonUI onClick={() => addCourseModalControl.openModal({ isPrivate: false })}>Создать курс</ButtonUI>
-      <ButtonUI onClick={() => addLessonModalControl.openModal({ isPrivate: false })}>Создать урок</ButtonUI>
-      <div>Создать тексты для чтения</div>
+      <div>
+        <ButtonUI onClick={() => addCourseModalControl.openModal({ isPrivate: false })}>Создать курс</ButtonUI>
+      </div>
+      <div>
+        <ButtonUI onClick={() => addLessonModalControl.openModal({ isPrivate: false })}>Создать урок</ButtonUI>
+      </div>
+      <div>
+        <ButtonUI onClick={() => addTextForReadingModalControl.openModal()}>Создать текст для чтения</ButtonUI>
+      </div>
 
       <ModalUI
         open={addCourseModalControl.modalProps.open}
         onCancel={addCourseModalControl.closeModal}
       >
-        <AddCourseModal modalControl={addCourseModalControl} callback={() => {}} />
+        <AddCourseModal modalControl={addCourseModalControl} callback={() => {}} isAdmin={true} />
       </ModalUI>
 
       <ModalUI
@@ -72,8 +80,17 @@ export const AdminPage = () => {
           afterUpdate={() => {
 
           }}
+          isAdmin={true}
         />
       </ModalUI>
+
+      <ModalUI
+        open={addTextForReadingModalControl.modalProps.open}
+        onCancel={addTextForReadingModalControl.closeModal}
+      >
+        <AddTextForReadingModal modalControl={addTextForReadingModalControl} />
+      </ModalUI>
+
     </div>
   )
 }

@@ -19,6 +19,8 @@ export const getTextForReadingDetails: HandlerType<TextForReadingDetailsParamsTy
   return httpGet({ url: `/api/cabinet/text-for-reading/${id}`, params });
 };
 
+
+// ADMIN
 export const createTextForReading: HandlerType<any, any> = (data) => {
-  return httpPost({ url: "/api/cabinet/text-for-reading", data })
+  return httpPost({ url: "/api/admin/text-for-reading", data })
 };
