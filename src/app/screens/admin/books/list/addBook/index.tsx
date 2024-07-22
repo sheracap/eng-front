@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { $addBook } from "#stores/books";
+import { $addBook, $updateBook } from "#stores/books";
 
-import { requiredRules } from "#constants/index";
+import { imagesBaseUrl, requiredRules } from "#constants/index";
 import { ModalControlType } from "#hooks/useModalControl";
 
 import { ButtonUI } from "#ui/button";
@@ -15,29 +15,46 @@ import { LanguageSelect } from "#pickers/languageSelect";
 import { LevelSelect } from "#pickers/levelSelect";
 import { AddPlusSvgIcon } from "#src/assets/svg";
 import { getBase64, isFileCorrespondSize, isFileCorrespondType, UPLOAD_FILE_TYPES } from "#utils/index";
-import { $currentUser } from "#stores/account";
+
+import { BookDetailsModel } from "#businessLogic/models/books";
 
 
 export type AddBookModalType = {
-
+  bookDetails?: BookDetailsModel;
 }
 
 type PropTypes = {
   modalControl: ModalControlType<AddBookModalType>;
+  callback: () => void;
 };
 
 export const AddBookModal: FC<PropTypes> = (props) => {
-  const { modalControl } = props;
+  const { modalControl, callback } = props;
+
+  const { bookDetails } = modalControl.modalProps;
 
   const [form] = Form.useForm();
 
   const addBookState = useStore($addBook.store);
+  const updateBookState = useStore($updateBook.store);
 
   const [ uploadedPhoto, setUploadedPhoto ] = useState(undefined);
   const [ photoUrl, setPhotoUrl ] = useState<any>("");
 
 
   useEffect(() => {
+    if (bookDetails) {
+      form.setFieldsValue({
+        title: bookDetails.title,
+        description: bookDetails.description,
+        language: bookDetails.language,
+        level: bookDetails.level
+      });
+
+      if (bookDetails.img) {
+        setPhotoUrl(`${imagesBaseUrl}/books/${bookDetails.img}`);
+      }
+    }
 
     return () => {
       $addBook.reset();
@@ -45,10 +62,12 @@ export const AddBookModal: FC<PropTypes> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (addBookState.data) {
+    if (addBookState.data || updateBookState.data) {
       modalControl.closeModal();
+
+      callback();
     }
-  }, [addBookState.data]);
+  }, [addBookState.data, updateBookState.data]);
 
   const beforeUploadPhoto = (file: any) => {
     const correspondType = isFileCorrespondType(file, UPLOAD_FILE_TYPES.PIC);
@@ -95,19 +114,26 @@ export const AddBookModal: FC<PropTypes> = (props) => {
       data.append("img", uploadedPhoto);
     }
 
-    data.append("title", formData.name);
+    data.append("title", formData.title);
     data.append("description", formData.description);
     data.append("language", formData.language);
     data.append("level", formData.level);
 
-    $addBook.effect(data);
+    if (bookDetails) {
+      $updateBook.effect({
+        id: bookDetails.id,
+        data
+      });
+    } else {
+      $addBook.effect(data);
+    }
   };
 
   return (
     <>
-      <ModalUI.Loading show={addBookState.loading} />
+      <ModalUI.Loading show={addBookState.loading || updateBookState.loading} />
       <ModalUI.Header>
-        <ModalUI.Title>Добавить</ModalUI.Title>
+        <ModalUI.Title>{bookDetails ? "Редактировать" : "Добавить"}</ModalUI.Title>
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
@@ -138,8 +164,8 @@ export const AddBookModal: FC<PropTypes> = (props) => {
             </div>
           </Form.Item>
 
-          <FormUI.Item label="Заголовок" name="title" rules={requiredRules}>
-            <InputUI placeholder="Введите заголовок" />
+          <FormUI.Item label="Название" name="title" rules={requiredRules}>
+            <InputUI placeholder="Введите название" />
           </FormUI.Item>
 
           <Form.Item label="Язык обучения" name="language" rules={requiredRules}>
@@ -151,7 +177,7 @@ export const AddBookModal: FC<PropTypes> = (props) => {
           </Form.Item>
 
           <FormUI.Item label="Описание" name="description">
-            <InputUI.TextArea placeholder="Введите описание" />
+            <InputUI.TextArea placeholder="Введите описание" rows={5} />
           </FormUI.Item>
 
         </FormUI>
@@ -165,7 +191,7 @@ export const AddBookModal: FC<PropTypes> = (props) => {
           </ModalUI.Buttons.Col>
           <ModalUI.Buttons.Col>
             <ButtonUI type="primary" onClick={() => form.submit()}>
-              Добавить
+              {bookDetails ? "Сохранить" : "Добавить"}
             </ButtonUI>
           </ModalUI.Buttons.Col>
         </ModalUI.Buttons>

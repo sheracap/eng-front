@@ -10,9 +10,10 @@ import { ModalUI } from "#ui/modal";
 import { useModalControl } from "#hooks/useModalControl";
 import { AddLessonModal, AddLessonModalPropTypes } from "#src/app/sections/lessons/my/addModal";
 import { ROUTES } from "#constants/index";
-import { useHistory } from "react-router-dom";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
 import { AddTextForReadingModal, AddTextForReadingModalType } from "#src/app/screens/admin/addTextForReading";
-import { AddBookModal, AddBookModalType } from "#src/app/screens/admin/addBook";
+import { AdminBooks } from "#src/app/screens/admin/books/list";
+import { AdminBookDetails } from "#src/app/screens/admin/books/details";
 
 export const AdminPage = () => {
 
@@ -25,7 +26,7 @@ export const AdminPage = () => {
   const addCourseModalControl = useModalControl<AddCourseModalType>();
   const addLessonModalControl = useModalControl<AddLessonModalPropTypes>();
   const addTextForReadingModalControl = useModalControl<AddTextForReadingModalType>();
-  const addBookModalControl = useModalControl<AddBookModalType>();
+
 
   useEffect(() => {
     $currentUser.effect();
@@ -63,9 +64,11 @@ export const AdminPage = () => {
         <ButtonUI onClick={() => addTextForReadingModalControl.openModal()}>Создать текст для чтения</ButtonUI>
       </div>
 
-      <div>
-        <ButtonUI onClick={() => addBookModalControl.openModal()}>Создать книгу</ButtonUI>
-      </div>
+      <Link to={`/admin/${ROUTES.BOOKS}`}>
+        Книги
+      </Link>
+
+
 
       <ModalUI
         open={addCourseModalControl.modalProps.open}
@@ -97,12 +100,11 @@ export const AdminPage = () => {
         <AddTextForReadingModal modalControl={addTextForReadingModalControl} />
       </ModalUI>
 
-      <ModalUI
-        open={addBookModalControl.modalProps.open}
-        onCancel={addBookModalControl.closeModal}
-      >
-        <AddBookModal modalControl={addBookModalControl} />
-      </ModalUI>
+
+      <Switch>
+        <Route exact path={`/admin/${ROUTES.BOOKS}`} component={AdminBooks} />
+        <Route path={`/admin/${ROUTES.BOOKS}/:id`} component={AdminBookDetails} />
+      </Switch>
 
     </div>
   )
