@@ -8,7 +8,7 @@ import { $courseChapters, $courseDetails } from "#stores/courses";
 import { CourseDetailsInfo } from "./info";
 import { LessonDetails } from "#src/app/sections/lessons/details";
 
-export interface CourseDetailsMatchParams {
+interface CourseDetailsMatchParams {
   id: string;
 }
 

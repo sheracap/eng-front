@@ -16,6 +16,7 @@ export const TextForSpeaking = () => {
 
   const myText = useRef("");
   const [isMyText, setIsMyText] = useState(false);
+  // level of currentUser
   const [queryParams, setQueryParams] = useState<TextForReadingParamsTypes>({ level: "a1", page: 1 });
 
   const { data, loading } = textForReadingListState;

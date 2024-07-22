@@ -12,6 +12,7 @@ import { AddLessonModal, AddLessonModalPropTypes } from "#src/app/sections/lesso
 import { ROUTES } from "#constants/index";
 import { useHistory } from "react-router-dom";
 import { AddTextForReadingModal, AddTextForReadingModalType } from "#src/app/screens/admin/addTextForReading";
+import { AddBookModal, AddBookModalType } from "#src/app/screens/admin/addBook";
 
 export const AdminPage = () => {
 
@@ -24,6 +25,7 @@ export const AdminPage = () => {
   const addCourseModalControl = useModalControl<AddCourseModalType>();
   const addLessonModalControl = useModalControl<AddLessonModalPropTypes>();
   const addTextForReadingModalControl = useModalControl<AddTextForReadingModalType>();
+  const addBookModalControl = useModalControl<AddBookModalType>();
 
   useEffect(() => {
     $currentUser.effect();
@@ -61,6 +63,10 @@ export const AdminPage = () => {
         <ButtonUI onClick={() => addTextForReadingModalControl.openModal()}>Создать текст для чтения</ButtonUI>
       </div>
 
+      <div>
+        <ButtonUI onClick={() => addBookModalControl.openModal()}>Создать книгу</ButtonUI>
+      </div>
+
       <ModalUI
         open={addCourseModalControl.modalProps.open}
         onCancel={addCourseModalControl.closeModal}
@@ -89,6 +95,13 @@ export const AdminPage = () => {
         onCancel={addTextForReadingModalControl.closeModal}
       >
         <AddTextForReadingModal modalControl={addTextForReadingModalControl} />
+      </ModalUI>
+
+      <ModalUI
+        open={addBookModalControl.modalProps.open}
+        onCancel={addBookModalControl.closeModal}
+      >
+        <AddBookModal modalControl={addBookModalControl} />
       </ModalUI>
 
     </div>

@@ -130,6 +130,11 @@ export const SideNavigation: FC<PropTypes> = (props) => {
 
       ...(isStudent ? [
         {
+          name: "Книги",
+          path: `${ROUTES.BOOKS}`,
+          icon: <VocabularyIcon />,
+        },
+        {
           name: "Словарь",
           path: `${ROUTES.VOCABULARY}`,
           icon: <VocabularyIcon />,

@@ -4,6 +4,7 @@ const MAIN = "/",
   EVENTS = "/events",
   LESSONS = "/lessons",
   STUDENTS = "/students",
+  BOOKS = "/books",
   MONITORING = "/monitoring",
   VOCABULARY = "/vocabulary",
   SPEAKING = "/speaking",
@@ -28,6 +29,8 @@ export const ROUTES = {
   LESSONS,
 
   STUDENTS,
+
+  BOOKS,
 
   MONITORING,
 

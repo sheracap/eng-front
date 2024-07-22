@@ -12,6 +12,7 @@ import * as words from "./resources/words";
 import * as homework from "./resources/homework";
 import * as textForReading from "./resources/textForReading";
 import * as events from "./resources/events";
+import * as books from "./resources/books";
 
 export const api = {
   common,
@@ -27,5 +28,6 @@ export const api = {
   words,
   homework,
   textForReading,
-  events
+  events,
+  books
 };

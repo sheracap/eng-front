@@ -1,3 +1,4 @@
+import { LanguageLevel } from "#businessLogic/models/common";
 
 export interface CurrentUserModel {
   id: number;
@@ -7,6 +8,7 @@ export interface CurrentUserModel {
   role: { code: "TEACHER" | "STUDENT"; name: string; };
   teacherId: number | null;
   language: "ENGLISH" | "KOREAN";
+  level: LanguageLevel;
 }
 
 export interface LoginPayloadType {

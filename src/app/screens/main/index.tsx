@@ -13,6 +13,7 @@ import { Events } from "#src/app/sections/events";
 import { Courses } from "#src/app/sections/courses";
 import { Lessons } from "#src/app/sections/lessons";
 import { Students } from "#src/app/sections/students";
+import { Books } from "#src/app/sections/books";
 import { Vocabulary } from "#src/app/sections/vocabulary";
 import { Homework } from "#src/app/sections/homework";
 import { Speaking } from "#src/app/sections/speaking";
@@ -74,6 +75,7 @@ export const Main: FC = () => {
                 <Route path={ROUTES.SPEAKING} component={Speaking} />
                 {isStudent && (
                   <>
+                    <Route path={ROUTES.BOOKS} component={Books} />
                     <Route path={ROUTES.VOCABULARY} component={Vocabulary} />
                     <Route path={ROUTES.HOMEWORK} component={Homework} />
                   </>
