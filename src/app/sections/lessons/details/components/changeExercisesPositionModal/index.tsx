@@ -4,6 +4,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { ModalControlType } from "#hooks/useModalControl";
 import { $changeExercisesPosition } from "#stores/section";
+import { $changeHomeworkExercisesPosition } from "#stores/homework";
 
 import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
@@ -14,8 +15,9 @@ import { ExerciseItemModel } from "#businessLogic/models/section";
 import "./styles.scss";
 
 export type ChangeExercisesPositionModalPropTypes = {
-  sectionId: number;
+  entityId: number;
   editableExercises: Array<ExerciseItemModel>;
+  isHomework: boolean;
 };
 
 type PropTypes = {
@@ -23,20 +25,24 @@ type PropTypes = {
   callback: () => void;
 };
 
+// todo move to components
+
 export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
 
   const { closeModal, modalProps } = modalControl;
 
-  const { sectionId, editableExercises } = modalProps;
+  const { entityId, editableExercises, isHomework } = modalProps;
 
   const changeExercisesPositionState = useStore($changeExercisesPosition.store);
+  const changeHomeworkExercisesPositionState = useStore($changeHomeworkExercisesPosition.store);
 
   const [exercises, setExercises] = useState<Array<ExerciseItemModel>>(editableExercises);
 
   useEffect(() => {
     return () => {
       $changeExercisesPosition.reset();
+      $changeHomeworkExercisesPosition.reset();
     };
   }, []);
 
@@ -83,15 +89,22 @@ export const ChangeExercisesPositionModal: FC<PropTypes> = (props) => {
       }
     });
 
-    $changeExercisesPosition.effect({
-      sectionId,
-      data
-    });
+    if (isHomework) {
+      $changeHomeworkExercisesPosition.effect({
+        homeworkId: entityId,
+        data
+      });
+    } else {
+      $changeExercisesPosition.effect({
+        sectionId: entityId,
+        data
+      });
+    }
   };
 
   return (
     <>
-      <ModalUI.Loading show={changeExercisesPositionState.loading} />
+      <ModalUI.Loading show={changeExercisesPositionState.loading || changeHomeworkExercisesPositionState.loading} />
       <ModalUI.Header>
         <ModalUI.Title>Изменить порядок</ModalUI.Title>
       </ModalUI.Header>

@@ -1,23 +1,29 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Pagination, Switch } from "antd";
-import { InputUI } from "#ui/input";
-import { $textForReadingDetails, $textForReadingList } from "#stores/textForReading";
+import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "effector-react";
+import { Pagination, Switch, Form } from "antd";
+
+import { $currentUser } from "#stores/account";
+import { $textForReadingDetails, $textForReadingList } from "#stores/textForReading";
+import { $myTextForReading, $selectedTextIdForReading } from "#src/app/sections/pronunciation/effector";
+
+import { InputUI } from "#ui/input";
 import { Spinner } from "#ui/spinner";
-import { TextForReadingParamsTypes } from "#businessLogic/models/textForReading";
 import { BackBtn } from "#ui/backBtn";
-import { $myTextForReading, $selectedTextIdForReading } from "#src/app/sections/speaking/effector";
+
+import { TextForReadingParamsTypes } from "#businessLogic/models/textForReading";
+import { LevelSelect } from "#pickers/levelSelect";
 
 export const TextForSpeaking = () => {
 
+  const currentUserState = useStore($currentUser.store);
   const textForReadingListState = useStore($textForReadingList.store);
   const textForReadingDetailsState = useStore($textForReadingDetails.store);
   const selectedTextIdForReadingState = useStore($selectedTextIdForReading.store);
 
   const myText = useRef("");
   const [isMyText, setIsMyText] = useState(false);
-  // level of currentUser
-  const [queryParams, setQueryParams] = useState<TextForReadingParamsTypes>({ level: "a1", page: 1 });
+
+  const [queryParams, setQueryParams] = useState<TextForReadingParamsTypes>({ level: currentUserState.data?.level || "a1", page: 1 });
 
   const { data, loading } = textForReadingListState;
   const { data: detailsData, loading: detailsLoading } = textForReadingDetailsState
@@ -40,17 +46,6 @@ export const TextForSpeaking = () => {
       });
     }
   }, [selectedTextIdForReadingState]);
-
-  const englishLevels = useMemo(() => {
-    return [
-      { code: "a1", name: "A1" },
-      { code: "a2", name: "A2" },
-      { code: "b1", name: "B1" },
-      { code: "b2", name: "B2" },
-      { code: "c1", name: "C1" },
-      { code: "c2", name: "C2" },
-    ]
-  }, []);
 
   const onTextChange = (e) => {
     myText.current = e.target.value;
@@ -122,15 +117,14 @@ export const TextForSpeaking = () => {
       {!isMyText && !selectedTextIdForReadingState && (
         <>
           <div className="text-for-speaking__filter">
-            {englishLevels.map((item) => (
-              <div
-                className={`text-for-speaking__filter__item ${queryParams.level === item.code ? "active" : ""}`}
-                key={item.code}
-                onClick={() => onLevelChange(item.code)}
-              >
-                {item.name}
-              </div>
-            ))}
+            <Form.Item
+              label="Уровень"
+            >
+              <LevelSelect
+                onChange={onLevelChange}
+                value={queryParams.level}
+              />
+            </Form.Item>
           </div>
           <div className="text-for-speaking__list u-fancy-scrollbar">
             {data.rows.map((item) => (

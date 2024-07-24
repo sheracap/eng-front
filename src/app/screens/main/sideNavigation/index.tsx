@@ -1,4 +1,5 @@
 import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
 
 import { ROUTES } from "#constants/index";
@@ -8,16 +9,14 @@ import {
   VocabularyIcon,
   StudentsIcon,
   HomeworkIcon,
-  SpeakingIcon,
-  LessonsIcon
+  PronunciationIcon,
+  LessonsIcon,
 } from "#svgIcons/menuIcons";
 import { CalendarIcon } from "#src/assets/svg";
 
-import { NavLink, useLocation } from "react-router-dom";
+import { useRole } from "#hooks/useRole";
 
 import "./styles.scss";
-
-import { useRole } from "#hooks/useRole";
 
 
 const { Sider } = Layout;
@@ -148,8 +147,8 @@ export const SideNavigation: FC<PropTypes> = (props) => {
 
       {
         name: "Произношение",
-        path: `${ROUTES.SPEAKING}`,
-        icon: <SpeakingIcon />,
+        path: `${ROUTES.PRONUNCIATION}`,
+        icon: <PronunciationIcon />,
       }
 
     ];

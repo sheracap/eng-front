@@ -1,11 +1,11 @@
 import React from "react";
 import { ContentUI } from "#ui/content";
-import { TextForSpeaking } from "#src/app/sections/speaking/text";
-import { SpeakingVoiceRecorder } from "#src/app/sections/speaking/voiceArea";
+import { TextForSpeaking } from "#src/app/sections/pronunciation/text";
+import { SpeakingVoiceRecorder } from "#src/app/sections/pronunciation/voiceArea";
 
 import "./styles.scss";
 
-export const Speaking = () => {
+export const Pronunciation = () => {
 
 
   return (

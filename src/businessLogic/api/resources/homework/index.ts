@@ -1,5 +1,5 @@
 import { HandlerType } from "#core/effector/types/handler";
-import { httpGet, httpPost, httpPut } from "#core/httpClient";
+import { httpDelete, httpGet, httpPost, httpPut } from "#core/httpClient";
 import { PaginationListModel } from "#types/apiResponseModels";
 import { ExerciseAnswerModel, ExerciseCreateModel, ExerciseUpdateModel } from "#businessLogic/models/exercise";
 
@@ -9,6 +9,13 @@ export const getHomeworkDetails: HandlerType<any, any> = (id) => {
 
 export const addHomework: HandlerType<any, number> = (data) => {
   return httpPost({ url: "/api/cabinet/homework", data });
+};
+
+export const changeHomeworkExercisesPosition: HandlerType<any, number> = (data) => {
+  return httpPost({
+    url: "/api/cabinet/homework/row-position",
+    data
+  });
 };
 
 export const getLessonHomeworks: HandlerType<number, number> = (lessonId) => {
@@ -43,4 +50,8 @@ export const addHomeworkExercise: HandlerType<ExerciseCreateModel, number> = (da
 
 export const updateHomeworkExercise: HandlerType<ExerciseUpdateModel, number> = ({ id, data }) => {
   return httpPut({ url: `/api/cabinet/homework/exercise/${id}`, data });
+};
+
+export const deleteHomeworkExercise: HandlerType<number, any> = (id) => {
+  return httpDelete({ url: `/api/cabinet/homework/exercise/${id}` });
 };

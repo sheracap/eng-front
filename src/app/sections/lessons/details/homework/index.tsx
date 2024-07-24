@@ -1,28 +1,47 @@
 import React, { FC, useEffect, useState } from "react";
-import { $addHomeworkExerciseAnswer, $homeworkDetails } from "#stores/homework";
-import { Spinner } from "#ui/spinner";
 import { useStore } from "effector-react";
-import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
+import { Switch } from "antd";
+
+import {
+  $addHomeworkExerciseAnswer,
+  $homeworkDetails,
+  $exerciseAnswersByHomework,
+  $deleteHomeworkExercise
+} from "#stores/homework";
+import { $homeWorkExerciseAnswers } from "#src/app/sections/lessons/details/effector";
+
 import { AddPlusSvgIcon, SwapIcon } from "#src/assets/svg";
+
 import { useModalControl } from "#hooks/useModalControl";
+import { useRole } from "#hooks/useRole";
+
 import {
   AddExercisesModal,
   AddExercisesModalPropTypes
 } from "#src/app/sections/lessons/details/components/addExercisesModal";
+import {
+  AddEditExercisesFormModal,
+  AddEditExercisesFormModalPropTypes
+} from "#src/app/sections/lessons/details/components/addExercisesModal/formModal";
+import {
+  ChangeExercisesPositionModal,
+  ChangeExercisesPositionModalPropTypes
+} from "#src/app/sections/lessons/details/components/changeExercisesPositionModal";
+
 import { DrawerModalUI } from "#ui/drawerModal";
-
+import { Spinner } from "#ui/spinner";
 import { ButtonUI } from "#ui/button";
-import { Switch } from "antd";
-
 import { ModalUI } from "#ui/modal";
+import { notificationSuccess } from "#ui/notifications";
+
 import {
   AssignHomeworkModal,
   AssignHomeworkModalPropTypes
 } from "./assignHomeworkModal";
-import { $homeWorkExerciseAnswers } from "#src/app/sections/lessons/details/effector";
+
 import { Exercises } from "#components/exercises";
-import { $exerciseAnswersByHomework } from "#stores/homework";
-import { useRole } from "#hooks/useRole";
+
+import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 
 
 type PropsTypes = {
@@ -36,10 +55,13 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
 
   const homeworkDetailsState = useStore($homeworkDetails.store);
   const exerciseAnswersByHomeworkState = useStore($exerciseAnswersByHomework.store);
+  const deleteHomeworkExerciseState = useStore($deleteHomeworkExercise.store);
 
   const [showHints, setShowHints] = useState(isMine);
 
   const addExercisesModalControl = useModalControl<AddExercisesModalPropTypes>();
+  const editExerciseModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
+  const editExercisePositionModalControl = useModalControl<ChangeExercisesPositionModalPropTypes>();
   const assignHomeworkModalControl = useModalControl<AssignHomeworkModalPropTypes>();
 
   const { isStudent } = useRole();
@@ -50,8 +72,12 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
     }
   }, []);
 
-  useEffect(() => {
+  const getHomeworkDetails = () => {
     $homeworkDetails.effect(homeworkId);
+  }
+
+  useEffect(() => {
+    getHomeworkDetails();
 
 
     if (isStudent) {
@@ -85,16 +111,43 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
     }
   }, [exerciseAnswersByHomeworkState.data]);
 
+  useEffect(() => {
+    if (deleteHomeworkExerciseState.data && homeworkDetailsState.data) {
+      notificationSuccess("", "Упражнение удалено");
+
+      $homeworkDetails.update({
+        ...homeworkDetailsState,
+        data: {
+          ...homeworkDetailsState.data,
+          exercises: homeworkDetailsState.data.homeworkExercises.filter((item) => String(item.id) !== String(deleteHomeworkExerciseState.data.id))
+        }
+      });
+    }
+  }, [deleteHomeworkExerciseState.data]);
+
   const onAssignHomework = () => {
     assignHomeworkModalControl.openModal({ homeworkId });
   }
 
-  const onExerciseEdit = () => {
-
+  const onExerciseEdit = (item) => {
+    editExerciseModalControl.openModal({
+      editableData: item,
+      entityId: homeworkId,
+      isHomework: true,
+      template: item.template
+    });
   }
 
-  const onExerciseDelete = () => {
+  const onExerciseDelete = (id) => {
+    $deleteHomeworkExercise.effect(id);
+  }
 
+  const changePosition = () => {
+    editExercisePositionModalControl.openModal({
+      entityId: homeworkId,
+      editableExercises: homeworkDetailsState.data.homeworkExercises,
+      isHomework: true
+    });
   }
 
   return (
@@ -123,7 +176,7 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
                 type="primary"
                 withIcon
                 size="small"
-                //onClick={changePosition}
+                onClick={changePosition}
               >
                 <SwapIcon /> Поменять порядок
               </ButtonUI>
@@ -173,16 +226,24 @@ export const HomeworkDetails: FC<PropsTypes> = (props) => {
         open={addExercisesModalControl.modalProps.open}
         onClose={addExercisesModalControl.closeModal}
       >
-        <AddExercisesModal modalControl={addExercisesModalControl} callback={() => {}} />
+        <AddExercisesModal modalControl={addExercisesModalControl} callback={getHomeworkDetails} />
       </DrawerModalUI>
 
-      {/*<ModalUI*/}
-      {/*  open={editExerciseModalControl.modalProps.open}*/}
-      {/*  onCancel={editExerciseModalControl.closeModal}*/}
-      {/*  width={600}*/}
-      {/*>*/}
-      {/*  <AddEditExercisesFormModal modalControl={editExerciseModalControl} callback={() => {}} />*/}
-      {/*</ModalUI>*/}
+      <ModalUI
+        open={editExerciseModalControl.modalProps.open}
+        onCancel={editExerciseModalControl.closeModal}
+        width={600}
+      >
+        <AddEditExercisesFormModal modalControl={editExerciseModalControl} callback={getHomeworkDetails} />
+      </ModalUI>
+
+      <ModalUI
+        open={editExercisePositionModalControl.modalProps.open}
+        onCancel={editExercisePositionModalControl.closeModal}
+        width={600}
+      >
+        <ChangeExercisesPositionModal modalControl={editExercisePositionModalControl} callback={getHomeworkDetails} />
+      </ModalUI>
 
       <ModalUI
         open={assignHomeworkModalControl.modalProps.open}

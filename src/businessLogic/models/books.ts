@@ -8,7 +8,7 @@ export interface BookDetailsModel extends BooksListItemModel {
   description: string;
   language: string;
   level: string;
-  bookPages: Array<any>;
+  bookPages: Array<{ id: number; title: null | string; }>;
 }
 
 export interface BookPageDetailsModel {

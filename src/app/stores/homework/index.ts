@@ -12,9 +12,15 @@ export const $homeworkDetails = createXHRStore<any, any, StoreTypeWithData<any |
   api.homework.getHomeworkDetails,
   new XHRDataState(null),
 );
+
 export const $addHomework = createXHRStore<any, number, StoreTypeWithData<number | null>>(
   api.homework.addHomework,
   new XHRDataState(null),
+);
+
+export const $changeHomeworkExercisesPosition = createXHRStore<any, number, StoreType>(
+  api.homework.changeHomeworkExercisesPosition,
+  new XHRSuccessState(),
 );
 
 export const $lessonHomeworks = createXHRStore<number, any, StoreTypeWithData<Array<any>>>(
@@ -54,5 +60,14 @@ export const $addHomeworkExercise = createXHRStore<ExerciseCreateModel, number, 
 
 export const $updateHomeworkExercise = createXHRStore<ExerciseUpdateModel, number, StoreTypeWithData<number | null>>(
   api.homework.updateHomeworkExercise,
+  new XHRDataState(null),
+);
+
+export const $deleteHomeworkExercise = createXHRStore<
+  number,
+  any,
+  StoreTypeWithData<any>
+>(
+  api.homework.deleteHomeworkExercise,
   new XHRDataState(null),
 );

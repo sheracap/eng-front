@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
-import { message } from "antd";
+import React, { FC, useMemo } from "react";
 
 import { ModalControlType, useModalControl } from "#hooks/useModalControl";
 import { ButtonUI } from "#ui/button";
@@ -31,8 +30,6 @@ export const AddExercisesModal: FC<TProps> = (props) => {
 
   const addExercisesFormModalControl = useModalControl<AddEditExercisesFormModalPropTypes>();
 
-  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
-
   const templateList = useMemo(() => {
     return [
       { id: 1, name: "Тест", code: templateTypes.TEST },
@@ -46,18 +43,8 @@ export const AddExercisesModal: FC<TProps> = (props) => {
   }, []);
 
   const onSelectTemplate = (val: string) => {
-    //setSelectedTemplate(val);
     addExercisesFormModalControl.openModal({ entityId, isHomework, template: val });
   };
-
-  // const onSubmitClick = () => {
-  //   if (!selectedTemplate) {
-  //     message.warning("Выберите шаблон");
-  //     return;
-  //   } else {
-  //     addExercisesFormModalControl.openModal({ sectionId, template: selectedTemplate });
-  //   }
-  // };
 
   return (
     <>
@@ -68,7 +55,7 @@ export const AddExercisesModal: FC<TProps> = (props) => {
         <div className={styles.templatesList}>
           {templateList.map((item) => (
             <div
-              className={`${styles.templateItem} ${selectedTemplate === item.code ? "active" : ""}`}
+              className={`${styles.templateItem}`}
               onClick={() => onSelectTemplate(item.code)}
               key={item.id}
             >
@@ -84,11 +71,6 @@ export const AddExercisesModal: FC<TProps> = (props) => {
               Отмена
             </ButtonUI>
           </ModalUI.Buttons.Col>
-          {/*<ModalUI.Buttons.Col>*/}
-          {/*  <ButtonUI type="primary" onClick={onSubmitClick} fullWidth>*/}
-          {/*    Продолжить*/}
-          {/*  </ButtonUI>*/}
-          {/*</ModalUI.Buttons.Col>*/}
         </ModalUI.Buttons>
       </ModalUI.Footer>
 

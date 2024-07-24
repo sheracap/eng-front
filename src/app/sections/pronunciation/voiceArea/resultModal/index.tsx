@@ -1,9 +1,10 @@
 import React, { FC, useMemo } from "react";
+import { Progress } from "antd";
 
 import { ModalUI } from "#ui/modal";
 
 import { ModalControlType } from "#hooks/useModalControl";
-import { Progress } from "antd";
+
 import { $colors } from "#styles/variables";
 
 export type SpeakingVoiceRecorderResultModalType = {

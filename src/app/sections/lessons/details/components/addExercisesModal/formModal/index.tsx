@@ -31,6 +31,8 @@ type TProps = {
   callback: () => void;
 };
 
+// todo move it to components
+
 export const AddEditExercisesFormModal: FC<TProps> = (props) => {
   const { modalControl, closeModal: closeMainModal, callback } = props;
   const { modalProps } = modalControl;

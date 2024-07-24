@@ -7,7 +7,7 @@ const MAIN = "/",
   BOOKS = "/books",
   MONITORING = "/monitoring",
   VOCABULARY = "/vocabulary",
-  SPEAKING = "/speaking",
+  PRONUNCIATION = "/pronunciation",
   HOMEWORK = "/homework",
   USER = "/user",
   SIGN_IN = "/sign-in",
@@ -35,7 +35,7 @@ export const ROUTES = {
   MONITORING,
 
   VOCABULARY,
-  SPEAKING,
+  PRONUNCIATION,
   HOMEWORK,
 
   SETTINGS,

@@ -16,7 +16,7 @@ import { Students } from "#src/app/sections/students";
 import { Books } from "#src/app/sections/books";
 import { Vocabulary } from "#src/app/sections/vocabulary";
 import { Homework } from "#src/app/sections/homework";
-import { Speaking } from "#src/app/sections/speaking";
+import { Pronunciation } from "#src/app/sections/pronunciation";
 
 import { HeaderUI } from "./header";
 import { SideNavigation } from "./sideNavigation";
@@ -72,7 +72,7 @@ export const Main: FC = () => {
                 <Route path={ROUTES.COURSES} component={Courses} />
                 <Route path={ROUTES.LESSONS} component={Lessons} />
                 <Route path={ROUTES.STUDENTS} component={Students} />
-                <Route path={ROUTES.SPEAKING} component={Speaking} />
+                <Route path={ROUTES.PRONUNCIATION} component={Pronunciation} />
                 {isStudent && (
                   <>
                     <Route path={ROUTES.BOOKS} component={Books} />

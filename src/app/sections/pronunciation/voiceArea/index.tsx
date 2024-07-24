@@ -1,16 +1,20 @@
 // @ts-nocheck
 import React, { useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import { MicrophoneIcon, PlayIcon, RefreshSvgIcon, StopIcon } from "#src/assets/svg";
-import { ButtonUI } from "#ui/button";
+
 import { $textForReadingDetails } from "#stores/textForReading";
-import { $myTextForReading, $selectedTextIdForReading } from "#src/app/sections/speaking/effector";
+import { $myTextForReading, $selectedTextIdForReading } from "#src/app/sections/pronunciation/effector";
+
+import { MicrophoneIcon, PlayIcon, RefreshSvgIcon, StopIcon } from "#src/assets/svg";
+
+import { ButtonUI } from "#ui/button";
+import { ModalUI } from "#ui/modal";
+
 import { useModalControl } from "#hooks/useModalControl";
 import {
   SpeakingVoiceRecorderResultModal,
   SpeakingVoiceRecorderResultModalType
 } from "./resultModal";
-import { ModalUI } from "#ui/modal";
 
 export function levenshteinDistance(a, b) {
   const matrix = Array.from({ length: a.length + 1 }, () => []);

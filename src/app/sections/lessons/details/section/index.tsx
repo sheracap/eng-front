@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import { useStore } from "effector-react";
+import { useHistory } from "react-router";
 import { Switch } from "antd";
 
+import { $activeLesson } from "#stores/activeLesson";
 import { $sectionDetails } from "#stores/section";
 import { $addExerciseAnswer, $deleteExercise, $exerciseAnswersBySection } from "#stores/exercise";
-import { $exerciseAnswers, $lessonSections } from "../effector";
+import { $exerciseAnswers } from "../effector";
 
 import { useModalControl } from "#hooks/useModalControl";
 import { useRole } from "#hooks/useRole";
@@ -21,24 +23,27 @@ import { ModalUI } from "#ui/modal";
 import { DrawerModalUI } from "#ui/drawerModal";
 import { ButtonUI } from "#ui/button";
 import { Spinner } from "#ui/spinner";
+import { BackBtn } from "#ui/backBtn";
+import { notificationSuccess } from "#ui/notifications";
 
-import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 import { AddPlusSvgIcon, SwapIcon } from "#src/assets/svg";
 
 import {
   ChangeExercisesPositionModal,
   ChangeExercisesPositionModalPropTypes
 } from "../components/changeExercisesPositionModal";
-import { AddSectionModal, AddSectionModalPropTypes } from "../components/addSectionModal";
+import {
+  AddSectionModal,
+  AddSectionModalPropTypes
+} from "../components/addSectionModal";
 import {
   AddEditExercisesFormModal,
   AddEditExercisesFormModalPropTypes
 } from "../components/addExercisesModal/formModal";
-import { $activeLesson } from "#stores/activeLesson";
+
 import { Exercises } from "#components/exercises";
-import { BackBtn } from "#ui/backBtn";
-import { useHistory } from "react-router";
-import { notificationSuccess } from "#ui/notifications";
+
+import styles from "#src/app/sections/courses/details/rightSide/styles.module.scss";
 
 type PropsType = {
   isMine: boolean;
@@ -142,8 +147,9 @@ export const LessonSection: FC<PropsType> = (props) => {
   const changePosition = () => {
     if (sectionData) {
       editExercisePositionModalControl.openModal({
-        sectionId: sectionData.id,
-        editableExercises: sectionData.exercises
+        entityId: sectionData.id,
+        editableExercises: sectionData.exercises,
+        isHomework: false
       })
     }
   }
@@ -157,7 +163,7 @@ export const LessonSection: FC<PropsType> = (props) => {
   }
 
   const onExerciseDelete = (id) => {
-    $deleteExercise.effect(id)
+    $deleteExercise.effect(id);
   }
 
   return (
