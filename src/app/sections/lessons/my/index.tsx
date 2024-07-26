@@ -65,6 +65,9 @@ export const MyLessons = () => {
                 </div>
               </div>
             ))}
+
+            PAGINATION !!
+
           </div>
           <ModalUI
             open={addLessonModalControl.modalProps.open}

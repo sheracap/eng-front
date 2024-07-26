@@ -9,6 +9,8 @@ import { $booksList } from "#stores/books";
 import { ContentUI } from "#ui/content";
 import { imagesBaseUrl, ROUTES } from "#constants/index";
 
+import "./styles.scss";
+
 export const BooksList: FC = () => {
 
   const history = useHistory();
@@ -42,18 +44,26 @@ export const BooksList: FC = () => {
             <h1>Книги ({booksListState.data.count})</h1>
           </div>
 
-          {booksListState.data.rows.map((item) => (
-            <div key={item.id} onClick={() => history.push(`${ROUTES.BOOKS}/${item.id}`)}>
-
-              {item.img ? (
-                <img src={`${imagesBaseUrl}/books/${item.img}`} alt=""/>
-              ) : (
-                <div className="image__empty"></div>
-              )}
-
-              {item.title}
-            </div>
-          ))}
+          <div className="books">
+            {booksListState.data.rows.map((item) => (
+              <div
+                className="books__item"
+                key={item.id}
+                onClick={() => history.push(`${ROUTES.BOOKS}/${item.id}`)}
+              >
+                <div className="books__item__image">
+                  {item.img ? (
+                    <img src={`${imagesBaseUrl}/books/${item.img}`} alt=""/>
+                  ) : (
+                    <div className="courses__item__image__empty"></div>
+                  )}
+                </div>
+                <div className="courses__item__name">
+                  {item.title}
+                </div>
+              </div>
+            ))}
+          </div>
 
           <Pagination
             current={params.page}
