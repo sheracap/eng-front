@@ -71,15 +71,15 @@ export const AdminBookDetails = () => {
 
       {data.bookPages.map((item, index) => (
         <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }} key={item.id}>
-          <div>{index + 1}.&nbsp;&nbsp;&nbsp;</div>
-          <ButtonUI size="small" onClick={() => addBookPageModalControl.openModal({ bookId, rowPosition: item.rowPosition, bookPageId: item.id })}>
+          <div>{index + 1}. {item.title} &nbsp;&nbsp;&nbsp;</div>
+          <ButtonUI size="small" onClick={() => addBookPageModalControl.openModal({ bookId, bookPageId: item.id })}>
             Редактировать
           </ButtonUI>
         </div>
       ))}
 
       <div>
-        <ButtonUI type="primary" size="small" onClick={() => addBookPageModalControl.openModal({ bookId, rowPosition: data.bookPages.length + 1 })}>
+        <ButtonUI type="primary" size="small" onClick={() => addBookPageModalControl.openModal({ bookId })}>
           + Добавить страницу
         </ButtonUI>
       </div>

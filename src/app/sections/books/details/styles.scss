@@ -1,0 +1,165 @@
+@import "src/styles/variables.scss";
+
+.book-details {
+  position: relative;
+  height: 100%;
+
+  &__info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    padding: 0 0 62px;
+    margin: 0 auto;
+
+    &__head {
+      display: flex;
+      gap: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
+
+      &__img {
+        line-height: 0;
+        min-width: 150px;
+        width: 150px;
+        min-height: 200px;
+        margin-right: 15px;
+
+        img {
+          max-width: 100%;
+          max-height: 200px;
+          border-radius: 20px;
+        }
+      }
+
+      &__name-wr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__name {
+        display: flex;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 600;
+      }
+
+      &__desc {
+        margin-top: 10px;
+        display: flex;
+        font-size: 15px;
+        white-space: pre-wrap;
+      }
+    }
+
+    &__contents {
+      flex-grow: 1;
+      padding: 20px;
+
+      &__title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      &__item {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-bottom: 5px;
+        font-size: 16px;
+        transition: color .3s ease;
+
+        &__title {
+          font-weight: bold;
+        }
+
+        &__dots {
+          position: relative;
+          top: -6px;
+          flex-grow: 1;
+          margin: 0 10px;
+          border-bottom: 1px dashed #ddd;
+          transition: border .3s ease;
+        }
+
+        &:hover {
+          color: $primaryColor;
+
+          .book-details__info__contents__item__dots {
+            border-color: $primaryColor;
+          }
+        }
+      }
+    }
+
+    &__read {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+  }
+
+  &__pages-wrap {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  &__pages {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex-grow: 1;
+    padding-bottom: 20px;
+
+
+    &__title {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+    }
+
+    &__in {
+      flex-grow: 1;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .current-page-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    &__text {
+      white-space: pre-wrap;
+      font-size: 16px;
+    }
+
+    &__pagination {
+      width: 100%;
+      max-width: 800px;
+      margin: 10px auto 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      background-color: #fafafa;
+      border-radius: 16px;
+    }
+  }
+}

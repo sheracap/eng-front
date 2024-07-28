@@ -17,7 +17,7 @@ export type NotificationModalPropTypes = {
 
 type PropTypes = {
   modalControl: ModalControlType<NotificationModalPropTypes>;
-  setCurrentNotifications: React.Dispatch<React.SetStateAction<Array<NotificationItemModel>>>;
+  setCurrentNotifications: React.Dispatch<React.SetStateAction<Array<NotificationItemModel> | null>>;
 };
 
 export const NotificationModal: FC<PropTypes> = (props) => {
@@ -34,7 +34,7 @@ export const NotificationModal: FC<PropTypes> = (props) => {
     if (isNew) {
       $notificationMarkAsRead.effect(notificationId);
       setCurrentNotifications((prevState) => {
-        return prevState.map((item) => {
+        return (prevState ? prevState : []).map((item) => {
           const newItem = { ...item };
 
           if (item.id === notificationId) {

@@ -15,7 +15,6 @@ import { InputUI } from "#ui/input";
 
 export type AddBookPageModalType = {
   bookId: number;
-  rowPosition: number;
   bookPageId?: number;
 }
 
@@ -27,7 +26,7 @@ type PropTypes = {
 export const AddBookPageModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
 
-  const { bookId, rowPosition, bookPageId } = modalControl.modalProps;
+  const { bookId, bookPageId } = modalControl.modalProps;
 
   const [form] = Form.useForm();
 
@@ -85,7 +84,6 @@ export const AddBookPageModal: FC<PropTypes> = (props) => {
       title: formData.title || null,
       text: formData.text,
       bookId,
-      rowPosition
     };
 
     if (bookPageId) {

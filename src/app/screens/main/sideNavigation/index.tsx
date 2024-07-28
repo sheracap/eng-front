@@ -11,6 +11,7 @@ import {
   HomeworkIcon,
   PronunciationIcon,
   LessonsIcon,
+  BooksIcon,
 } from "#svgIcons/menuIcons";
 import { CalendarIcon } from "#src/assets/svg";
 
@@ -131,7 +132,7 @@ export const SideNavigation: FC<PropTypes> = (props) => {
         {
           name: "Книги",
           path: `${ROUTES.BOOKS}`,
-          icon: <VocabularyIcon />,
+          icon: <BooksIcon />,
         },
         {
           name: "Словарь",

@@ -7,6 +7,8 @@ import { ROUTES } from "#constants/index";
 import { BookDetailsInfo } from "./info";
 import { BookDetailsPages } from "./pages";
 
+import "./styles.scss";
+
 export interface BookDetailsMatchParams {
   id: string;
 }
@@ -29,21 +31,23 @@ export const BookDetailsPage: FC = () => {
 
   return (
     <ContentUI loading={loading}>
-      <Switch>
-        <Route
-          exact
-          path={ROUTES.BOOKS}
-          render={() => (
-            <BookDetailsInfo data={data} />
-          )}
-        />
-        <Route
-          path={`${ROUTES.BOOKS}/pages`}
-          render={() => (
-            <BookDetailsPages data={data} />
-          )}
-        />
-      </Switch>
+      <div className="book-details">
+        <Switch>
+          <Route
+            exact
+            path={match.path}
+            render={() => (
+              <BookDetailsInfo data={data} />
+            )}
+          />
+          <Route
+            path={`${ROUTES.BOOKS}/${bookId}/pages`}
+            render={() => (
+              <BookDetailsPages data={data} />
+            )}
+          />
+        </Switch>
+      </div>
     </ContentUI>
   )
 };

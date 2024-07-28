@@ -24,7 +24,7 @@ import { $activeLesson } from "#stores/activeLesson";
 const NotificationsList = () => {
 
   const notifications = useStore($notifications.store);
-  const [currentNotifications, setCurrentNotifications] = useState<Array<NotificationItemModel>>([]);
+  const [currentNotifications, setCurrentNotifications] = useState<Array<NotificationItemModel> | null>(null);
 
   const notificationModalControl = useModalControl<NotificationModalPropTypes>();
   const { isTeacher, isStudent } = useRole();
@@ -39,32 +39,39 @@ const NotificationsList = () => {
 
   useEffect(() => {
     if (notifications.data) {
-      setCurrentNotifications((prevState) => [...prevState, ...notifications.data.rows]);
+      setCurrentNotifications((prevState) => [...(prevState ? prevState : []), ...notifications.data.rows]);
       $notifications.reset();
     }
   }, [notifications.data]);
 
   return (
     <>
-      <div className="notifications-list">
-        {currentNotifications.map((item) => (
-          <div
-            className={`notifications-list__item ${!item.statuses.length ? "new-notification" : ""}`}
-            key={item.id}
-            onClick={() => notificationModalControl.openModal({ item })}
-          >
-            <div className="notifications-list__item__text">
-              {item.type === "INVITATION" ? (
-                <>
-                  {isTeacher && `${item.author.name} ${item.invitationAnswer ? "принял Ваше приглашение" : "отклонил Ваше приглашение"}`}
-                  {isStudent && `${item.author.name} приглашает Вас стать его учеником`}
-                </>
-              ) : item.message}
-            </div>
-            <div className="notifications-list__item__date">{formatDate(item.createdAt)}</div>
+      {currentNotifications && (
+        <>
+          <div className="notifications-list">
+            {currentNotifications.map((item) => (
+              <div
+                className={`notifications-list__item ${!item.statuses.length ? "new-notification" : ""}`}
+                key={item.id}
+                onClick={() => notificationModalControl.openModal({ item })}
+              >
+                <div className="notifications-list__item__text">
+                  {item.type === "INVITATION" ? (
+                    <>
+                      {isTeacher && `${item.author.name} ${item.invitationAnswer ? "принял Ваше приглашение" : "отклонил Ваше приглашение"}`}
+                      {isStudent && `${item.author.name} приглашает Вас стать его учеником`}
+                    </>
+                  ) : item.message}
+                </div>
+                <div className="notifications-list__item__date">{formatDate(item.createdAt)}</div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          {currentNotifications.length === 0 && (
+            <div>Уведомлений пока нет</div>
+          )}
+        </>
+      )}
       <ModalUI
         open={notificationModalControl.modalProps.open}
         onCancel={notificationModalControl.closeModal}
