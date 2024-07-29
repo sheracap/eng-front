@@ -13,7 +13,7 @@ import { useModalControl } from "#hooks/useModalControl";
 import { ModalUI } from "#ui/modal";
 import { WordItemModel } from "#businessLogic/models/vocabulary";
 
-import { AddWordModal, myCurrentLang } from "./addWordModal";
+import { AddWordModal, AddWordModalPropsTypes, myCurrentLang } from "./addWordModal";
 import { WordCategories } from "./categories";
 import { SelectExerciseTypeModal } from "./selectExerciseTypeModal";
 import { WordExercisesModal, WordExercisesModalType } from "./wordExercisesModal";
@@ -29,7 +29,7 @@ export const Vocabulary: FC = () => {
   const [page, setPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<undefined | { id: number; name: string; }>(undefined);
 
-  const addWordModalControl = useModalControl();
+  const addWordModalControl = useModalControl<AddWordModalPropsTypes>();
   const selectExerciseTypeModalControl = useModalControl();
   const wordExercisesModalControl = useModalControl<WordExercisesModalType>();
 

@@ -18,9 +18,13 @@ import { requiredRules } from "#constants/index";
 import { debounce } from "#utils/debounceLodash";
 import { $currentUser } from "#stores/account";
 
+export type AddWordModalPropsTypes = {
+  word?: string;
+}
+
 type PropTypes = {
-  modalControl: ModalControlType;
-  callback: (item: WordItemModel) => void;
+  modalControl: ModalControlType<AddWordModalPropsTypes>;
+  callback?: (item: WordItemModel) => void;
 };
 
 let abortController: undefined | AbortController = undefined;
@@ -74,7 +78,10 @@ export const AddWordModal: FC<PropTypes> = (props) => {
   const createWordState = useStore($createWord.store);
 
   useEffect(() => {
-
+    if (modalControl.modalProps.word) {
+      form.setFieldValue("word", modalControl.modalProps.word);
+      onWordChange(modalControl.modalProps.word);
+    }
 
     return () => {
       $createWord.reset();
@@ -87,7 +94,7 @@ export const AddWordModal: FC<PropTypes> = (props) => {
 
       modalControl.closeModal();
 
-      callback(createWordState.data);
+      callback && callback(createWordState.data);
     }
   }, [createWordState.data]);
 
@@ -101,9 +108,7 @@ export const AddWordModal: FC<PropTypes> = (props) => {
     }
   }, []);
 
-  const onWordChange = (e) => {
-    const text = e.target.value;
-
+  const onWordChange = (text) => {
     withDebounce(() => {
       translate(text, "ru", sourceLang)
         .then(translatedText => {
@@ -146,11 +151,10 @@ export const AddWordModal: FC<PropTypes> = (props) => {
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
           <div>
             <div>
-              lang picker default EN-RU
               <FormUI.Item label="Слово" name="word" rules={requiredRules}>
                 <InputUI
                   placeholder="Введите слово"
-                  onChange={onWordChange}
+                  onChange={(e) => onWordChange(e.target.value)}
                 />
               </FormUI.Item>
             </div>
