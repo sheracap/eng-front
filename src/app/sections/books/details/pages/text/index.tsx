@@ -16,9 +16,9 @@ export const BookDetailsText: FC<PropsTypes> = (props) => {
     const selection = window.getSelection();
     const selectedText = selection?.toString().trim();
 
-    console.log("selectedText", selectedText);
-
-    addWordModalControl.openModal({ word: selectedText });
+    if (selectedText) {
+      addWordModalControl.openModal({ word: selectedText });
+    }
   };
 
   return (

@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { ROUTES } from "#constants/index";
 import { ButtonUI } from "#ui/button";
 import { BookDetailsText } from "#src/app/sections/books/details/pages/text";
+import { ArrowBackSvgIcon, ArrowNextSvgIcon, ArrowRightSvgIcon } from "#src/assets/svg";
 
 type PropsTypes = {
   data: BookDetailsModel;
@@ -106,10 +107,12 @@ export const BookDetailsPages: FC<PropsTypes> = (props) => {
               <ButtonUI
                 type="primary"
                 size="small"
+                withIcon
                 onClick={() => {
                   onPageChange(currentPage - 1);
                 }}
               >
+                <ArrowBackSvgIcon />
                 Предыдущая страница
               </ButtonUI>
             )}
@@ -119,11 +122,13 @@ export const BookDetailsPages: FC<PropsTypes> = (props) => {
               <ButtonUI
                 type="primary"
                 size="small"
+                withIcon
                 onClick={() => {
                   onPageChange(currentPage + 1);
                 }}
               >
                 Следующая страница
+                <ArrowNextSvgIcon />
               </ButtonUI>
             )}
           </div>

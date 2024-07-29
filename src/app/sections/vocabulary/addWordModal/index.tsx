@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { useStore } from "effector-react";
-import { Form } from "antd";
+import { Form, Spin } from "antd";
 import axios from "axios";
 
 import { ModalControlType } from "#hooks/useModalControl";
@@ -17,6 +17,9 @@ import { WordItemModel } from "#businessLogic/models/vocabulary";
 import { requiredRules } from "#constants/index";
 import { debounce } from "#utils/debounceLodash";
 import { $currentUser } from "#stores/account";
+import { Spinner } from "#ui/spinner";
+import { SwapIcon } from "#src/assets/svg";
+import { WordCategorySelect } from "#pickers/wordCategorySelect";
 
 export type AddWordModalPropsTypes = {
   word?: string;
@@ -70,6 +73,21 @@ export const withDebounce = debounce(
 
 export const myCurrentLang = "ru";
 
+const langs = {
+  "en": {
+    code: "en",
+    name: "Английский"
+  },
+  "ru": {
+    code: "ru",
+    name: "Русский"
+  },
+  "ko": {
+    code: "ko",
+    name: "Корейский"
+  },
+}
+
 export const AddWordModal: FC<PropTypes> = (props) => {
   const { modalControl, callback } = props;
 
@@ -77,10 +95,13 @@ export const AddWordModal: FC<PropTypes> = (props) => {
 
   const createWordState = useStore($createWord.store);
 
+  const [loading, setLoading] = useState(false);
+  const [switchLang, setSwitchLang] = useState(false);
+
   useEffect(() => {
     if (modalControl.modalProps.word) {
       form.setFieldValue("word", modalControl.modalProps.word);
-      onWordChange(modalControl.modalProps.word);
+      onWordChange(modalControl.modalProps.word, false);
     }
 
     return () => {
@@ -98,7 +119,7 @@ export const AddWordModal: FC<PropTypes> = (props) => {
     }
   }, [createWordState.data]);
 
-  const sourceLang = useMemo(() => {
+  const learnLang = useMemo(() => {
     const currentUserState = $currentUser.store.getState();
 
     if (currentUserState.data!.language === "KOREAN") {
@@ -108,17 +129,27 @@ export const AddWordModal: FC<PropTypes> = (props) => {
     }
   }, []);
 
-  const onWordChange = (text) => {
+  const onWordChange = (text: string, isSw: boolean) => {
+    const targetLanguage = isSw ? learnLang : myCurrentLang;
+    const sourceLang = isSw ? myCurrentLang : learnLang;
+
     withDebounce(() => {
-      translate(text, "ru", sourceLang)
+      if (!loading) {
+        setLoading(true);
+      }
+
+      translate(text, targetLanguage, sourceLang)
         .then(translatedText => {
           //console.log('Translated text:', translatedText);
+
+          setLoading(false);
 
           form.setFieldValue("translate", translatedText);
 
         })
         .catch(error => {
           console.error('Error:', error);
+          setLoading(false);
         });
     });
 
@@ -130,12 +161,12 @@ export const AddWordModal: FC<PropTypes> = (props) => {
 
   const onFinish = (formData) => {
     const data = {
-      value: formData.word,
+      value: switchLang ? formData.translate : formData.word,
       transcription: formData.transcription ? formData.transcription : undefined,
       translate: {
-        [myCurrentLang]: formData.translate
+        [myCurrentLang]: switchLang ? formData.word : formData.translate
       },
-      wordCategoryId: undefined
+      wordCategoryId: formData.wordCategoryId
     };
 
     $createWord.effect(data);
@@ -149,21 +180,69 @@ export const AddWordModal: FC<PropTypes> = (props) => {
       </ModalUI.Header>
       <ModalUI.Middle>
         <FormUI phantomSubmit form={form} onFinish={onFinish}>
-          <div>
-            <div>
-              <FormUI.Item label="Слово" name="word" rules={requiredRules}>
+          <div className="translate-fields">
+            <div className="translate-fields__item">
+              <FormUI.Item
+                label={switchLang ? langs[myCurrentLang].name : langs[learnLang].name}
+                name="word"
+                rules={requiredRules}
+              >
                 <InputUI
                   placeholder="Введите слово"
-                  onChange={(e) => onWordChange(e.target.value)}
+                  onChange={(e) => onWordChange(e.target.value, switchLang)}
                 />
               </FormUI.Item>
             </div>
-            <div>
-              <FormUI.Item label="Перевод" name="translate" rules={requiredRules}>
-                <InputUI />
-              </FormUI.Item>
+            <div className="translate-fields__swap">
+              <ButtonUI
+                type="primary"
+                size="small"
+                withIcon
+                onClick={() => {
+                  setSwitchLang(!switchLang);
+
+                  const { word, translate } = form.getFieldsValue(true);
+
+                  form.setFieldsValue({
+                    word: translate,
+                    translate: word
+                  });
+
+                  onWordChange(translate, !switchLang);
+                }}
+              >
+                <SwapIcon />
+              </ButtonUI>
+            </div>
+            <div className="translate-fields__item">
+              <div className="form-item-with-loading" style={{ position: "relative" }}>
+                {loading && (
+                  <div className="form-item-with-loading__in">
+                    <Spinner size="small" />
+                  </div>
+                )}
+                <FormUI.Item
+                  label={switchLang ? langs[learnLang].name : langs[myCurrentLang].name}
+                  name="translate"
+                  rules={requiredRules}
+                >
+                  <InputUI placeholder="Перевод" readOnly={loading} />
+                </FormUI.Item>
+              </div>
             </div>
           </div>
+          <FormUI.Item
+            label="Транскрипция"
+            name="transcription"
+          >
+            <InputUI placeholder="Введите транскрипция" readOnly={loading} />
+          </FormUI.Item>
+          <FormUI.Item
+            label="Категория"
+            name="wordCategoryId"
+          >
+            <WordCategorySelect />
+          </FormUI.Item>
         </FormUI>
       </ModalUI.Middle>
       <ModalUI.Footer>

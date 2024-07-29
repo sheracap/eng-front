@@ -61,24 +61,74 @@
   }
 
   &__list {
+    position: relative;
     flex-grow: 1;
 
-    &__head {
+    &__in {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    &__item__outer {
+      padding: 0 5px;
+      width: 50%;
       margin-bottom: 10px;
-      font-size: 16px;
     }
 
     &__item {
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: $gray;
+      padding: 10px 20px;
+      background-color: #fff;
       box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.02);
       border-radius: 10px;
       font-size: 16px;
+      text-transform: lowercase;
+
+      &__value {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      &__transc {
+        margin-bottom: 5px;
+      }
     }
+  }
+}
+
+.translate-fields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  &__item {
+    flex-grow: 1;
+  }
+
+  &__swap {
+    margin: 0 10px;
+    padding-top: 32px;
+
+    .custom-btn {
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+  }
+}
+
+.form-item-with-loading {
+  position: relative;
+
+  &__in {
+    z-index: 1;
+    position: absolute;
+    right: 15px;
+    top: 36px;
+  }
+
+  .custom-input {
+    padding-right: 45px;
   }
 }
 

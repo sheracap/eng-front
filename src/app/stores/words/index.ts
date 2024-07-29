@@ -1,4 +1,3 @@
-
 import { PaginationList } from "#constructors/data";
 import { XHRDataState, XHRSuccessState } from "#constructors/store";
 import { createGlobalStore, createXHRStore } from "#core/effector";
@@ -16,26 +15,10 @@ import {
 export const $wordsList = createXHRStore<
   WordsParamsType,
   PaginationListModel<WordItemModel>,
-  StoreTypeWithData<{ count: number; pages: { [key: string]: Array<WordItemModel> }  }>
+  StoreTypeWithData<PaginationListModel<WordItemModel>>
 >(
   api.words.getWordsList,
-  new XHRDataState({ count: 0, pages: {} }),
-  {
-    doneReducer: (state, response) => {
-      return {
-        loading: false,
-        data: {
-          ...state.data,
-          count: response.result.data.count,
-          pages: {
-            ...state.data.pages,
-            [response.params.page]: response.result.data.rows,
-          }
-        },
-        error: null,
-      }
-    }
-  }
+  new XHRDataState(new PaginationList()),
 );
 
 export const $randomWordsList = createXHRStore<

@@ -37,7 +37,7 @@ type PropsType = {
 
 const getFontSize = (size?: string) => {
   if (size === "small") {
-    return 32;
+    return 18;
   } else if (size === "large") {
     return 56;
   } else {

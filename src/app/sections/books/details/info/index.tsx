@@ -33,7 +33,7 @@ export const BookDetailsInfo: FC<PropsTypes> = (props) => {
         <div>
           <div className="book-details__info__head__name-wr">
             <div className="book-details__info__head__name">
-              <BackBtn onBackClick={() => history.goBack()} />
+              <BackBtn onBackClick={() => history.push(ROUTES.BOOKS)} />
               {data.title}
             </div>
             <div className="book-details__info__head__level">
