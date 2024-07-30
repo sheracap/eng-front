@@ -1,15 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { $myLessonsList } from "#stores/lessons";
-import { imagesBaseUrl, ROUTES } from "#constants/index";
 import { useHistory } from "react-router-dom";
-import { ButtonUI } from "#ui/button";
+import { Pagination } from "antd";
+
+import { $myLessonsList } from "#stores/lessons";
+
+import { imagesBaseUrl, ROUTES } from "#constants/index";
+
 import { useModalControl } from "#hooks/useModalControl";
-import { ModalUI } from "#ui/modal";
-import { AddLessonModal, AddLessonModalPropTypes } from "./addModal";
-import { AddPlusSvgIcon } from "#src/assets/svg";
-import { ContentUI } from "#ui/content";
 import { useRole } from "#hooks/useRole";
+
+import { ButtonUI } from "#ui/button";
+import { ModalUI } from "#ui/modal";
+import { ContentUI } from "#ui/content";
+
+import { AddPlusSvgIcon } from "#src/assets/svg";
+
+import { AddLessonModal, AddLessonModalPropTypes } from "./addModal";
+
 
 export const MyLessons = () => {
 
@@ -17,12 +25,14 @@ export const MyLessons = () => {
 
   const myLessonsListState = useStore($myLessonsList.store);
 
+  const [params, setParams] = useState<any>({ page: 1 });
+
   const addLessonModalControl = useModalControl<AddLessonModalPropTypes>();
 
   const { isTeacher } = useRole();
 
   const getLessons = () => {
-    $myLessonsList.effect();
+    $myLessonsList.effect(params);
   };
 
   useEffect(() => {
@@ -32,6 +42,13 @@ export const MyLessons = () => {
   const onOpenLesson = (id: number) => {
     history.push(`${ROUTES.LESSONS}/${id}/1`);
   };
+
+  const onPaginationChange = (page) => {
+    setParams({
+      ...params,
+      page
+    });
+  }
 
   return (
     <ContentUI>
@@ -66,7 +83,13 @@ export const MyLessons = () => {
               </div>
             ))}
 
-            PAGINATION !!
+            <Pagination
+              current={params.page}
+              total={myLessonsListState.data.count}
+              onChange={onPaginationChange}
+              hideOnSinglePage={true}
+              showSizeChanger={false}
+            />
 
           </div>
           <ModalUI

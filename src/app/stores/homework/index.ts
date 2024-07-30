@@ -18,6 +18,20 @@ export const $addHomework = createXHRStore<any, number, StoreTypeWithData<number
   new XHRDataState(null),
 );
 
+export const $updateHomework = createXHRStore<any, number, StoreTypeWithData<number | null>>(
+  api.homework.updateHomework,
+  new XHRDataState(null),
+);
+
+export const $deleteHomework = createXHRStore<
+  number,
+  any,
+  StoreTypeWithData<any>
+>(
+  api.homework.deleteHomework,
+  new XHRDataState(null),
+);
+
 export const $changeHomeworkExercisesPosition = createXHRStore<any, number, StoreType>(
   api.homework.changeHomeworkExercisesPosition,
   new XHRSuccessState(),

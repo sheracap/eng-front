@@ -1,15 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { $myCoursesList } from "#stores/courses";
-import { imagesBaseUrl, ROUTES } from "#constants/index";
 import { useHistory } from "react-router-dom";
-import { ButtonUI } from "#ui/button";
+import { Pagination } from "antd";
+
+import { $myCoursesList } from "#stores/courses";
+
+import { imagesBaseUrl, ROUTES } from "#constants/index";
+
 import { useModalControl } from "#hooks/useModalControl";
-import { ModalUI } from "#ui/modal";
-import { AddCourseModal, AddCourseModalType } from "#src/app/sections/courses/my/addModal";
-import { AddPlusSvgIcon } from "#src/assets/svg";
-import { ContentUI } from "#ui/content";
 import { useRole } from "#hooks/useRole";
+
+import { ModalUI } from "#ui/modal";
+import { ContentUI } from "#ui/content";
+import { ButtonUI } from "#ui/button";
+
+import { AddCourseModal, AddCourseModalType } from "./addModal";
+import { AddPlusSvgIcon } from "#src/assets/svg";
 
 import "./styles.scss";
 
@@ -19,17 +25,26 @@ export const MyCourses = () => {
 
   const myCoursesListState = useStore($myCoursesList.store);
 
+  const [params, setParams] = useState<any>({ page: 1 });
+
   const addCourseModalControl = useModalControl<AddCourseModalType>();
 
   const { isTeacher } = useRole();
 
   useEffect(() => {
-    $myCoursesList.effect();
+    $myCoursesList.effect(params);
   }, []);
 
   const onOpenCourse = (id: number) => {
     history.push(`${ROUTES.COURSES}/${id}`);
   };
+
+  const onPaginationChange = (page) => {
+    setParams({
+      ...params,
+      page
+    });
+  }
 
   return (
     <ContentUI>
@@ -65,7 +80,13 @@ export const MyCourses = () => {
             ))}
 
 
-            PAGINATION !!
+            <Pagination
+              current={params.page}
+              total={myCoursesListState.data.count}
+              onChange={onPaginationChange}
+              hideOnSinglePage={true}
+              showSizeChanger={false}
+            />
 
           </div>
           <ModalUI

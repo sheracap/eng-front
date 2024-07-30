@@ -59,8 +59,14 @@ export const $deleteLesson = createXHRStore<number, number, StoreTypeWithData<nu
   new XHRDataState(null),
 );
 
+export const $lessonsList = createXHRStore<
+  void,
+  PaginationListModel<LessonsListItemModel>,
+  StoreTypeWithData<PaginationListModel<LessonsListItemModel>>
+>(api.lessons.getLessonsList, new XHRDataState(new PaginationList()));
+
 export const $myLessonsList = createXHRStore<
   void,
   PaginationListModel<LessonsListItemModel>,
   StoreTypeWithData<PaginationListModel<LessonsListItemModel>>
->(api.lessons.myLessonsList, new XHRDataState(new PaginationList()));
+>(api.lessons.getMyLessonsList, new XHRDataState(new PaginationList()));

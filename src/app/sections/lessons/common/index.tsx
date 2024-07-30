@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "effector-react";
-import { $coursesList } from "#stores/courses";
-import { imagesBaseUrl, ROUTES } from "#constants/index";
 import { useHistory } from "react-router-dom";
-import { ContentUI } from "#ui/content";
 import { Pagination } from "antd";
-import { $currentUser } from "#stores/account";
+
+import { $lessonsList } from "#stores/lessons";
+
+import { imagesBaseUrl, ROUTES } from "#constants/index";
+
 import { useRole } from "#hooks/useRole";
 
+import { ContentUI } from "#ui/content";
 
-export const CommonCourses = () => {
+import { $currentUser } from "#stores/account";
+
+
+export const CommonLessons = () => {
 
   const history = useHistory();
   const { isStudent } = useRole();
 
-  const coursesListState = useStore($coursesList.store);
+  const lessonsListState = useStore($lessonsList.store);
   const currentUserState = useStore($currentUser.store);
 
   const [params, setParams] = useState<any>({
@@ -22,12 +27,16 @@ export const CommonCourses = () => {
     page: 1
   });
 
+  const getLessons = () => {
+    $lessonsList.effect(params);
+  };
+
   useEffect(() => {
-    $coursesList.effect(params);
+    getLessons();
   }, []);
 
-  const onOpenCourse = (id: number) => {
-    history.push(`${ROUTES.COURSES}/${id}`);
+  const onOpenLesson = (id: number) => {
+    history.push(`${ROUTES.LESSONS}/${id}/1`);
   };
 
   const onPaginationChange = (page) => {
@@ -42,14 +51,14 @@ export const CommonCourses = () => {
       <div className="main-content">
         <div>
           <div className="folder-head content-block">
-            <h1>Курсы</h1>
+            <h1>Уроки</h1>
           </div>
           <div className="courses">
-            {coursesListState.data.rows.map((item) => (
-              <div className="courses__item" key={item.id} onClick={() => onOpenCourse(item.id)}>
+            {lessonsListState.data.rows.map((item) => (
+              <div className="courses__item" key={item.id} onClick={() => onOpenLesson(item.id)}>
                 <div className="courses__item__image">
                   {item.img ? (
-                    <img src={`${imagesBaseUrl}/courses/${item.img}`} alt=""/>
+                    <img src={`${imagesBaseUrl}/lessons/${item.img}`} alt=""/>
                   ) : (
                     <div className="courses__item__image__empty"></div>
                   )}
@@ -62,7 +71,7 @@ export const CommonCourses = () => {
 
             <Pagination
               current={params.page}
-              total={coursesListState.data.count}
+              total={lessonsListState.data.count}
               onChange={onPaginationChange}
               hideOnSinglePage={true}
               showSizeChanger={false}

@@ -135,6 +135,11 @@ export const SideNavigation: FC<PropTypes> = (props) => {
           icon: <CoursesIcon />,
         },
         {
+          name: "Уроки",
+          path: `${ROUTES.LESSONS}/common`,
+          icon: <LessonsIcon />,
+        },
+        {
           name: "Книги",
           path: `${ROUTES.BOOKS}`,
           icon: <BooksIcon />,

@@ -11,6 +11,14 @@ export const addHomework: HandlerType<any, number> = (data) => {
   return httpPost({ url: "/api/cabinet/homework", data });
 };
 
+export const updateHomework: HandlerType<any, number> = (data) => {
+  return httpPut({ url: `/api/cabinet/homework/${data.id}`, data });
+};
+
+export const deleteHomework: HandlerType<number, any> = (id) => {
+  return httpDelete({ url: `/api/cabinet/homework/${id}` });
+};
+
 export const changeHomeworkExercisesPosition: HandlerType<any, number> = (data) => {
   return httpPost({
     url: "/api/cabinet/homework/row-position",

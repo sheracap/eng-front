@@ -160,6 +160,7 @@ export const LessonDetails: FC<PropsTypes> = (props) => {
                   <LessonHomework
                     lessonId={lessonData.id}
                     selectedHomeworkId={queryParams.homeworkId}
+                    isMine={isMine}
                   />
                 </div>
               )}

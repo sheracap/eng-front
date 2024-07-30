@@ -35,7 +35,13 @@ export const deleteLesson: HandlerType<number, number> = (id) => {
   return httpDelete({ url: `/api/cabinet/lesson/${id}` });
 };
 
-export const myLessonsList: HandlerType<void, PaginationListModel<LessonsListItemModel>> = (
+export const getLessonsList: HandlerType<void, PaginationListModel<LessonsListItemModel>> = (
+  params,
+) => {
+  return httpGet({ url: "/api/cabinet/lesson", params });
+};
+
+export const getMyLessonsList: HandlerType<void, PaginationListModel<LessonsListItemModel>> = (
   params,
 ) => {
   return httpGet({ url: "/api/cabinet/lesson/current", params });

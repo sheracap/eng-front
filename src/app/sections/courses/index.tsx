@@ -1,10 +1,11 @@
 import React from "react";
+import { Route, Switch } from "react-router-dom";
 
 import { ROUTES } from "#constants/index";
-import { Route, Switch } from "react-router-dom";
-import { CourseDetails } from "./details";
+
 import { CommonCourses } from "./common";
 import { MyCourses } from "./my";
+import { CourseDetails } from "./details";
 
 
 export const Courses = () => {
