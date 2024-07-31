@@ -31,9 +31,9 @@ const findOpenKeysInTree = (tree, path, parents) => {
     const item = tree[i];
     const newParents = [...parents];
 
-    newParents.push(item.path || item.key);
+    newParents.push(item.link || item.path || item.key);
 
-    if (item.path === path || item.key === path) {
+    if (item.link === path || item.path === path || item.key === path) {
       return newParents;
     }
 
@@ -105,21 +105,22 @@ export const SideNavigation: FC<PropTypes> = (props) => {
         linkProps: { exact: true },
       },
 
+      {
+        name: "Курсы",
+        path: `${ROUTES.COURSES}`,
+        icon: <CoursesIcon />,
+      },
+      {
+        name: "Уроки",
+        path: `${ROUTES.LESSONS}`,
+        icon: <LessonsIcon />,
+      },
+
       ...(isTeacher ? [
         {
           name: "Расписание",
           path: `${ROUTES.EVENTS}`,
           icon: <CalendarIcon />,
-        },
-        {
-          name: "Мои курсы",
-          path: `${ROUTES.COURSES}/my`,
-          icon: <CoursesIcon />,
-        },
-        {
-          name: "Мои уроки",
-          path: `${ROUTES.LESSONS}/my`,
-          icon: <LessonsIcon />,
         },
         {
           name: "Мои ученики",
@@ -129,16 +130,7 @@ export const SideNavigation: FC<PropTypes> = (props) => {
       ] : []),
 
       ...(isStudent ? [
-        {
-          name: "Курсы",
-          path: `${ROUTES.COURSES}/common`,
-          icon: <CoursesIcon />,
-        },
-        {
-          name: "Уроки",
-          path: `${ROUTES.LESSONS}/common`,
-          icon: <LessonsIcon />,
-        },
+
         {
           name: "Книги",
           path: `${ROUTES.BOOKS}`,
@@ -224,7 +216,7 @@ export const SideNavigation: FC<PropTypes> = (props) => {
       );
 
       const itemObj: SideNavigationItem = {
-        key: item.path || item.key,
+        key: item.link || item.path || item.key,
         label: menuItem,
       };
 

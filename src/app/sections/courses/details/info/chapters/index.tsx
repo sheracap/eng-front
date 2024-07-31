@@ -33,6 +33,7 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
   const [chapters, setChapters] = useState<Array<CourseChapterItemModel>>([]);
   const [isOrderChanged, setIsOrderChanged] = useState(false);
   const [chapterOrderChangeMode, setChapterOrderChangeMode] = useState(false);
+  const [activeChapter, setActiveChapter] = useState<number | undefined>(undefined);
 
   const addChapterModalControl = useModalControl<AddChapterModalPropTypes>();
 
@@ -119,6 +120,10 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
     }
   };
 
+  const onOpenChapter = (id: number) => {
+    setActiveChapter(activeChapter === id ? undefined : id);
+  };
+
   return (
     <>
       <div className="course-details__chapters content-block">
@@ -135,14 +140,16 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
                 <SwapIcon /> Поменять порядок
               </ButtonUI>
             )}
-            <ButtonUI
-              type="primary"
-              withIcon
-              size="small"
-              onClick={() => addChapterModalControl.openModal({ courseId })}
-            >
-              <AddPlusSvgIcon /> Добавить главу
-            </ButtonUI>
+            {isMine && (
+              <ButtonUI
+                type="primary"
+                withIcon
+                size="small"
+                onClick={() => addChapterModalControl.openModal({ courseId })}
+              >
+                <AddPlusSvgIcon /> Добавить главу
+              </ButtonUI>
+            )}
           </div>
         </div>
         {chapters.length > 0 && (
@@ -188,13 +195,17 @@ export const CourseDetailsChapters: FC<PropsTypes> = (props) => {
         )}
         {!chapterOrderChangeMode && (
           <div className="course-details__chapters__list">
-            <CollapseUI>
+            <CollapseUI
+              activeKey={activeChapter}
+            >
               {chapters.map((item) => (
                 <CollapseUI.Item
                   key={item.id}
                   header={(
-                    <div className="course-details__chapters__list__item">
-                      <div className="course-details__chapters__list__item__name">{item.name}</div>
+                    <div className="course-details__chapters__list__item-wrap">
+                      <div className="course-details__chapters__list__item" onClick={() => onOpenChapter(item.id)}>
+                        <div className="course-details__chapters__list__item__name">{item.name}</div>
+                      </div>
                       {isMine && (
                         <div className="course-details__chapters__list__item__actions">
                           <ContextPopover

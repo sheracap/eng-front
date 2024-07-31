@@ -1,11 +1,15 @@
-import React from "react";
-import { Collapse } from "antd";
+import React, { FC } from "react";
+import { Collapse, CollapsePanelProps, CollapseProps } from "antd";
 
 const { Panel } = Collapse;
 
 import "./styles.scss";
 
-const CollapseUI = (props) => {
+type ContentType = FC<CollapseProps> & {
+  Item: typeof Item;
+};
+
+const CollapseUI: ContentType = (props) => {
   const { children, ...restProps } = props;
 
   return (
@@ -15,7 +19,7 @@ const CollapseUI = (props) => {
   )
 };
 
-const Item = (props) => {
+const Item: FC<CollapsePanelProps> = (props) => {
   const { children, ...restProps } = props;
 
   return (

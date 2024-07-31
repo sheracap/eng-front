@@ -5,7 +5,7 @@ import { Spinner } from "#ui/spinner";
 
 import "./styles.scss";
 import { ButtonUI } from "#ui/button";
-import { AddCourseModal, AddCourseModalType } from "#src/app/sections/courses/my/addModal";
+import { AddCourseModal, AddCourseModalType } from "src/app/sections/courses/list/addModal";
 import { ModalUI } from "#ui/modal";
 import { useModalControl } from "#hooks/useModalControl";
 import { AddLessonModal, AddLessonModalPropTypes } from "#src/app/sections/lessons/my/addModal";

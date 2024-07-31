@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { ButtonUI } from "#ui/button";
 import { ModalUI } from "#ui/modal";
-import { AddCourseModal, AddCourseModalType } from "#src/app/sections/courses/my/addModal";
+import { AddCourseModal, AddCourseModalType } from "src/app/sections/courses/list/addModal";
 import { CourseDetailsModel } from "#businessLogic/models/courses";
 import { useModalControl } from "#hooks/useModalControl";
 import { CourseDetailsChapters } from "./chapters";
