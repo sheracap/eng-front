@@ -72,11 +72,10 @@ export const LessonHomework: FC<PropsTypes> = (props) => {
           <div
             className={`lesson-details__sections__list__item ${String(item.id) === selectedHomeworkId ? "active" : ""}`}
             key={item.id}
-            onClick={() => onHomeworkClick(item.id)}
           >
             <div
               className="lesson-details__sections__list__item__name"
-              onClick={() => onHomeworkClick(index)}
+              onClick={() => onHomeworkClick(item.id)}
             >
               {item.name}
             </div>

@@ -56,6 +56,7 @@ export const NotificationModal: FC<PropTypes> = (props) => {
 
   useEffect(() => {
     if (invitationAnswerState.success) {
+      // в currentuser записать teacherId
       notificationSuccess("Успешно", "Отправлено");
       closeModal();
     }
